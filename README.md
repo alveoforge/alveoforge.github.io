@@ -1,5 +1,7 @@
 # AlveoForge — landing
 
+Site: [https://alveoforge.com](https://alveoforge.com)
+
 ```bash
 npm install
 npm run dev      # http://localhost:4321
@@ -11,7 +13,7 @@ npm run build    # astro check + build → dist/
 - [ ] **Foto founder**: sustituir `public/me.webp`.
 - [ ] **Vídeos**: hero (sección "video") y scale (dentro de "numbers") están como placeholder.
       No publicar la landing sin el vídeo hero real.
-- [ ] **Reviews**: añadir testimonios reales (con permiso).
+- [ ] **Reviews**: comentado por ahora. añadir testimonios reales (con permiso).
 
 ## Estructura
 
