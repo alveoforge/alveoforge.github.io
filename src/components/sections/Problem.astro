@@ -1,0 +1,11 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<section id="problem" class="max-w-3xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('problem.eyebrow')} title={t('problem.title')} />
+	<p class="mt-6 text-lg af-muted">{t('problem.body')}</p>
+	<p class="mt-4 text-lg">{t('problem.body2')}</p>
+</section>

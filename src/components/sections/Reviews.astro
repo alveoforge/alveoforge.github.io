@@ -1,0 +1,36 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CtaButton from '@/components/ui/CtaButton.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const reviews = t('reviews.items');
+---
+
+{/* ⚠️ MOCK / placeholder para validar el diseño. Testimonios inventados.
+    Antes de publicar: sustituir por reviews reales (con permiso) o comentar <Reviews /> en la página. */}
+<section id="reviews" class="max-w-5xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('reviews.eyebrow')} title={t('reviews.title')} />
+	<div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+		{reviews.map((r) => (
+			<figure class="af-card p-6 flex flex-col">
+				<div class="flex gap-0.5 mb-3 text-lg leading-none" aria-label={`${r.rating}/5`}>
+					{Array.from({ length: 5 }).map((_, i) => (
+						<span class={i < r.rating ? 'text-ember dark:text-ember-hot' : 'text-ink-faint/30'}>★</span>
+					))}
+				</div>
+				<blockquote class="text-sm leading-relaxed">“{r.quote}”</blockquote>
+				<figcaption class="mt-5 pt-4 border-t border-black/5 dark:border-white/10">
+					<div class="font-semibold text-sm">{r.name}</div>
+					<div class="text-xs font-mono text-ink-faint">{r.role} · {r.company}</div>
+				</figcaption>
+			</figure>
+		))}
+	</div>
+	<div class="af-card mt-6 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+		<div>
+			<h3 class="font-semibold">{t('reviews.refTitle')}</h3>
+			<p class="mt-1 text-sm af-muted">{t('reviews.refText')}</p>
+		</div>
+		<CtaButton label={t('cta.button')} class="flex-none" />
+	</div>
+</section>

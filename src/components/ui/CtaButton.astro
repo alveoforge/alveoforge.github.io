@@ -1,0 +1,23 @@
+---
+import { CAL_URL } from '@/consts';
+interface Props {
+	label: string;
+	big?: boolean;
+	class?: string;
+}
+const { label, big = false, class: cls = '' } = Astro.props;
+const pad = big ? 'px-8 py-3.5' : 'px-6 py-3';
+---
+
+<a
+	href={CAL_URL}
+	target="_blank"
+	rel="noopener"
+	class:list={[
+		'inline-block rounded-lg font-semibold text-white bg-ember hover:brightness-110 transition',
+		pad,
+		cls,
+	]}
+>
+	{label} →
+</a>

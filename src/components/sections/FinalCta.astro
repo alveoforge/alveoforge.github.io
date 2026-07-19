@@ -1,0 +1,14 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import CtaButton from '@/components/ui/CtaButton.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<section id="contact" class="max-w-4xl mx-auto px-4 py-20 md:py-28">
+	<div class="rounded-2xl border border-ember/25 bg-ember-soft dark:bg-ember/10 p-10 md:p-14 text-center">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight text-balance">{t('cta.title')}</h2>
+		<CtaButton label={t('cta.button')} big class="mt-8" />
+		<p class="mt-4 text-sm af-muted">{t('cta.note')}</p>
+		<p class="mt-2 text-xs font-mono af-muted">{t('cta.pricing')}</p>
+	</div>
+</section>

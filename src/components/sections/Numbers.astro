@@ -1,0 +1,29 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import VideoSlot from '@/components/ui/VideoSlot.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const stats = t('numbers.stats');
+---
+
+<section id="numbers" class="max-w-4xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('numbers.eyebrow')} title={t('numbers.title')} />
+	<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+		{stats.map((s) => (
+			<div class="af-card p-5">
+				<div class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint">{s.k}</div>
+				<div class="mt-3 flex items-baseline gap-2 flex-wrap">
+					<span class="text-steel dark:text-steel-light line-through decoration-1 opacity-70">{s.was}</span>
+					<span class="font-mono text-ink-faint">→</span>
+					<span class="text-lg font-bold text-ember dark:text-ember-hot">{s.now}</span>
+				</div>
+			</div>
+		))}
+	</div>
+	<p class="mt-6 text-sm font-mono af-muted">{t('numbers.note')}</p>
+
+	<!-- Vídeo 3 (scale) — placeholder -->
+	<div class="mt-8">
+		<VideoSlot label={t('video.soon')} caption={t('video.scale')} />
+	</div>
+</section>

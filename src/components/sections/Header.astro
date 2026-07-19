@@ -1,0 +1,160 @@
+---
+import ThemeToggle from '@/components/items/ThemeToggle.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import LanguagePicker from '@/components/items/LanguagePicker.astro';
+import { CAL_URL } from '@/consts';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const base = `/${lang}/`;
+const navItems = [
+	{ title: t('nav.why'), label: 'why', url: `${base}#why` },
+	{ title: t('nav.how'), label: 'how', url: `${base}#how` },
+	{ title: t('nav.numbers'), label: 'numbers', url: `${base}#numbers` },
+	{ title: t('nav.get'), label: 'get', url: `${base}#get` },
+	{ title: t('nav.roadmap'), label: 'roadmap', url: `${base}#roadmap` },
+	{ title: t('nav.about'), label: 'about', url: `${base}#about` },
+	{ title: t('nav.faq'), label: 'faq', url: `${base}#faq` },
+];
+---
+
+<header class="fixed top-0 z-20 flex flex-col items-center w-full mx-auto mt-3 px-3">
+	<nav
+		id="header-nav"
+		class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium rounded-full
+		border border-black/5 dark:border-white/10 bg-white/70 dark:bg-[#141a22]/70 backdrop-blur-md
+		shadow-sm text-ink-soft dark:text-[#9aa5b4]"
+	>
+		<a
+			href={`${base}#home`}
+			aria-label="home"
+			class="flex items-center gap-1.5 pl-1.5 pr-2 transition hover:text-ember dark:hover:text-ember-hot"
+			title="AlveoForge"
+		>
+			<svg viewBox="0 0 60 69" class="w-5 h-6" aria-hidden="true">
+				<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round" />
+				<path d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z" class="fill-steel dark:fill-steel-light" />
+			</svg>
+			<span class="hidden sm:inline">{t('nav.home')}</span>
+		</a>
+		{
+			navItems.map((link) => (
+				<a
+					class="relative hidden lg:block px-3 py-1.5 rounded-full transition hover:text-ember dark:hover:text-ember-hot"
+					aria-label={link.label}
+					href={link.url}
+				>
+					{link.title}
+				</a>
+			))
+		}
+		<a
+			href={CAL_URL}
+			target="_blank"
+			rel="noopener"
+			class="hidden lg:inline-block ml-1 px-4 py-1.5 rounded-full font-semibold text-white bg-ember hover:brightness-110 transition whitespace-nowrap"
+		>
+			{t('nav.cta')}
+		</a>
+		<ThemeToggle />
+		<LanguagePicker />
+
+		<!-- Botón de menú (solo móvil) -->
+		<button
+			id="menu-btn"
+			type="button"
+			class="lg:hidden ml-1 grid place-items-center size-8 rounded-full hover:text-ember dark:hover:text-ember-hot transition"
+			aria-label="Menu"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+		>
+			<svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+				<line x1="4" y1="7" x2="20" y2="7"></line>
+				<line x1="4" y1="12" x2="20" y2="12"></line>
+				<line x1="4" y1="17" x2="20" y2="17"></line>
+			</svg>
+		</button>
+	</nav>
+
+	<!-- Menú desplegable (solo móvil) -->
+	<div
+		id="mobile-menu"
+		class="lg:hidden hidden mt-2 w-[min(92vw,20rem)] af-card p-2 flex-col text-sm font-medium text-ink-soft dark:text-[#9aa5b4]"
+	>
+		{
+			navItems.map((link) => (
+				<a
+					class="block px-3 py-2.5 rounded-lg hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot transition"
+					href={link.url}
+				>
+					{link.title}
+				</a>
+			))
+		}
+		<a
+			href={CAL_URL}
+			target="_blank"
+			rel="noopener"
+			class="block mt-1 px-3 py-2.5 rounded-lg text-center font-semibold text-white bg-ember hover:brightness-110 transition"
+		>
+			{t('nav.cta')}
+		</a>
+	</div>
+</header>
+
+<script>
+	const initHeader = () => {
+		const menuBtn = document.getElementById('menu-btn');
+		if (!menuBtn || menuBtn.dataset.bound === '1') return; // guard: no re-inicializar el mismo DOM
+		menuBtn.dataset.bound = '1';
+
+		// --- Scroll-spy: resalta la sección visible y la recuerda para el idioma ---
+		const sections = document.querySelectorAll('section');
+		const navLinks = document.querySelectorAll('#header-nav a');
+
+		const callback = (entries: IntersectionObserverEntry[]) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					document.documentElement.dataset.section = entry.target.id;
+					navLinks.forEach((item) => {
+						item.classList.toggle('text-ember', item.getAttribute('aria-label') === entry.target.id);
+					});
+				}
+			});
+		};
+
+		const observer = new IntersectionObserver(callback, { root: null, rootMargin: '0px', threshold: 0.3 });
+		sections.forEach((section) => observer.observe(section));
+
+		document.onvisibilitychange = () => {
+			if (document.visibilityState === 'hidden') observer.disconnect();
+			else sections.forEach((section) => observer.observe(section));
+		};
+
+		// --- Menú móvil ---
+		const btn = document.getElementById('menu-btn');
+		const menu = document.getElementById('mobile-menu');
+		const setOpen = (open: boolean) => {
+			menu?.classList.toggle('hidden', !open);
+			menu?.classList.toggle('flex', open);
+			btn?.setAttribute('aria-expanded', String(open));
+		};
+		btn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			// Cerrar el menú de tema si estaba abierto — mutuamente excluyentes.
+			document.getElementById('themes-menu')?.classList.remove('open');
+			setOpen(menu?.classList.contains('hidden') ?? false);
+		});
+		menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+		document.addEventListener('click', () => setOpen(false));
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') setOpen(false);
+		});
+	};
+
+	// Corre con view-transitions (astro:page-load) Y en carga directa (p. ej. 404,
+	// donde astro:page-load puede no dispararse). El guard evita doble-init.
+	document.addEventListener('astro:page-load', initHeader);
+	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHeader);
+	else initHeader();
+</script>

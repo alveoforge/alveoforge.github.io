@@ -1,0 +1,29 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { useTranslations, type SupportedLang } from '@/i18n/utils';
+
+const lang = (Astro.params.lang as SupportedLang) || 'en';
+const t = useTranslations(lang);
+const points = t('privacy.points');
+
+export async function getStaticPaths() {
+	return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+---
+
+<Layout title={`${t('privacy.title')} — AlveoForge`} description={t('privacy.intro')} lang={lang}>
+	<main class="max-w-2xl mx-auto px-4 pt-32 pb-28 md:pt-40">
+		<h1 class="text-3xl md:text-4xl font-bold tracking-tight">{t('privacy.title')}</h1>
+		<p class="mt-4 af-muted">{t('privacy.intro')}</p>
+		<ul class="mt-8 space-y-5">
+			{points.map((p) => (
+				<li>
+					<h2 class="font-semibold">{p.t}</h2>
+					<p class="mt-1 text-sm af-muted">{p.d}</p>
+				</li>
+			))}
+		</ul>
+		<p class="mt-8 text-xs af-muted">{t('privacy.note')}</p>
+		<a href={`/${lang}/`} class="inline-block mt-8 text-sm font-semibold text-ember dark:text-ember-hot hover:underline">{t('privacy.back')}</a>
+	</main>
+</Layout>

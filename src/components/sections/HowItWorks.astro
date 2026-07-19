@@ -1,0 +1,21 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const steps = t('how.steps');
+---
+
+<section id="how" class="max-w-3xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('how.eyebrow')} title={t('how.title')} />
+	<ol class="mt-10 space-y-4">
+		{steps.map((s, i) => (
+			<li class="af-card p-5 flex gap-4">
+				<span class="flex-none w-8 h-8 rounded-lg bg-ember/10 text-ember dark:text-ember-hot font-mono font-bold flex items-center justify-center">{i + 1}</span>
+				<div>
+					<h3 class="font-semibold">{s.t}</h3>
+					<p class="mt-1 text-sm af-muted">{s.d}</p>
+				</div>
+			</li>
+		))}
+	</ol>
+</section>

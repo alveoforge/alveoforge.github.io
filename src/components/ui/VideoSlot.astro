@@ -1,0 +1,16 @@
+---
+// Placeholder de vídeo (mientras no exista el real). Sustituir por el <iframe>/<video> cuando llegue.
+interface Props {
+	label: string; // p. ej. "Demo coming soon"
+	caption?: string; // opcional, p. ej. "1,000 tables → microservices"
+}
+const { label, caption } = Astro.props;
+---
+
+<div class="af-card aspect-video flex flex-col items-center justify-center gap-3 border-dashed">
+	<div class="w-16 h-16 rounded-full bg-ember/10 flex items-center justify-center">
+		<svg class="w-7 h-7 fill-ember dark:fill-ember-hot ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+	</div>
+	{caption && <span class="font-mono text-sm text-ink-faint">{caption}</span>}
+	<span class="font-mono text-xs uppercase tracking-[0.15em] text-ink-faint/70">{label}</span>
+</div>

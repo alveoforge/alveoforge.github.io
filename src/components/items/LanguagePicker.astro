@@ -1,0 +1,66 @@
+---
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl } from '@/i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+// Ruta actual SIN el prefijo de idioma, para conservar la página al cambiar
+// (p. ej. /en/privacy -> /es/privacy, no /es/). '' se normaliza a '/'.
+const rest = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, '') || '/';
+---
+
+<div class="flex flex-row gap-1">
+	{
+		Object.entries(languages).map(([langPrefix, label]) => {
+			if (langPrefix == lang) return <></>;
+			const target = `/${langPrefix}${rest}`.replace(/\/{2,}/g, '/');
+			return (
+				<a
+					href={target}
+					data-lang-link
+					data-base={target}
+					data-astro-reload
+					class="hover:scale-125 transition"
+					aria-label={`Cambiar idioma a ${langPrefix}`}
+				>
+					{label}
+				</a>
+			);
+		})
+	}
+</div>
+
+<script>
+	// Al cambiar de idioma conservamos la página actual (data-base ya la trae) y,
+	// SOLO en la home, la sección en la que está el usuario. Usamos data-astro-reload
+	// para que el navegador haga el scroll nativo al ancla de forma fiable.
+	document.addEventListener('astro:page-load', () => {
+		const links = document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]');
+		if (!links.length) return;
+
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+
+		const currentSection = () => {
+			const probe = window.scrollY + 140; // margen por el header fijo
+			let id = '';
+			for (const s of sections) {
+				if (s.offsetTop <= probe) id = s.id;
+			}
+			if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4 && sections.length) {
+				id = sections[sections.length - 1].id;
+			}
+			return id;
+		};
+
+		const sync = () => {
+			const sec = currentSection();
+			links.forEach((a) => {
+				const base = a.dataset.base ?? '/';
+				const isHome = /^\/(en|es)\/?$/.test(base); // solo la home lleva ancla de sección
+				a.setAttribute('href', base + (isHome && sec ? `#${sec}` : ''));
+			});
+		};
+
+		sync();
+		window.addEventListener('scroll', sync, { passive: true });
+		links.forEach((a) => a.addEventListener('pointerdown', sync));
+	});
+</script>

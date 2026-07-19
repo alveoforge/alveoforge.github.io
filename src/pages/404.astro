@@ -1,0 +1,55 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// 404 estático único: GitHub Pages sirve dist/404.html para cualquier ruta.
+// No sabe el idioma en build, así que se detecta en CLIENTE desde la URL:
+// /es/… → español; en cualquier otro caso → inglés (por defecto).
+---
+
+<Layout title="404 — AlveoForge" description="Page not found · Página no encontrada — AlveoForge" lang="en">
+	<main class="max-w-2xl mx-auto px-4 pt-40 md:pt-48 pb-32 text-center">
+		<svg viewBox="0 0 60 69" class="w-14 h-16 mx-auto opacity-90" aria-hidden="true">
+			<path
+				d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z"
+				fill="none"
+				class="stroke-ember dark:stroke-ember-hot"
+				stroke-width="5"
+				stroke-linejoin="round"
+			></path>
+			<path
+				d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z"
+				class="fill-steel dark:fill-steel-light"></path>
+		</svg>
+
+		<p class="mt-8 font-mono text-sm text-ember dark:text-ember-hot">404</p>
+		<h1 id="nf-title" class="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-balance">
+			This page hasn't been forged
+		</h1>
+		<p id="nf-text" class="mt-3 af-muted">The page you're looking for doesn't exist or has moved.</p>
+
+		<div class="mt-8">
+			<a
+				id="nf-home"
+				href="/en/"
+				class="rounded-lg bg-ember px-5 py-2.5 text-sm font-semibold text-white hover:bg-ember-hot transition"
+				>Back to home</a
+			>
+		</div>
+	</main>
+
+	<script is:inline>
+		// Si la ruta intentada es de español (/es/…), mostrar el 404 en español.
+		if (/^\/es(\/|$)/.test(location.pathname)) {
+			document.documentElement.lang = 'es';
+			var t = document.getElementById('nf-title');
+			var s = document.getElementById('nf-text');
+			var h = document.getElementById('nf-home');
+			if (t) t.textContent = 'Esta página no se ha forjado';
+			if (s) s.textContent = 'La página que buscas no existe o se ha movido.';
+			if (h) {
+				h.setAttribute('href', '/es/');
+				h.textContent = 'Volver al inicio';
+			}
+		}
+	</script>
+</Layout>

@@ -1,0 +1,30 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const getIn = t('get.in');
+const getOut = t('get.out');
+---
+
+<section id="get" class="max-w-4xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('get.eyebrow')} title={t('get.title')} />
+	<div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+		<div class="af-card p-6">
+			<h3 class="font-mono text-xs uppercase tracking-[0.12em] text-[#2f8f5b] mb-4">{t('get.inH')}</h3>
+			<ul class="space-y-2.5">
+				{getIn.map((x) => (
+					<li class="flex gap-2.5 text-sm"><span class="text-[#2f8f5b] font-bold">✓</span><span>{x}</span></li>
+				))}
+			</ul>
+		</div>
+		<div class="af-card p-6">
+			<h3 class="font-mono text-xs uppercase tracking-[0.12em] text-ink-faint mb-4">{t('get.outH')}</h3>
+			<ul class="space-y-2.5">
+				{getOut.map((x) => (
+					<li class="flex gap-2.5 text-sm af-muted"><span class="text-ink-faint font-bold">✕</span><span>{x}</span></li>
+				))}
+			</ul>
+		</div>
+	</div>
+	<p class="mt-6 text-sm af-muted border-l-2 border-ember pl-4">{t('get.grows')}</p>
+</section>

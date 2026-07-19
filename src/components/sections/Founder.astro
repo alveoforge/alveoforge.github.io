@@ -1,0 +1,18 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { LINKEDIN_URL } from '@/consts';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<section id="about" class="max-w-3xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('founder.eyebrow')} title={t('founder.title')} />
+	<div class="mt-8 flex flex-col sm:flex-row gap-6 items-start">
+		<!-- TODO: sustituir /me.webp por la foto real del founder -->
+		<img src="/me.webp" alt="Álvaro" width="80" height="80" loading="lazy" decoding="async" class="w-20 h-20 rounded-full object-cover flex-none border border-black/10 dark:border-white/10" />
+		<div>
+			<p class="text-lg af-muted">{t('founder.body')}</p>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="inline-block mt-4 text-sm font-semibold text-ember dark:text-ember-hot hover:underline">{t('founder.linkedin')} →</a>
+		</div>
+	</div>
+</section>

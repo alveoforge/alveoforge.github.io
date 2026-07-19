@@ -1,0 +1,42 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import CtaButton from '@/components/ui/CtaButton.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const stack = t('hero.stack');
+---
+
+<section id="home" class="max-w-3xl mx-auto px-4 pt-32 pb-20 md:pt-40 md:pb-28">
+	<div class="flex items-center gap-3 mb-8">
+		<svg viewBox="0 0 60 69" class="w-9 h-10" aria-hidden="true">
+			<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round"></path>
+			<path d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z" class="fill-steel dark:fill-steel-light"></path>
+		</svg>
+		<span class="text-xl font-bold tracking-tight">Alveo<span class="text-ember dark:text-ember-hot">Forge</span></span>
+	</div>
+
+	<div
+		class="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-medium font-mono border border-ember/25 bg-ember-soft dark:bg-ember/10 text-ember dark:text-ember-hot"
+	>
+		<span class="w-1.5 h-1.5 rounded-full bg-ember dark:bg-ember-hot"></span>
+		{t('hero.badge')}
+	</div>
+
+	<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-balance leading-[1.1]">
+		{t('hero.h1')} <span class="text-ember dark:text-ember-hot">{t('hero.tagline')}</span>
+	</h1>
+	<p class="mt-6 text-lg af-muted max-w-2xl">{t('hero.sub')}</p>
+
+	<div class="flex flex-col items-start gap-3 mt-8">
+		<CtaButton label={t('hero.cta')} />
+		<div class="text-sm af-muted">
+			<p class="text-ink dark:text-[#e9edf3]">{t('hero.ctaTry')}</p>
+			<p class="mt-1">{t('hero.ctaNote')}</p>
+		</div>
+	</div>
+
+	<ul class="flex flex-wrap gap-2 mt-10">
+		{stack.map((s) => (
+			<li class="px-3 py-1 rounded-full text-xs font-mono border border-black/10 dark:border-white/10 af-muted">{s}</li>
+		))}
+	</ul>
+</section>

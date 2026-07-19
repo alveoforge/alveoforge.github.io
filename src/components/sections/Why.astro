@@ -1,0 +1,18 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const items = t('why.items');
+---
+
+<section id="why" class="max-w-4xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('why.eyebrow')} title={t('why.title')} />
+	<div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+		{items.map((it) => (
+			<div class="af-card p-5">
+				<h3 class="font-semibold">{it.t}</h3>
+				<p class="mt-2 text-sm af-muted">{it.d}</p>
+			</div>
+		))}
+	</div>
+</section>
