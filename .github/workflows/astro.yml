@@ -33,6 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build with Astro
+        env:
+          # Project API key (phc_…) — pública por diseño; no commits, solo secret de Actions
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

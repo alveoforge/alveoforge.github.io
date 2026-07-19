@@ -12,9 +12,6 @@ npm run build    # astro check + build → dist/
 - [ ] **Vídeos**: hero (sección "video") y scale (dentro de "numbers") están como placeholder.
       No publicar la landing sin el vídeo hero real.
 - [ ] **Reviews**: añadir testimonios reales (con permiso).
-- [ ] **Analítica**: PostHog integrado (cookieless) como componente `src/components/Analytics.astro`.
-      Plug & play: copia `.env.example` a `.env` y pon tu `PUBLIC_POSTHOG_KEY` (`phc_...`) y
-      `PUBLIC_POSTHOG_HOST` (EU/US). Sin key válida no carga nada. No requiere tocar código.
 
 ## Estructura
 
