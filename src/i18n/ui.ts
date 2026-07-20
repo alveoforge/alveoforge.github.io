@@ -8,7 +8,9 @@ export const ui = {
 	en: {
 		'layout.title': 'AlveoForge — Production-ready Java backends from your SQL schema',
 		'layout.description':
-			'Hexagonal architecture, 95–100% tests, deterministic. Hours, not months. Production-ready Java backends from your SQL schema.',
+			'Production-ready Java backends from your SQL schema—real hexagonal architecture, 95–100% tests, deterministic. See it live on your schema before you pay. Hours, not months.',
+		'layout.keywords':
+			'AlveoForge, Java backend, SQL schema, hexagonal architecture, production-ready backend, generate backend from database, Spring Boot, professional backend, backend generator, tested backend, vertical slicing, buy Java backend',
 		'og.title': 'AlveoForge — Production-ready Java backends from your SQL schema',
 		'og.description':
 			'Hexagonal architecture, 95–100% tests, deterministic. Hours, not months.',
@@ -270,6 +272,7 @@ export const ui = {
 		'footer.privacy':
 			'Cookieless analytics. Your schema and data model are treated as confidential.',
 		'footer.youtube': 'YouTube channel',
+		'footer.onepager': 'One-pager',
 		'theme.label': 'Choose theme',
 		'theme.light': 'Light',
 		'theme.dark': 'Dark',
@@ -305,7 +308,9 @@ export const ui = {
 	es: {
 		'layout.title': 'AlveoForge — Backends Java listos para producción desde tu schema SQL',
 		'layout.description':
-			'Arquitectura hexagonal, 95–100% de tests, determinista. Horas, no meses. Backends Java listos para producción desde tu schema SQL.',
+			'Backends Java listos para producción desde tu schema SQL—arquitectura hexagonal real, 95–100% tests, determinista. Pruébalo en vivo sobre tu schema antes de pagar. Horas, no meses.',
+		'layout.keywords':
+			'AlveoForge, backend Java, schema SQL, arquitectura hexagonal, backend producción, generar backend desde base de datos, Spring Boot, comprar backend profesional, backend con tests, backend a medida, slicing vertical, backend determinista',
 		'og.title': 'AlveoForge — Backends Java listos para producción desde tu schema SQL',
 		'og.description':
 			'Arquitectura hexagonal, 95–100% de tests, determinista. Horas, no meses.',
@@ -568,6 +573,7 @@ export const ui = {
 		'footer.privacy':
 			'Analíticas sin cookies. Tu schema y modelo de datos se tratan como confidenciales.',
 		'footer.youtube': 'Canal de YouTube',
+		'footer.onepager': 'One-pager',
 		'theme.label': 'Elige el tema',
 		'theme.light': 'Claro',
 		'theme.dark': 'Oscuro',

@@ -10,3 +10,5 @@ export const CAL_URL = 'https://cal.eu/alveoforge';
 export const CONTACT_EMAIL = 'hello@alveoforge.com';
 export const YOUTUBE_URL = 'https://www.youtube.com/@alveoforge';
 export const LINKEDIN_URL = 'https://linkedin.com/in/alvaroguillengonzalez';
+/** PDF en public/ — ruta absoluta desde la raíz del sitio. */
+export const ONEPAGER_URL = '/alveoforge-onepager.pdf';
