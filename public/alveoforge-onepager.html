@@ -165,8 +165,8 @@
   .cta .line em { color: var(--ember); font-style: normal; }
   .contact {
     display: inline-flex; align-items: center; justify-content: center;
-    gap: 7px; flex-wrap: nowrap; white-space: nowrap;
-    font: 600 11.5px/1 var(--mono);
+    flex-wrap: wrap; gap: 7px 10px; max-width: 100%;
+    font: 600 11.5px/1.3 var(--mono);
     color: var(--ink-soft);
   }
   .contact-mark { width: 15px; height: 17px; flex-shrink: 0; display: block; }
@@ -174,13 +174,20 @@
   .contact .sep { color: var(--ink-faint); }
   .contact .addr {
     font-weight: 500; color: var(--ember); text-decoration: none;
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 680px) {
-    .sheet { padding: 34px 24px; }
+    .sheet { padding: 28px 16px; }
     .cols, .band, .tri { grid-template-columns: 1fr; }
     .band .stat { border-left: 0; border-top: 1px solid var(--hairline); }
     .band .stat:first-child { border-top: 0; }
+    .contact {
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+    }
+    .contact .sep { display: none; }
   }
 
   @media print {
@@ -233,7 +240,11 @@
       page-break-before: avoid;
     }
     .cta .line { font-size: 11.5px; }
-    .contact { font-size: 9px; gap: 5px; }
+    .contact {
+      flex-direction: row; flex-wrap: nowrap; white-space: nowrap;
+      font-size: 9px; gap: 5px;
+    }
+    .contact .sep { display: inline; }
     .contact-mark { width: 11px; height: 13px; }
   }
 </style>
