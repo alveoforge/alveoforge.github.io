@@ -29,7 +29,7 @@ const enabled = Boolean(key) && !key.includes('REPLACE');
 			document.addEventListener('astro:page-load', function () {
 				if (!(window.posthog && posthog.capture)) return;
 				posthog.capture('$pageview');
-				document.querySelectorAll('a[href*="cal.eu"]').forEach(function (a) {
+				document.querySelectorAll('a[href*="cal.com"]').forEach(function (a) {
 					if (a.__ph) return;
 					a.__ph = true;
 					a.addEventListener('click', function () {

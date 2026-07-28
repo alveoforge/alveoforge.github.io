@@ -6,7 +6,7 @@
 // (nube gris), NO un redirect HTTP a github.io.
 export const SITE_URL = 'https://alveoforge.com/';
 
-export const CAL_URL = 'https://cal.eu/alveoforge';
+export const CAL_URL = 'https://cal.com/alveoforge';
 export const CONTACT_EMAIL = 'hello@alveoforge.com';
 export const YOUTUBE_URL = 'https://www.youtube.com/@alveoforge';
 export const LINKEDIN_URL = 'https://linkedin.com/in/alvaroguillengonzalez';
