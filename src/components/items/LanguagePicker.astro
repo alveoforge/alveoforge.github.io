@@ -20,7 +20,6 @@ const isHome = rest === '/';
 					data-lang-link
 					data-base={target}
 					data-home={isHome ? 'true' : null}
-					data-astro-reload
 					class="hover:scale-125 transition"
 					aria-label={`Cambiar idioma a ${langPrefix}`}
 				>
@@ -33,8 +32,37 @@ const isHome = rest === '/';
 
 <script>
 	// Al cambiar de idioma conservamos la página actual (data-base ya la trae) y,
-	// SOLO en la home, la sección en la que está el usuario. Usamos data-astro-reload
-	// para que el navegador haga el scroll nativo al ancla de forma fiable.
+	// SOLO en la home, la sección en la que está el usuario.
+	//
+	// El cambio lo hace ClientRouter (swap), NO una recarga: antes había un
+	// data-astro-reload para delegar el scroll al ancla en el navegador, pero eso
+	// forzaba navegación completa de documento y al volver a '/' (destino SIN
+	// ancla) asomaba un flash blanco — el fondo oscuro depende de la clase .dark
+	// que ThemeScript pone ya dentro del documento nuevo, demasiado tarde. Así
+	// que reponemos aquí el scroll que antes hacía el navegador.
+
+	// Ancla destino del cambio de idioma en curso ('' = arriba del todo). Se arma
+	// en el click y se consume en el swap siguiente; va fuera de astro:page-load
+	// para no re-registrar el listener en cada navegación.
+	let pendingHash: string | null = null;
+
+	document.addEventListener('astro:after-swap', () => {
+		if (pendingHash === null) return; // navegación ajena (nav, back/forward): la gestiona Astro
+		const hash = pendingHash;
+		pendingHash = null;
+
+		const anchor = hash ? document.getElementById(hash.slice(1)) : null;
+		// after-swap corre antes del paint, pero html lleva scroll-behavior:smooth
+		// y animaría el salto: lo desactivamos para que sea instantáneo, igual que
+		// el salto nativo a un fragmento.
+		const root = document.documentElement;
+		const previous = root.style.scrollBehavior;
+		root.style.scrollBehavior = 'auto';
+		if (anchor) anchor.scrollIntoView({ block: 'start' });
+		else window.scrollTo(0, 0);
+		root.style.scrollBehavior = previous;
+	});
+
 	document.addEventListener('astro:page-load', () => {
 		const links = document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]');
 		if (!links.length) return;
@@ -64,6 +92,12 @@ const isHome = rest === '/';
 
 		sync();
 		window.addEventListener('scroll', sync, { passive: true });
-		links.forEach((a) => a.addEventListener('pointerdown', sync));
+		links.forEach((a) => {
+			a.addEventListener('pointerdown', sync);
+			// pointerdown ya dejó el href al día, así que aquí leemos el definitivo.
+			a.addEventListener('click', () => {
+				pendingHash = new URL(a.href, window.location.href).hash;
+			});
+		});
 	});
 </script>
