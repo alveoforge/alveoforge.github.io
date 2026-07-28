@@ -1,61 +1,11 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { useTranslations, type SupportedLang } from '@/i18n/utils';
-import Hero from '@/components/sections/Hero.astro';
-import VideoDemo from '@/components/sections/VideoDemo.astro';
-import Problem from '@/components/sections/Problem.astro';
-import Why from '@/components/sections/Why.astro';
-import HowItWorks from '@/components/sections/HowItWorks.astro';
-import Numbers from '@/components/sections/Numbers.astro';
-import WhatYouGet from '@/components/sections/WhatYouGet.astro';
-import Roadmap from '@/components/sections/Roadmap.astro';
-import Founder from '@/components/sections/Founder.astro';
-// import Reviews from '@/components/sections/Reviews.astro'; // mock — reactivar con testimonios reales
-import Faq from '@/components/sections/Faq.astro';
-import FinalCta from '@/components/sections/FinalCta.astro';
+import LandingPage from '@/components/pages/LandingPage.astro';
+import { prefixedLocales } from '@/i18n/utils';
 
-const lang = (Astro.params.lang as SupportedLang) || 'en';
-const t = useTranslations(lang);
-
-const faqGroups = t('faq.groups');
-const faqJsonLd = {
-	'@context': 'https://schema.org',
-	'@type': 'FAQPage',
-	mainEntity: faqGroups.flatMap((g) =>
-		g.items.map((f) => ({
-			'@type': 'Question',
-			name: f.q,
-			acceptedAnswer: { '@type': 'Answer', text: f.a },
-		}))
-	),
-};
-
+// Solo los idiomas CON prefijo (todos menos el por defecto, que vive en '/').
 export async function getStaticPaths() {
-	return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+	return prefixedLocales.map((lang) => ({ params: { lang } }));
 }
 ---
 
-<Layout
-	title={t('layout.title')}
-	description={t('layout.description')}
-	keywords={t('layout.keywords')}
-	lang={lang}
-	ogTitle={t('og.title')}
-	ogDescription={t('og.description')}
-	faqJsonLd={faqJsonLd}
->
-	<main>
-		<Hero />
-		<VideoDemo />
-		<Problem />
-		<Why />
-		<HowItWorks />
-		<Numbers />
-		<WhatYouGet />
-		<Roadmap />
-		<Founder />
-		{/* <Reviews /> — mock; reactivar con testimonios reales */}
-		<Faq />
-		<FinalCta />
-	</main>
-</Layout>
+<LandingPage />

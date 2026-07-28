@@ -1,8 +1,9 @@
 ---
-import Redirect from '@/components/Redirect.astro';
-
-// Redirigir al idioma por defecto
-const defaultLocale = 'en';
+// Home en inglés (idioma por defecto) servida en la RAÍZ del dominio.
+// https://alveoforge.com/ es la URL canónica del sitio: página real, indexable
+// y con Open Graph — antes era un redirect JS y los crawlers sociales
+// (LinkedIn, X, WhatsApp) no veían nada. Ver README.
+import LandingPage from '@/components/pages/LandingPage.astro';
 ---
 
-<Redirect to={`/${defaultLocale}/`} />
+<LandingPage />

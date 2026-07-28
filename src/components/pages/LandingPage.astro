@@ -1,0 +1,61 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import Hero from '@/components/sections/Hero.astro';
+import VideoDemo from '@/components/sections/VideoDemo.astro';
+import Problem from '@/components/sections/Problem.astro';
+import Why from '@/components/sections/Why.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Numbers from '@/components/sections/Numbers.astro';
+import WhatYouGet from '@/components/sections/WhatYouGet.astro';
+import Roadmap from '@/components/sections/Roadmap.astro';
+import Founder from '@/components/sections/Founder.astro';
+// import Reviews from '@/components/sections/Reviews.astro'; // mock — reactivar con testimonios reales
+import Faq from '@/components/sections/Faq.astro';
+import FinalCta from '@/components/sections/FinalCta.astro';
+
+// Cuerpo de la landing, compartido por la home de cada idioma:
+//   src/pages/index.astro        → '/'     (en, idioma por defecto)
+//   src/pages/[lang]/index.astro → '/es/'  (resto de idiomas)
+// El idioma se deduce de la URL, igual que en el resto de secciones.
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const faqGroups = t('faq.groups');
+const faqJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqGroups.flatMap((g) =>
+		g.items.map((f) => ({
+			'@type': 'Question',
+			name: f.q,
+			acceptedAnswer: { '@type': 'Answer', text: f.a },
+		}))
+	),
+};
+---
+
+<Layout
+	title={t('layout.title')}
+	description={t('layout.description')}
+	keywords={t('layout.keywords')}
+	lang={lang}
+	ogTitle={t('og.title')}
+	ogDescription={t('og.description')}
+	faqJsonLd={faqJsonLd}
+>
+	<main>
+		<Hero />
+		<VideoDemo />
+		<Problem />
+		<Why />
+		<HowItWorks />
+		<Numbers />
+		<WhatYouGet />
+		<Roadmap />
+		<Founder />
+		{/* <Reviews /> — mock; reactivar con testimonios reales */}
+		<Faq />
+		<FinalCta />
+	</main>
+</Layout>

@@ -6,7 +6,12 @@ import Layout from '@/layouts/Layout.astro';
 // /es/… → español; en cualquier otro caso → inglés (por defecto).
 ---
 
-<Layout title="404 — AlveoForge" description="Page not found · Página no encontrada — AlveoForge" lang="en">
+<Layout
+	title="404 — AlveoForge"
+	description="Page not found · Página no encontrada — AlveoForge"
+	lang="en"
+	noIndex
+>
 	<main class="max-w-2xl mx-auto px-4 pt-40 md:pt-48 pb-32 text-center">
 		<svg viewBox="0 0 60 69" class="w-14 h-16 mx-auto opacity-90" aria-hidden="true">
 			<path
@@ -30,7 +35,7 @@ import Layout from '@/layouts/Layout.astro';
 		<div class="mt-8">
 			<a
 				id="nf-home"
-				href="/en/"
+				href="/"
 				class="rounded-lg bg-ember px-5 py-2.5 text-sm font-semibold text-white hover:bg-ember-hot transition"
 				>Back to home</a
 			>

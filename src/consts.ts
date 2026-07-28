@@ -12,3 +12,9 @@ export const YOUTUBE_URL = 'https://www.youtube.com/@alveoforge';
 export const LINKEDIN_URL = 'https://linkedin.com/in/alvaroguillengonzalez';
 /** PDF en public/ — ruta absoluta desde la raíz del sitio. */
 export const ONEPAGER_URL = '/alveoforge-onepager.pdf';
+
+/** Sello "Provisional until official launch" del hero (igual que la marca de
+ *  agua del one-pager). Poner a false en el lanzamiento oficial: desaparece
+ *  del build, no queda markup muerto. Los textos y la fecha viven en
+ *  `hero.stamp.*` de src/i18n/ui.ts (uno por idioma). */
+export const SHOW_PROVISIONAL_STAMP = true;

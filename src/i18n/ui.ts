@@ -25,6 +25,13 @@ export const ui = {
 		'nav.about': 'About',
 		'nav.cta': 'Book a call',
 
+		// Sello "provisional" del hero — mismo texto que la marca de agua del
+		// one-pager (public/alveoforge-onepager.html). Se oculta con
+		// SHOW_PROVISIONAL_STAMP en src/consts.ts al lanzar.
+		'hero.stamp.l1': 'Provisional',
+		'hero.stamp.l2': 'until official launch',
+		'hero.stamp.l3': 'Jul – Aug 2026',
+
 		'hero.badge': 'Validated on a real 300+ table schema',
 		'hero.h1': 'Production-ready Java backends, generated from your SQL schema.',
 		'hero.tagline': 'Hours, not months.',
@@ -324,6 +331,10 @@ export const ui = {
 		'nav.faq': 'FAQ',
 		'nav.about': 'Autor',
 		'nav.cta': 'Agenda una llamada',
+
+		'hero.stamp.l1': 'Provisional',
+		'hero.stamp.l2': 'hasta el lanzamiento oficial',
+		'hero.stamp.l3': 'Jul – Ago 2026',
 
 		'hero.badge': 'Validado en un schema real de 300+ tablas',
 		'hero.h1': 'Backends Java listos para producción, generados desde tu schema SQL.',

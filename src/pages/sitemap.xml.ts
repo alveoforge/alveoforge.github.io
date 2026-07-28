@@ -1,36 +1,39 @@
 import type { APIRoute } from 'astro';
 import { ONEPAGER_URL } from '@/consts';
+import { locales, localePath } from '@/i18n/utils';
+import { defaultLang } from '@/i18n/ui';
 
 // Sitemap generado en build a partir de Astro.site (= SITE_URL en consts.ts),
-// así sigue al dominio automáticamente.
-// - PAGES: rutas Astro sin locale → se emiten en cada idioma con hreflang.
+// así sigue al dominio automáticamente. La forma de las URLs sale de
+// localePath() (src/i18n/utils.ts): el idioma por defecto va sin prefijo.
+// - PAGES: rutas sin locale → se emiten en cada idioma con hreflang.
 // - STATIC: ficheros en public/ (PDF, etc.) → una sola URL, sin hreflang.
-const LOCALES = ['en', 'es'] as const;
-const DEFAULT_LOCALE = 'en';
-const PAGES = ['', 'privacy'];
-const STATIC = [ONEPAGER_URL.replace(/^\//, '')];
+// Las redirecciones heredadas (/en/…) NO entran aquí a propósito.
+const PAGES = ['/', '/privacy/'];
+const STATIC = [ONEPAGER_URL];
 
 export const GET: APIRoute = ({ site }) => {
-	const base = site!.href.replace(/\/$/, ''); // sin barra final
-
-	const url = (loc: string, path: string) => `${base}/${loc}/${path}`.replace(/\/$/, '') + '/';
+	const abs = (path: string) => new URL(path, site!).href;
 
 	const pageEntries = PAGES.flatMap((path) =>
-		LOCALES.map((loc) => {
-			const alts = LOCALES.map(
-				(l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, path)}"/>`
-			).join('\n');
+		locales.map((loc) => {
+			const alts = locales
+				.map(
+					(l) =>
+						`    <xhtml:link rel="alternate" hreflang="${l}" href="${abs(localePath(l, path))}"/>`
+				)
+				.join('\n');
 			return `  <url>
-    <loc>${url(loc, path)}</loc>
+    <loc>${abs(localePath(loc, path))}</loc>
 ${alts}
-    <xhtml:link rel="alternate" hreflang="x-default" href="${url(DEFAULT_LOCALE, path)}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${abs(localePath(defaultLang, path))}"/>
   </url>`;
 		})
 	);
 
 	const staticEntries = STATIC.map(
 		(file) => `  <url>
-    <loc>${base}/${file}</loc>
+    <loc>${abs(file)}</loc>
   </url>`
 	);
 

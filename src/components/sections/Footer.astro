@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 import { CONTACT_EMAIL, ONEPAGER_URL, YOUTUBE_URL } from '@/consts';
@@ -17,7 +17,7 @@ const currentYear = new Date().getFullYear();
 		</div>
 		<div class="flex flex-wrap items-center gap-x-5 gap-y-2">
 			<a href={ONEPAGER_URL} target="_blank" rel="noopener" class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.onepager')}</a>
-			<a href={`/${lang}/privacy`} class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.privacyLink')}</a>
+			<a href={localePath(lang, '/privacy/')} class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.privacyLink')}</a>
 			<a href={YOUTUBE_URL} target="_blank" rel="noopener" class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.youtube')}</a>
 			<a href={`mailto:${CONTACT_EMAIL}`} class="text-sm font-medium text-ember dark:text-ember-hot hover:underline">{CONTACT_EMAIL}</a>
 		</div>

@@ -1,22 +1,25 @@
 ---
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl } from '@/i18n/utils';
+import { getLangFromUrl, localePath, stripLocale, type SupportedLang } from '@/i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 // Ruta actual SIN el prefijo de idioma, para conservar la página al cambiar
-// (p. ej. /en/privacy -> /es/privacy, no /es/). '' se normaliza a '/'.
-const rest = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, '') || '/';
+// (p. ej. /privacy/ -> /es/privacy/, no /es/). '' se normaliza a '/'.
+const rest = stripLocale(Astro.url.pathname);
+// Solo la home lleva ancla de sección; se resuelve en build, no con regex en cliente.
+const isHome = rest === '/';
 ---
 
 <div class="flex flex-row gap-1">
 	{
 		Object.entries(languages).map(([langPrefix, label]) => {
 			if (langPrefix == lang) return <></>;
-			const target = `/${langPrefix}${rest}`.replace(/\/{2,}/g, '/');
+			const target = localePath(langPrefix as SupportedLang, rest);
 			return (
 				<a
 					href={target}
 					data-lang-link
 					data-base={target}
+					data-home={isHome ? 'true' : null}
 					data-astro-reload
 					class="hover:scale-125 transition"
 					aria-label={`Cambiar idioma a ${langPrefix}`}
@@ -54,7 +57,7 @@ const rest = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, '') || '/';
 			const sec = currentSection();
 			links.forEach((a) => {
 				const base = a.dataset.base ?? '/';
-				const isHome = /^\/(en|es)\/?$/.test(base); // solo la home lleva ancla de sección
+				const isHome = a.dataset.home === 'true'; // solo la home lleva ancla de sección
 				a.setAttribute('href', base + (isHome && sec ? `#${sec}` : ''));
 			});
 		};

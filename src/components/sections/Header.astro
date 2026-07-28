@@ -1,12 +1,13 @@
 ---
 import ThemeToggle from '@/components/items/ThemeToggle.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, localePath, useTranslations } from '../../i18n/utils';
 import LanguagePicker from '@/components/items/LanguagePicker.astro';
 import { CAL_URL } from '@/consts';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const base = `/${lang}/`;
+// Home del idioma actual: '/' (en) o '/es/'.
+const base = localePath(lang, '/');
 const navItems = [
 	{ title: t('nav.why'), label: 'why', url: `${base}#why` },
 	{ title: t('nav.how'), label: 'how', url: `${base}#how` },

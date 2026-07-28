@@ -5,6 +5,8 @@ import Header from '../components/sections/Header.astro';
 import Analytics from '@/components/Analytics.astro';
 import ThemeScript from '@/components/ThemeScript.astro';
 import { ClientRouter } from 'astro:transitions';
+import { locales, localePath, stripLocale } from '@/i18n/utils';
+import { defaultLang } from '@/i18n/ui';
 
 interface Props {
 	title: string;
@@ -14,17 +16,34 @@ interface Props {
 	ogTitle?: string;
 	ogDescription?: string;
 	faqJsonLd?: Record<string, unknown>;
+	/** Páginas que no deben indexarse (404): sin canonical ni hreflang. */
+	noIndex?: boolean;
 }
 
-const { description, title, keywords, lang = 'en', ogTitle, ogDescription, faqJsonLd } = Astro.props;
+const {
+	description,
+	title,
+	keywords,
+	lang = 'en',
+	ogTitle,
+	ogDescription,
+	faqJsonLd,
+	noIndex = false,
+} = Astro.props;
 const ogT = ogTitle ?? title;
 const ogD = ogDescription ?? description;
 
 const site = Astro.site;
-const canonical = site ? new URL(Astro.url.pathname, site).href : Astro.url.pathname;
-const urlEn = site ? new URL('/en/', site).href : '/en/';
-const urlEs = site ? new URL('/es/', site).href : '/es/';
-const ogImage = site ? new URL('/og.png', site).href : '/og.png';
+const abs = (path: string) => (site ? new URL(path, site).href : path);
+const canonical = abs(Astro.url.pathname);
+const ogImage = abs('/og.png');
+
+// hreflang de ESTA página en cada idioma (no solo de la home): se quita el
+// prefijo de idioma de la ruta actual y se reconstruye en cada locale, así
+// /es/privacy/ apunta a /privacy/ y no a la portada.
+const rest = stripLocale(Astro.url.pathname);
+const alternates = locales.map((l) => ({ hreflang: l, href: abs(localePath(l, rest)) }));
+const xDefault = abs(localePath(defaultLang, rest));
 
 const jsonLd = {
 	'@context': 'https://schema.org',
@@ -50,10 +69,17 @@ const jsonLd = {
 		<title>{title}</title>
 
 		<!-- Canonical + hreflang (sitio bilingüe) -->
-		<link rel="canonical" href={canonical} />
-		<link rel="alternate" hreflang="en" href={urlEn} />
-		<link rel="alternate" hreflang="es" href={urlEs} />
-		<link rel="alternate" hreflang="x-default" href={urlEn} />
+		{noIndex ? (
+			<meta name="robots" content="noindex, follow" />
+		) : (
+			<>
+				<link rel="canonical" href={canonical} />
+				{alternates.map((a) => (
+					<link rel="alternate" hreflang={a.hreflang} href={a.href} />
+				))}
+				<link rel="alternate" hreflang="x-default" href={xDefault} />
+			</>
+		)}
 
 		<!-- Open Graph / social cards -->
 		<meta property="og:type" content="website" />

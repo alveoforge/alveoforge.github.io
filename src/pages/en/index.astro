@@ -1,0 +1,8 @@
+---
+// URL heredada: '/en/' era la home antes de mover el inglés a la raíz.
+// Se mantiene redirigiendo a '/' para no romper los enlaces ya repartidos
+// (one-pager, LinkedIn) ni lo que Google tiene rastreado. Fuera del sitemap.
+import Redirect from '@/components/Redirect.astro';
+---
+
+<Redirect to="/" />

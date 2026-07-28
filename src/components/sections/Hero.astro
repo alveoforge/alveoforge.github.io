@@ -1,11 +1,38 @@
 ---
 import { getLangFromUrl, useTranslations } from '@/i18n/utils';
 import CtaButton from '@/components/ui/CtaButton.astro';
+import { SHOW_PROVISIONAL_STAMP } from '@/consts';
 const t = useTranslations(getLangFromUrl(Astro.url));
 const stack = t('hero.stack');
 ---
 
-<section id="home" class="max-w-3xl mx-auto px-4 pt-32 pb-20 md:pt-40 md:pb-28">
+<section id="home" class="relative max-w-3xl mx-auto px-4 pt-32 pb-20 md:pt-40 md:pb-28">
+	{
+		SHOW_PROVISIONAL_STAMP && (
+			// Sello provisional, réplica de la marca de agua del one-pager.
+			// Desde lg flota arriba a la derecha, rotado, sobre el hueco libre
+			// junto al badge. Por debajo de lg no hay hueco al lado del H1, así
+			// que va en flujo (arriba del todo) y sin rotar. Se apaga con
+			// SHOW_PROVISIONAL_STAMP en src/consts.ts.
+			<div
+				role="note"
+				class="pointer-events-none mb-8 inline-block select-none rounded-lg border-2 border-ember/45 px-4 py-2 text-center text-ember/75
+				dark:border-ember-hot/45 dark:text-ember-hot/75
+				lg:absolute lg:top-44 lg:right-0 lg:mb-0 lg:rotate-[-16deg]"
+			>
+				<span class="block font-mono text-xl font-extrabold uppercase leading-none tracking-[0.04em]">
+					{t('hero.stamp.l1')}
+				</span>
+				<span class="mt-1.5 block font-mono text-[10px] font-semibold uppercase leading-none tracking-[0.18em]">
+					{t('hero.stamp.l2')}
+				</span>
+				<span class="mt-1.5 block font-mono text-[11px] font-bold uppercase leading-none tracking-[0.16em]">
+					{t('hero.stamp.l3')}
+				</span>
+			</div>
+		)
+	}
+
 	<div class="flex items-center gap-3 mb-8">
 		<svg viewBox="0 0 60 69" class="w-9 h-10" aria-hidden="true">
 			<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round"></path>

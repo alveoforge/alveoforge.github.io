@@ -1,7 +1,35 @@
 ---
+interface Props {
+	/** Ruta destino, absoluta desde la raíz del sitio (p. ej. '/privacy/'). */
+	to: string;
+}
+
 const { to } = Astro.props;
+const site = Astro.site;
+const target = site ? new URL(to, site).href : to;
 ---
 
-<script is:inline define:vars={{ to }}>
-	window.location.href = to;
-</script>
+{/*
+	Redirección permanente hasta donde llega GitHub Pages: no hay 301 de
+	servidor, así que se emite meta refresh a 0s + <link rel="canonical"> al
+	destino, que es lo que Google lee para consolidar las señales en la URL
+	nueva (mismo patrón que jekyll-redirect-from). El location.replace es solo
+	para no dejar entrada en el historial del navegador.
+	Estas páginas NO van en el sitemap.
+*/}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="refresh" content={`0; url=${to}`} />
+		<link rel="canonical" href={target} />
+		<title>Redirecting… — AlveoForge</title>
+		<script is:inline define:vars={{ to }}>
+			window.location.replace(to);
+		</script>
+	</head>
+	<body>
+		<p>Redirecting to <a href={to}>{target}</a>…</p>
+	</body>
+</html>

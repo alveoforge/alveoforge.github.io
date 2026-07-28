@@ -27,7 +27,10 @@ export default defineConfig({
     defaultLocale: "en",
     locales: ["es", "en"],
     routing: {
-      prefixDefaultLocale: true,
+      // El idioma por defecto (en) se sirve en la RAÍZ, sin prefijo: así
+      // https://alveoforge.com/ es una página real e indexable, no una
+      // redirección. Los demás idiomas van con prefijo (/es/).
+      prefixDefaultLocale: false,
     },
   },
 });
