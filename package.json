@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "og": "node scripts/render-og.mjs"
+    "og": "node scripts/render-og.mjs",
+    "favicons": "node scripts/render-favicons.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",

@@ -70,7 +70,13 @@ const jsonLd = {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<ThemeScript />
+		<!-- Favicons — blindado: .ico multi-tamaño (Google + navegadores antiguos),
+		     SVG nítido (navegadores modernos), PNG 96 (fallback explícito) y
+		     apple-touch 180 (iOS / marcadores). Se generan con `npm run favicons`. -->
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 
