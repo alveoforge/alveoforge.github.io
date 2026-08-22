@@ -15,7 +15,7 @@ type FooterLink = { title: string; href: string; external?: boolean };
 // sitemap + recursos + legal + contacto.
 const columns: { heading: string; links: FooterLink[] }[] = [
 	{
-		// Mismo orden que la home / nav: video → problem → why → how → numbers → hood → get → roadmap → about → faq.
+		// Secciones del pitch (mismo orden que la home / nav).
 		heading: t('footer.colProduct'),
 		links: [
 			{ title: t('video.eyebrow'), href: `${base}#video` },
@@ -25,6 +25,12 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 			{ title: t('nav.numbers'), href: `${base}#numbers` },
 			{ title: t('nav.hood'), href: `${base}#hood` },
 			{ title: t('nav.get'), href: `${base}#get` },
+		],
+	},
+	{
+		// Meta: dirección del producto, quién está detrás, preguntas.
+		heading: t('footer.colCompany'),
+		links: [
 			{ title: t('nav.roadmap'), href: `${base}#roadmap` },
 			{ title: t('nav.about'), href: `${base}#about` },
 			{ title: t('nav.faq'), href: `${base}#faq` },
@@ -61,8 +67,8 @@ const linkClass =
 <footer class="w-full max-w-5xl mx-auto px-4 py-12 mt-4">
 	<!-- Móvil: marca full-width + columnas en rejilla de 2 (no un churro).
 	     md: marca arriba + 4 columnas en fila.  lg: marca + 4 columnas en una sola fila. -->
-	<div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
-		<div class="col-span-2 md:col-span-4 lg:col-span-1">
+	<div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr]">
+		<div class="col-span-2 md:col-span-3 lg:col-span-1">
 			<div class="flex items-center gap-2.5">
 				<svg viewBox="0 0 60 69" class="w-5 h-6" aria-hidden="true">
 					<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round" />
