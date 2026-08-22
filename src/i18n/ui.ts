@@ -19,10 +19,13 @@ export const ui = {
 		'nav.why': 'Why',
 		'nav.how': 'How it works',
 		'nav.numbers': 'Numbers',
+		'nav.hood': 'Under the hood',
 		'nav.get': 'What you get',
 		'nav.roadmap': 'Roadmap',
 		'nav.faq': 'FAQ',
 		'nav.about': 'About',
+		'nav.blog': 'Blog',
+		'nav.demos': 'Demos',
 		'nav.cta': 'Book a call',
 
 		// Sello "provisional" del hero — mismo texto que la marca de agua del
@@ -30,7 +33,7 @@ export const ui = {
 		// SHOW_PROVISIONAL_STAMP en src/consts.ts al lanzar.
 		'hero.stamp.l1': 'Provisional',
 		'hero.stamp.l2': 'until official launch',
-		'hero.stamp.l3': 'Jul – Aug 2026',
+		'hero.stamp.l3': 'Aug – Sep 2026',
 
 		'hero.badge': 'Validated on a real 300+ table schema',
 		'hero.h1': 'Production-ready Java backends, generated from your SQL schema.',
@@ -120,6 +123,43 @@ export const ui = {
 		],
 		'numbers.note': 'Validated on a real 300+ table schema.',
 
+		'hood.eyebrow': 'Under the hood',
+		'hood.title': 'Not a scaffold — a backend that actually works',
+		'hood.intro':
+			'Most tools generate empty shells: hexagonal folders, stub CRUD, no real behaviour and no tests. This is what AlveoForge actually generates — and verifies — for every entity.',
+		'hood.items': [
+			{
+				id: 'migrations',
+				t: 'Two migration engines — and your database adopted',
+				d: 'Flyway or Liquibase, with full parity — or point it at your existing production database and it adapts (brownfield). Your DDL is the single source of truth: no schema drift.',
+			},
+			{
+				id: 'bulk',
+				t: 'Single and bulk, everywhere',
+				d: 'Every entity ships individual and batch operations — create-many, fetch-by-ids, bulk updates — each one validated and tested. Not a naive one-row CRUD.',
+			},
+			{
+				id: 'expand',
+				t: 'Relationship expansion on read',
+				d: 'GET endpoints hydrate related entities on demand, across vertical slices — without N+1 queries or leaking a JPA object graph across your layers.',
+			},
+			{
+				id: 'contract',
+				t: 'The full HTTP contract, tested',
+				d: 'Every endpoint is tested for success and for failure — not just the happy path. Across all 3 layers + e2e, asserting methods, lines and branches.',
+			},
+			{
+				id: 'auth',
+				t: 'Identity, auth and tokens — done right',
+				d: 'A real login entity, password hashing at the persistence edge, JWT (in-process or service-to-service HTTP), refresh tokens inline or in a dedicated table.',
+			},
+			{
+				id: 'rulings',
+				t: 'Decisions, not guesses',
+				d: 'Scalar foreign keys (no ORM graph bleeding across layers), N-N as first-class join-table entities, soft-delete from audit columns, composite / natural / identity keys — the architectural rulings that separate “it compiles” from “it’s correct”.',
+			},
+		],
+
 		'get.eyebrow': 'Scope',
 		'get.title': 'What you get — and what you don’t',
 		'get.inH': 'You receive',
@@ -127,11 +167,13 @@ export const ui = {
 		'get.in': [
 			'Complete, running backend in a private repository',
 			'Real hexagonal architecture + vertical slicing',
-			'Test suite across all 3 layers + e2e (95–100%)',
+			'Full CRUD, single & bulk operations, and relationship expansion on read (?expand=)',
+			'Full standard SQL type coverage — arrays, enums, JSONB, UUID, timestamptz, numeric precision, binary (bytea), composite & foreign keys, inheritance & partitions',
+			'PostgreSQL · MongoDB · Redis cache · transactional outbox',
+			'Database migrations (Flyway or Liquibase) + brownfield adoption of your existing database',
+			'JWT auth, refresh tokens & email verification + dev / pre / prod profiles',
+			'Test suite across all 3 layers + e2e — success & error paths (95–100%)',
 			'Monolith or microservices — your choice, no lock-in',
-			'PostgreSQL · MongoDB · Redis, outbox pattern',
-			'Full standard SQL type coverage — arrays, enums, JSONB, UUID, timestamptz, numeric precision, composite & foreign keys',
-			'JWT auth + dev / pre / prod profiles',
 			'Code fully yours + 30-day post-delivery support',
 		],
 		'get.out': [
@@ -144,20 +186,50 @@ export const ui = {
 			'As your project grows, each feature is generated as an independent vertical slice, added alongside your code without touching what your team already built. Hexagonal isolates the domain from database, framework and delivery; vertical slicing keeps each feature cohesive — everything that changes together lives together. That’s what lets the backend scale in order and stay fast to work on, instead of decaying into the tangled coupling that freezes teams years in.',
 
 		'roadmap.eyebrow': 'Roadmap',
-		'roadmap.title': 'Where it’s heading',
-		'roadmap.items': [
+		'roadmap.title': 'Delivered, and what comes next',
+		'roadmap.groups': [
 			{
-				t: 'More languages & frameworks',
-				d: 'NestJS and Python (hexagonal) next — and more targets after, beyond Java + Spring Boot.',
+				label: 'Delivered',
+				tone: 'done',
+				items: [
+					{ t: 'Real hexagonal architecture + vertical slicing', d: '' },
+					{ t: 'Deterministic generation — same schema, same output', d: '' },
+					{ t: 'Monolith or microservices from the same schema', d: '' },
+					{ t: 'Full standard SQL type coverage', d: '' },
+					{ t: 'Composite, natural & generated primary keys · N-N as first-class resources', d: '' },
+					{ t: 'PostgreSQL inheritance & declarative partitioning', d: '' },
+					{ t: 'Multi-store: PostgreSQL · MongoDB · Redis cache · outbox', d: '' },
+					{ t: 'Migrations (Flyway / Liquibase) + brownfield adoption', d: '' },
+					{ t: 'Full CRUD + bulk operations', d: '' },
+					{ t: 'Relationship expansion on read (?expand=)', d: '' },
+					{ t: 'JWT auth, refresh tokens & email verification', d: '' },
+					{ t: 'Reference-data seeding & required defaults', d: '' },
+					{ t: 'Tests across 3 layers + e2e — success & error · 95–100% coverage', d: '' },
+					{ t: 'Validated on 300+ table schemas', d: '' },
+					{ t: 'GitLab scale, 1,000+ tables', d: 'stress-testing the pipeline on very large schemas' },
+				],
 			},
-			{ t: 'More architectures', d: 'Additional generation targets on the same core.' },
 			{
-				t: 'Self-service platform',
-				d: 'Upload schema → preview → pay → repo, no call required.',
+				label: 'In progress',
+				tone: 'now',
+				items: [
+					{ t: 'Public launch', d: 'getting AlveoForge ready to go public — site, demos and first founding clients' },
+				],
+			},
+			{
+				label: 'Long term',
+				tone: 'next',
+				items: [
+					{ t: 'Self-service platform', d: 'upload schema → preview → repo, no call required' },
+					{ t: 'More languages & frameworks', d: 'NestJS, Python and C# (hexagonal), beyond Java — and any language on client demand' },
+					{ t: 'Optional reactive API', d: 'Mono/Flux, opt-in for streaming / high-I/O domains' },
+					{ t: 'GraphQL / BFF read layer', d: 'alternative to REST expand for complex client graphs' },
+					{ t: 'Hierarchical tree expand', d: 'parent/child trees (self-referential) expanded on read' },
+				],
 			},
 		],
 		'roadmap.note':
-			'On the roadmap — not available yet. Available today: the guided Java / Spring Boot service.',
+			'Delivered items ship today in the guided Java / Spring Boot service. In-progress and long-term items are on the roadmap — not available yet.',
 
 		'founder.eyebrow': 'About the founder',
 		'founder.title': 'Built by someone who lived the problem',
@@ -189,7 +261,7 @@ export const ui = {
 					},
 					{
 						q: 'Do I get the generation tool itself?',
-						a: 'No — the factory stays proprietary. You receive the output: professional, tested code you own entirely and can maintain without us.',
+						a: 'No — the factory stays proprietary. You receive the output: professional, tested code you own entirely and can maintain without AlveoForge.',
 					},
 					{
 						q: 'How is pricing set?',
@@ -209,8 +281,24 @@ export const ui = {
 						a: 'Methods, lines and branches — every path is executed and asserted, not just run. Mutation testing available on request.',
 					},
 					{
+						q: 'Do the tests cover error paths, or just the happy path?',
+						a: 'Both. Every endpoint is tested for success and for failure — 400 validation, 401 auth, 404, 415 — not just the 200. Across all 3 layers plus e2e, asserting methods, lines and branches. Empty happy-path tests are exactly what we don’t ship.',
+					},
+					{
+						q: 'What operations does each entity get?',
+						a: 'Full CRUD plus batch: create, read (single, paged, by-ids), update, delete, create-many and bulk updates — with read-time relationship expansion (?expand=…) across slices, without N+1 queries or leaking a JPA object graph across layers.',
+					},
+					{
+						q: 'How does it fit our existing database and migrations?',
+						a: 'Your DDL is the single source of truth, emitted as a versioned migration. Pick Flyway or Liquibase — both wired with parity — or point it at an existing production database and it adapts (brownfield) without rebuilding your schema. Hibernate runs in validate mode, so entities are checked against the real schema at boot.',
+					},
+					{
 						q: 'Can my team maintain code it didn’t write?',
-						a: 'Yes — one pattern repeated consistently, standard readable code any Java dev extends from day one, plus a 30-day support window. And you own it: no dependency on us.',
+						a: 'Yes — one pattern repeated consistently, standard readable code any Java dev extends from day one, plus a 30-day support window. And you own it: no dependency on AlveoForge.',
+					},
+					{
+						q: 'Do I need a specific IDE or build tool?',
+						a: 'No. The output is a standard Maven project — open it in any IDE (IntelliJ, VS Code, Eclipse, NetBeans…) or in none at all. Build, test and run it straight from the terminal with the Maven wrapper (./mvnw). No editor, plugin or vendor lock-in.',
 					},
 					{
 						q: 'What’s the tech stack?',
@@ -218,7 +306,7 @@ export const ui = {
 					},
 					{
 						q: 'What SQL types do you support?',
-						a: 'The full breadth of standard PostgreSQL types — arrays, enums, JSONB, UUID, timestamptz, numeric precision, composite and foreign keys, and more. And generation never fails on a type it doesn’t recognize: it falls back to a safe default (string) that your team can refine later, so you always get a running backend. We flag any such column together in the kick-off — no surprises. That’s why the process is guided.',
+						a: 'The full breadth of standard PostgreSQL types — arrays, enums, JSONB, UUID, the date/time family (date, time, timestamptz), numeric and decimal precision, binary (bytea), varchar/char length validation, composite and foreign keys — plus table inheritance and declarative partitioning. And generation never fails on a type it doesn’t recognize: it falls back to a safe default (string) that your team can refine later, so you always get a running backend. We flag any such column together in the kick-off — no surprises. That’s why the process is guided.',
 					},
 				],
 			},
@@ -275,11 +363,62 @@ export const ui = {
 		'cta.pricing':
 			'Per-project pricing, scales with schema size and complexity. Book a call for a quote.',
 
+		'blog.eyebrow': 'Blog',
+		'blog.title': 'Notes from AlveoForge',
+		'blog.intro':
+			'Deep dives on architecture, determinism and what it takes to generate a backend you can actually maintain.',
+		'blog.readMore': 'Read more',
+		'blog.back': '← All posts',
+		'blog.backHome': '← Back to home',
+		'blog.published': 'Published',
+		'blog.updated': 'Updated',
+		'blog.empty': 'No posts yet — the first ones are on the way.',
+		'blog.min': 'min read',
+
+		'changelog.eyebrow': 'Changelog',
+		'changelog.title': 'Product changelog',
+		'changelog.intro':
+			'What’s new in AlveoForge — capabilities, rulings and fixes, newest first.',
+		'changelog.back': '← Back to home',
+		'changelog.empty': 'Nothing logged yet.',
+
+		'demos.eyebrow': 'Live demos',
+		'demos.title': 'See it running — on real schemas',
+		'demos.intro':
+			'Total transparency. Every demo is a real generated backend, running live — try the API, then inspect the exact test and coverage artifacts behind it. Nothing staged.',
+		'demos.inspect':
+			'On each demo you can inspect: live Swagger, test reports, JaCoCo coverage, the raw test artifacts, and the Allure dashboard.',
+		'demos.note':
+			'Live demos run as a modular monolith — one deployable you explore end to end. The same schema also generates a microservices layout; you see that in the walkthrough.',
+		'demos.private':
+			'These are our public demos, on open schemas. Client demos run on private, access-controlled subdomains — each shared only with that client, and their schema stays confidential.',
+		'demos.live': 'Live',
+		'demos.soon': 'Coming soon',
+		'demos.tables': 'tables',
+		'demos.swagger': 'Try the API (Swagger)',
+		'demos.video': 'Watch the run',
+		'demos.sql': 'Schema (.sql)',
+		'demos.reports': 'Test reports',
+		'demos.coverage': 'Coverage (JaCoCo)',
+		'demos.allure': 'Allure dashboard',
+		'demos.raw': 'Raw test artifacts',
+		'demos.compose': 'How it runs',
+		'demos.backHome': '← Back to home',
+
 		'footer.rights': 'AlveoForge. All rights reserved.',
 		'footer.privacy':
 			'Cookieless analytics. Your schema and data model are treated as confidential.',
 		'footer.youtube': 'YouTube channel',
 		'footer.onepager': 'One-pager',
+		'footer.blog': 'Blog',
+		'footer.changelog': 'Changelog',
+		'footer.rss': 'RSS',
+		'footer.linkedin': 'LinkedIn',
+		'footer.demos': 'Demos',
+		'footer.colProduct': 'Product',
+		'footer.colResources': 'Resources',
+		'footer.colLegal': 'Legal',
+		'footer.colContact': 'Contact',
 		'theme.label': 'Choose theme',
 		'theme.light': 'Light',
 		'theme.dark': 'Dark',
@@ -326,15 +465,18 @@ export const ui = {
 		'nav.why': 'Por qué',
 		'nav.how': 'Cómo funciona',
 		'nav.numbers': 'Números',
+		'nav.hood': 'Bajo el capó',
 		'nav.get': 'Qué recibes',
 		'nav.roadmap': 'Roadmap',
 		'nav.faq': 'FAQ',
 		'nav.about': 'Autor',
+		'nav.blog': 'Blog',
+		'nav.demos': 'Demos',
 		'nav.cta': 'Agenda una llamada',
 
 		'hero.stamp.l1': 'Provisional',
 		'hero.stamp.l2': 'hasta el lanzamiento oficial',
-		'hero.stamp.l3': 'Jul – Ago 2026',
+		'hero.stamp.l3': 'Ago – Sep 2026',
 
 		'hero.badge': 'Validado en un schema real de 300+ tablas',
 		'hero.h1': 'Backends Java listos para producción, generados desde tu schema SQL.',
@@ -424,6 +566,43 @@ export const ui = {
 		],
 		'numbers.note': 'Validado en un schema real de 300+ tablas.',
 
+		'hood.eyebrow': 'Bajo el capó',
+		'hood.title': 'No es un scaffold — un backend que funciona de verdad',
+		'hood.intro':
+			'La mayoría de herramientas generan cascarones vacíos: carpetas hexagonales, CRUD de pega, sin comportamiento real ni tests. Esto es lo que AlveoForge genera de verdad — y verifica — para cada entidad.',
+		'hood.items': [
+			{
+				id: 'migrations',
+				t: 'Dos motores de migración — y tu base de datos adoptada',
+				d: 'Flyway o Liquibase con paridad total — o lo apuntas a tu base de datos de producción existente y se adapta (brownfield). Tu DDL es la fuente única de verdad: sin deriva de esquema.',
+			},
+			{
+				id: 'bulk',
+				t: 'Single y bulk, en todo',
+				d: 'Cada entidad trae operaciones individuales y en lote — create-many, by-ids, updates masivos — cada una validada y tested. No un CRUD ingenuo de una fila.',
+			},
+			{
+				id: 'expand',
+				t: 'Expand de relaciones al leer',
+				d: 'Los GET hidratan entidades relacionadas a demanda, entre vertical slices — sin N+1 ni exponer un grafo JPA entre tus capas.',
+			},
+			{
+				id: 'contract',
+				t: 'El contrato HTTP completo, testeado',
+				d: 'Cada endpoint se prueba en éxito y en fallo — no solo el camino feliz. En las 3 capas + e2e, asertando métodos, líneas y ramas.',
+			},
+			{
+				id: 'auth',
+				t: 'Identidad, auth y tokens bien hechos',
+				d: 'Entidad de login real, hash de contraseña en el borde de persistencia, JWT (en proceso o HTTP entre servicios), refresh tokens inline o en tabla dedicada.',
+			},
+			{
+				id: 'rulings',
+				t: 'Decisiones, no atajos',
+				d: 'FK escalares (sin grafo ORM filtrándose entre capas), N-N como entidades join-table de primera clase, soft-delete desde columnas de auditoría, claves compuestas / naturales / identity — los rulings de arquitectura que separan «compila» de «es correcto».',
+			},
+		],
+
 		'get.eyebrow': 'Alcance',
 		'get.title': 'Qué recibes — y qué no',
 		'get.inH': 'Incluye',
@@ -431,11 +610,13 @@ export const ui = {
 		'get.in': [
 			'Backend completo y ejecutable en un repositorio privado',
 			'Arquitectura hexagonal real + vertical slicing',
-			'Suite de tests en las 3 capas + e2e (95–100%)',
+			'CRUD completo, operaciones individuales y en lote, y expand de relaciones al leer (?expand=)',
+			'Cobertura completa de tipos SQL — arrays, enums, JSONB, UUID, timestamptz, precisión numérica, binario (bytea), claves compuestas y foráneas, herencia y particiones',
+			'PostgreSQL · MongoDB · caché Redis · outbox transaccional',
+			'Migraciones de BD (Flyway o Liquibase) + adopción brownfield de tu base de datos existente',
+			'Auth JWT, refresh tokens y verificación por email + perfiles dev / pre / prod',
+			'Suite de tests en las 3 capas + e2e — caminos de éxito y error (95–100%)',
 			'Monolito o microservicios — a tu elección, sin lock-in',
-			'PostgreSQL · MongoDB · Redis, patrón outbox',
-			'Cobertura completa de tipos SQL estándar — arrays, enums, JSONB, UUID, timestamptz, precisión numérica, claves compuestas y foráneas',
-			'Autenticación JWT + perfiles dev / pre / prod',
 			'Código 100% tuyo + 30 días de soporte post-entrega',
 		],
 		'get.out': [
@@ -448,20 +629,50 @@ export const ui = {
 			'A medida que tu proyecto crece, cada feature se genera como un vertical slice independiente, que se añade junto a tu código sin tocar lo que tu equipo ya construyó. Hexagonal aísla el dominio de la base de datos, el framework y el delivery; el vertical slicing mantiene cada feature cohesionada — lo que cambia junto, vive junto. Eso es lo que permite que el backend escale en orden y siga siendo rápido de tocar, en vez de degenerar en el acoplamiento enmarañado que congela equipos años después.',
 
 		'roadmap.eyebrow': 'Roadmap',
-		'roadmap.title': 'Hacia dónde va',
-		'roadmap.items': [
+		'roadmap.title': 'Lo entregado, y lo que viene',
+		'roadmap.groups': [
 			{
-				t: 'Más lenguajes y frameworks',
-				d: 'NestJS y Python (hexagonal) a continuación — y más targets después, más allá de Java + Spring Boot.',
+				label: 'Entregado',
+				tone: 'done',
+				items: [
+					{ t: 'Arquitectura hexagonal real + vertical slicing', d: '' },
+					{ t: 'Generación determinista — mismo schema, mismo output', d: '' },
+					{ t: 'Monolito o microservicios desde el mismo schema', d: '' },
+					{ t: 'Cobertura completa de tipos SQL estándar', d: '' },
+					{ t: 'PKs compuestas, naturales y autogeneradas · N-N como recurso de primera clase', d: '' },
+					{ t: 'Herencia y particiones declarativas de PostgreSQL', d: '' },
+					{ t: 'Multi-store: PostgreSQL · MongoDB · caché Redis · outbox', d: '' },
+					{ t: 'Migraciones (Flyway / Liquibase) + adopción brownfield', d: '' },
+					{ t: 'CRUD completo + operaciones en lote', d: '' },
+					{ t: 'Expand de relaciones al leer (?expand=)', d: '' },
+					{ t: 'Auth JWT, refresh tokens y verificación por email', d: '' },
+					{ t: 'Seeding de reference-data y defaults obligatorios', d: '' },
+					{ t: 'Tests en 3 capas + e2e — éxito y error · 95–100% cobertura', d: '' },
+					{ t: 'Validado en schemas de 300+ tablas', d: '' },
+					{ t: 'Escala a GitLab 1.000+ tablas', d: 'estresando el pipeline en schemas muy grandes' },
+				],
 			},
-			{ t: 'Más arquitecturas', d: 'Nuevos targets de generación sobre el mismo core.' },
 			{
-				t: 'Plataforma self-service',
-				d: 'Subir schema → preview → pago → repo, sin llamada.',
+				label: 'En marcha',
+				tone: 'now',
+				items: [
+					{ t: 'Salida al mercado', d: 'preparando AlveoForge para el lanzamiento público — web, demos y primeros clientes fundadores' },
+				],
+			},
+			{
+				label: 'Largo plazo',
+				tone: 'next',
+				items: [
+					{ t: 'Plataforma self-service', d: 'subir schema → preview → repo, sin llamada' },
+					{ t: 'Más lenguajes y frameworks', d: 'NestJS, Python y C# (hexagonal), más allá de Java — y cualquier lenguaje a petición del cliente' },
+					{ t: 'API reactiva opcional', d: 'Mono/Flux, opt-in para streaming / alto I/O' },
+					{ t: 'Capa de lectura GraphQL / BFF', d: 'alternativa al expand REST para grafos complejos' },
+					{ t: 'Expand de árboles jerárquicos', d: 'árboles padre/hijo (auto-referencias) expandidos en lectura' },
+				],
 			},
 		],
 		'roadmap.note':
-			'En el roadmap — aún no disponible. Disponible hoy: el servicio guiado Java / Spring Boot.',
+			'Lo «Entregado» está disponible hoy en el servicio guiado Java / Spring Boot. «En marcha» y «Largo plazo» están en el roadmap — aún no disponibles.',
 
 		'founder.eyebrow': 'Sobre el autor',
 		'founder.title': 'Hecho por alguien que vivió el problema',
@@ -493,7 +704,7 @@ export const ui = {
 					},
 					{
 						q: '¿Recibo el sistema de generación?',
-						a: 'No — la fábrica sigue siendo propietaria. Recibes el output: código profesional y tested, 100% tuyo, que puedes mantener sin nosotros.',
+						a: 'No — la fábrica sigue siendo propietaria. Recibes el output: código profesional y tested, 100% tuyo, que puedes mantener sin AlveoForge.',
 					},
 					{
 						q: '¿Cómo se fija el precio?',
@@ -513,8 +724,24 @@ export const ui = {
 						a: 'Métodos, líneas y ramas — cada camino se ejecuta y se asertan resultados, no solo se recorre. Mutation testing a petición.',
 					},
 					{
+						q: '¿Los tests cubren los caminos de error o solo el camino feliz?',
+						a: 'Ambos. Cada endpoint se prueba en éxito y en fallo — 400 validación, 401 auth, 404, 415 — no solo el 200. En las 3 capas más e2e, asertando métodos, líneas y ramas. Los tests vacíos de solo-camino-feliz son justo lo que no entregamos.',
+					},
+					{
+						q: '¿Qué operaciones tiene cada entidad?',
+						a: 'CRUD completo más lote: create, read (individual, paginado, by-ids), update, delete, create-many y updates masivos — con expand de relaciones al leer (?expand=…) entre slices, sin N+1 ni exponer un grafo JPA entre capas.',
+					},
+					{
+						q: '¿Cómo encaja con nuestra base de datos y migraciones actuales?',
+						a: 'Tu DDL es la fuente única de verdad, emitido como migración versionada. Eliges Flyway o Liquibase — ambos cableados con paridad — o lo apuntas a una base de datos de producción existente y se adapta (brownfield) sin reconstruir tu esquema. Hibernate corre en modo validate, así que las entidades se validan contra el esquema real al arrancar.',
+					},
+					{
 						q: '¿Puede mi equipo mantener código que no escribió?',
-						a: 'Sí — un patrón repetido de forma consistente, código estándar y legible que cualquier dev Java extiende desde el día uno, más 30 días de soporte. Y es tuyo: sin dependencia de nosotros.',
+						a: 'Sí — un patrón repetido de forma consistente, código estándar y legible que cualquier dev Java extiende desde el día uno, más 30 días de soporte. Y es tuyo: sin dependencia de AlveoForge.',
+					},
+					{
+						q: '¿Necesito un IDE o herramienta de build concreta?',
+						a: 'No. La salida es un proyecto Maven estándar — ábrelo en cualquier IDE (IntelliJ, VS Code, Eclipse, NetBeans…) o en ninguno. Compila, testea y ejecútalo directamente desde la terminal con el wrapper de Maven (./mvnw). Sin ataduras a editor, plugin ni proveedor.',
 					},
 					{
 						q: '¿Cuál es el stack?',
@@ -522,7 +749,7 @@ export const ui = {
 					},
 					{
 						q: '¿Qué tipos SQL soportáis?',
-						a: 'La gama estándar completa de PostgreSQL — arrays, enums, JSONB, UUID, timestamptz, precisión numérica, claves compuestas y foráneas, y más. Y la generación nunca falla ante un tipo que no reconozca: cae a un valor seguro por defecto (string) que tu equipo puede afinar después, así que siempre obtienes un backend arrancando. Señalamos cualquier columna así juntos en el kick-off — sin sorpresas. Por eso el proceso es guiado.',
+						a: 'La gama estándar completa de PostgreSQL — arrays, enums, JSONB, UUID, la familia de fecha/hora (date, time, timestamptz), precisión numérica y decimal, binario (bytea), validación de longitud varchar/char, claves compuestas y foráneas — más herencia de tablas y particiones declarativas. Y la generación nunca falla ante un tipo que no reconozca: cae a un valor seguro por defecto (string) que tu equipo puede afinar después, así que siempre obtienes un backend arrancando. Señalamos cualquier columna así juntos en el kick-off — sin sorpresas. Por eso el proceso es guiado.',
 					},
 				],
 			},
@@ -580,11 +807,62 @@ export const ui = {
 		'cta.pricing':
 			'Precio por proyecto, escala con el tamaño y complejidad del schema. Agenda una llamada para presupuesto.',
 
+		'blog.eyebrow': 'Blog',
+		'blog.title': 'Notas de AlveoForge',
+		'blog.intro':
+			'Análisis a fondo sobre arquitectura, determinismo y lo que hace falta para generar un backend que de verdad puedas mantener.',
+		'blog.readMore': 'Leer más',
+		'blog.back': '← Todas las entradas',
+		'blog.backHome': '← Volver al inicio',
+		'blog.published': 'Publicado',
+		'blog.updated': 'Actualizado',
+		'blog.empty': 'Aún no hay entradas — las primeras están en camino.',
+		'blog.min': 'min de lectura',
+
+		'changelog.eyebrow': 'Changelog',
+		'changelog.title': 'Changelog del producto',
+		'changelog.intro':
+			'Novedades de AlveoForge — capacidades, rulings y fixes, lo más nuevo primero.',
+		'changelog.back': '← Volver al inicio',
+		'changelog.empty': 'Nada registrado todavía.',
+
+		'demos.eyebrow': 'Demos en vivo',
+		'demos.title': 'Míralo funcionando — sobre schemas reales',
+		'demos.intro':
+			'Transparencia total. Cada demo es un backend generado real, funcionando en vivo — prueba la API e inspecciona los artefactos exactos de tests y cobertura que hay detrás. Nada montado.',
+		'demos.inspect':
+			'En cada demo puedes inspeccionar: Swagger en vivo, informes de tests, cobertura JaCoCo, los ficheros crudos de tests y el dashboard de Allure.',
+		'demos.note':
+			'Las demos en vivo corren como monolito modular — un solo desplegable que exploras de punta a punta. El mismo schema también genera un layout de microservicios; lo ves en el walkthrough.',
+		'demos.private':
+			'Estas son nuestras demos públicas, sobre schemas abiertos. Las demos de cliente corren en subdominios privados con control de acceso — cada una compartida solo con ese cliente, y su schema se mantiene confidencial.',
+		'demos.live': 'En vivo',
+		'demos.soon': 'Próximamente',
+		'demos.tables': 'tablas',
+		'demos.swagger': 'Probar la API (Swagger)',
+		'demos.video': 'Ver el run',
+		'demos.sql': 'Schema (.sql)',
+		'demos.reports': 'Informes de tests',
+		'demos.coverage': 'Cobertura (JaCoCo)',
+		'demos.allure': 'Dashboard Allure',
+		'demos.raw': 'Ficheros crudos de tests',
+		'demos.compose': 'Cómo se levanta',
+		'demos.backHome': '← Volver al inicio',
+
 		'footer.rights': 'AlveoForge. Todos los derechos reservados.',
 		'footer.privacy':
 			'Analíticas sin cookies. Tu schema y modelo de datos se tratan como confidenciales.',
 		'footer.youtube': 'Canal de YouTube',
 		'footer.onepager': 'One-pager',
+		'footer.blog': 'Blog',
+		'footer.changelog': 'Changelog',
+		'footer.rss': 'RSS',
+		'footer.linkedin': 'LinkedIn',
+		'footer.demos': 'Demos',
+		'footer.colProduct': 'Producto',
+		'footer.colResources': 'Recursos',
+		'footer.colLegal': 'Legal',
+		'footer.colContact': 'Contacto',
 		'theme.label': 'Elige el tema',
 		'theme.light': 'Claro',
 		'theme.dark': 'Oscuro',

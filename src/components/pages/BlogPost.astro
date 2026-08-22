@@ -1,0 +1,97 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { localePath, useTranslations } from '@/i18n/utils';
+import { formatDate } from '@/lib/content';
+import { LINKEDIN_URL } from '@/consts';
+
+interface Props {
+	entry: CollectionEntry<'blog'>;
+}
+const { entry } = Astro.props;
+// El idioma lo manda la entrada (autoritativo), no la URL: una entrada ES se
+// sirve bajo /es/ y una EN en la raíz — siempre coinciden, pero la fuente de
+// verdad es el frontmatter.
+const lang = entry.data.lang;
+const t = useTranslations(lang);
+const { Content } = await render(entry);
+
+const published = entry.data.date;
+const modified = entry.data.updated ?? entry.data.date;
+const words = (entry.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(1, Math.round(words / 200));
+
+// URLs absolutas para SEO (canonical de la página actual + imagen OG).
+const site = Astro.site;
+const abs = (path: string) => (site ? new URL(path, site).href : path);
+const canonical = abs(Astro.url.pathname);
+
+// JSON-LD BlogPosting: lo que hace que Google y los buscadores con IA citen la
+// entrada. El canonical de esta URL es la fuente; re-publicaciones (DZone…)
+// apuntarán su rel="canonical" aquí.
+const articleJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: entry.data.title,
+	description: entry.data.description,
+	datePublished: published.toISOString(),
+	dateModified: modified.toISOString(),
+	inLanguage: lang,
+	url: canonical,
+	mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+	author: { '@type': 'Person', name: 'Álvaro Guillén González', url: LINKEDIN_URL },
+	publisher: {
+		'@type': 'Organization',
+		name: 'AlveoForge',
+		url: site ? site.href : undefined,
+		logo: { '@type': 'ImageObject', url: abs('/favicon.svg') },
+	},
+	image: abs(entry.data.ogImage ?? '/og.png'),
+	keywords: entry.data.tags.join(', '),
+};
+---
+
+<Layout
+	title={`${entry.data.title} — AlveoForge`}
+	description={entry.data.description}
+	lang={lang}
+	ogType="article"
+	ogTitle={entry.data.title}
+	ogDescription={entry.data.description}
+	articleJsonLd={articleJsonLd}
+>
+	<main class="max-w-2xl mx-auto px-4 pt-32 pb-28 md:pt-40">
+		<a
+			href={localePath(lang, '/blog/')}
+			class="text-sm font-semibold text-ember dark:text-ember-hot hover:underline"
+		>
+			{t('blog.back')}
+		</a>
+
+		<article class="mt-6">
+			<header>
+				<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs af-muted font-mono">
+					<time datetime={published.toISOString()}>{t('blog.published')} {formatDate(published, lang)}</time>
+					<span aria-hidden="true">·</span>
+					<span>{minutes} {t('blog.min')}</span>
+					{entry.data.tags.slice(0, 4).map((tag) => (
+						<span class="text-ember/80 dark:text-ember-hot/80">#{tag}</span>
+					))}
+				</div>
+				<h1 class="mt-3 text-3xl md:text-4xl font-bold tracking-tight leading-tight">{entry.data.title}</h1>
+				<p class="mt-4 text-lg af-muted">{entry.data.description}</p>
+			</header>
+
+			<div class="af-prose mt-8">
+				<Content />
+			</div>
+		</article>
+
+		<a
+			href={localePath(lang, '/blog/')}
+			class="inline-block mt-12 text-sm font-semibold text-ember dark:text-ember-hot hover:underline"
+		>
+			{t('blog.back')}
+		</a>
+	</main>
+</Layout>

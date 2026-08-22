@@ -1,26 +1,102 @@
 ---
 import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
+import { CONTACT_EMAIL, ONEPAGER_URL, YOUTUBE_URL, LINKEDIN_URL } from '@/consts';
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-import { CONTACT_EMAIL, ONEPAGER_URL, YOUTUBE_URL } from '@/consts';
+const base = localePath(lang, '/');
+const rssHref = lang === 'en' ? '/rss.xml' : `/${lang}/rss.xml`;
 const currentYear = new Date().getFullYear();
+
+type FooterLink = { title: string; href: string; external?: boolean };
+
+// Columnas = mapa del sitio. Criterio (estándar pro): arriba en la nav van los
+// DESTINOS que se promocionan (secciones + Blog); aquí abajo, secciones como
+// sitemap + recursos + legal + contacto.
+const columns: { heading: string; links: FooterLink[] }[] = [
+	{
+		// Mismo orden que la home / nav: video → problem → why → how → numbers → hood → get → roadmap → about → faq.
+		heading: t('footer.colProduct'),
+		links: [
+			{ title: t('video.eyebrow'), href: `${base}#video` },
+			{ title: t('problem.eyebrow'), href: `${base}#problem` },
+			{ title: t('nav.why'), href: `${base}#why` },
+			{ title: t('nav.how'), href: `${base}#how` },
+			{ title: t('nav.numbers'), href: `${base}#numbers` },
+			{ title: t('nav.hood'), href: `${base}#hood` },
+			{ title: t('nav.get'), href: `${base}#get` },
+			{ title: t('nav.roadmap'), href: `${base}#roadmap` },
+			{ title: t('nav.about'), href: `${base}#about` },
+			{ title: t('nav.faq'), href: `${base}#faq` },
+		],
+	},
+	{
+		heading: t('footer.colResources'),
+		links: [
+			{ title: t('footer.demos'), href: localePath(lang, '/demos/') },
+			{ title: t('footer.blog'), href: localePath(lang, '/blog/') },
+			{ title: t('footer.changelog'), href: localePath(lang, '/changelog/') },
+			{ title: t('footer.onepager'), href: ONEPAGER_URL, external: true },
+			{ title: t('footer.rss'), href: rssHref },
+		],
+	},
+	{
+		heading: t('footer.colLegal'),
+		links: [{ title: t('footer.privacyLink'), href: localePath(lang, '/privacy/') }],
+	},
+	{
+		heading: t('footer.colContact'),
+		links: [
+			{ title: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+			{ title: t('footer.linkedin'), href: LINKEDIN_URL, external: true },
+			{ title: t('footer.youtube'), href: YOUTUBE_URL, external: true },
+		],
+	},
+];
+
+const linkClass =
+	'text-sm text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition';
 ---
 
-<footer class="w-full max-w-4xl mx-auto px-4 py-10 mt-4">
-	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-		<div class="flex items-center gap-2.5">
-			<svg viewBox="0 0 60 69" class="w-5 h-6" aria-hidden="true">
-				<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round" />
-				<path d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z" class="fill-steel dark:fill-steel-light" />
-			</svg>
-			<span class="text-sm text-ink-soft dark:text-[#9aa5b4]">© {currentYear} {t('footer.rights')}</span>
+<footer class="w-full max-w-5xl mx-auto px-4 py-12 mt-4">
+	<!-- Móvil: marca full-width + columnas en rejilla de 2 (no un churro).
+	     md: marca arriba + 4 columnas en fila.  lg: marca + 4 columnas en una sola fila. -->
+	<div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+		<div class="col-span-2 md:col-span-4 lg:col-span-1">
+			<div class="flex items-center gap-2.5">
+				<svg viewBox="0 0 60 69" class="w-5 h-6" aria-hidden="true">
+					<path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" class="stroke-ember dark:stroke-ember-hot" stroke-width="5" stroke-linejoin="round" />
+					<path d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z" class="fill-steel dark:fill-steel-light" />
+				</svg>
+				<span class="font-semibold">AlveoForge</span>
+			</div>
+			<p class="mt-3 text-sm af-muted max-w-[24ch]">{t('hero.tagline')}</p>
 		</div>
-		<div class="flex flex-wrap items-center gap-x-5 gap-y-2">
-			<a href={ONEPAGER_URL} target="_blank" rel="noopener" class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.onepager')}</a>
-			<a href={localePath(lang, '/privacy/')} class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.privacyLink')}</a>
-			<a href={YOUTUBE_URL} target="_blank" rel="noopener" class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition">{t('footer.youtube')}</a>
-			<a href={`mailto:${CONTACT_EMAIL}`} class="text-sm font-medium text-ember dark:text-ember-hot hover:underline">{CONTACT_EMAIL}</a>
-		</div>
+
+		{
+			columns.map((col) => (
+				<nav aria-label={col.heading}>
+					<h3 class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint mb-3">{col.heading}</h3>
+					<ul class="space-y-2">
+						{col.links.map((l) => (
+							<li>
+								<a
+									href={l.href}
+									class={linkClass}
+									{...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+								>
+									{l.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			))
+		}
 	</div>
-	<p class="mt-4 text-xs text-ink-faint max-w-2xl">{t('footer.privacy')}</p>
+
+	<div class="mt-10 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+		<span class="text-xs text-ink-soft dark:text-[#9aa5b4]">© {currentYear} {t('footer.rights')}</span>
+		<p class="text-xs text-ink-faint max-w-2xl">{t('footer.privacy')}</p>
+	</div>
 </footer>

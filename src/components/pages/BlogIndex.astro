@@ -1,0 +1,78 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
+import { blogPosts, formatDate } from '@/lib/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const posts = await blogPosts(lang);
+
+// JSON-LD Blog: agrupa las entradas para buscadores / IA.
+const site = Astro.site;
+const blogJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Blog',
+	name: `AlveoForge — ${t('blog.title')}`,
+	description: t('blog.intro'),
+	url: site ? new URL(Astro.url.pathname, site).href : Astro.url.pathname,
+	inLanguage: lang,
+	blogPost: posts.map((p) => ({
+		'@type': 'BlogPosting',
+		headline: p.data.title,
+		description: p.data.description,
+		datePublished: p.data.date.toISOString(),
+		url: site ? new URL(localePath(lang, `/blog/${p.data.urlSlug}/`), site).href : undefined,
+	})),
+};
+---
+
+<Layout
+	title={`${t('blog.title')} — AlveoForge`}
+	description={t('blog.intro')}
+	lang={lang}
+	faqJsonLd={blogJsonLd}
+>
+	<main class="max-w-3xl mx-auto px-4 pt-32 pb-28 md:pt-40">
+		<p class="font-mono text-xs uppercase tracking-[0.13em] text-ember dark:text-ember-hot mb-3">{t('blog.eyebrow')}</p>
+		<h1 class="text-3xl md:text-4xl font-bold tracking-tight">{t('blog.title')}</h1>
+		<p class="mt-4 af-muted max-w-2xl">{t('blog.intro')}</p>
+
+		{
+			posts.length === 0 ? (
+				<p class="mt-12 af-muted">{t('blog.empty')}</p>
+			) : (
+				<ul class="mt-10 space-y-4">
+					{posts.map((post) => (
+						<li>
+							<a
+								href={localePath(lang, `/blog/${post.data.urlSlug}/`)}
+								class="af-card block p-5 transition hover:border-ember/40 group"
+							>
+								<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs af-muted font-mono">
+									<time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, lang)}</time>
+									{post.data.tags.slice(0, 3).map((tag) => (
+										<span class="text-ember/80 dark:text-ember-hot/80">#{tag}</span>
+									))}
+								</div>
+								<h2 class="mt-2 text-lg font-semibold transition group-hover:text-ember dark:group-hover:text-ember-hot">
+									{post.data.title}
+								</h2>
+								<p class="mt-1.5 text-sm af-muted">{post.data.description}</p>
+								<span class="mt-3 inline-block text-sm font-semibold text-ember dark:text-ember-hot">
+									{t('blog.readMore')} →
+								</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+
+		<a
+			href={localePath(lang, '/')}
+			class="inline-block mt-10 text-sm font-semibold text-ember dark:text-ember-hot hover:underline"
+		>
+			{t('blog.backHome')}
+		</a>
+	</main>
+</Layout>

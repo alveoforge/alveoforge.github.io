@@ -1,0 +1,96 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
+import { demos, type Demo } from '@/data/demos';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Orden y etiqueta de cada enlace por demo. Swagger es el CTA (primary).
+type DemoLinkKey = 'swagger' | 'video' | 'sql' | 'allure' | 'coverage' | 'reports' | 'raw' | 'compose';
+const linkTypes: { key: DemoLinkKey; label: string; primary?: boolean }[] = [
+	{ key: 'swagger', label: t('demos.swagger'), primary: true },
+	{ key: 'video', label: t('demos.video') },
+	{ key: 'sql', label: t('demos.sql') },
+	{ key: 'allure', label: t('demos.allure') },
+	{ key: 'coverage', label: t('demos.coverage') },
+	{ key: 'reports', label: t('demos.reports') },
+	{ key: 'raw', label: t('demos.raw') },
+	{ key: 'compose', label: t('demos.compose') },
+];
+
+const chipBase =
+	'inline-flex items-center rounded-lg border px-3 py-1.5 text-xs font-medium transition';
+const chipEnabled = 'border-black/10 dark:border-white/10 text-ink-soft dark:text-[#9aa5b4] hover:border-ember hover:text-ember dark:hover:text-ember-hot';
+const chipPrimary = 'border-transparent bg-ember text-white hover:brightness-110';
+const chipDisabled = 'border-dashed border-black/10 dark:border-white/10 text-ink-faint opacity-70 cursor-not-allowed';
+---
+
+<Layout title={`${t('demos.title')} — AlveoForge`} description={t('demos.intro')} lang={lang}>
+	<main class="max-w-4xl mx-auto px-4 pt-32 pb-28 md:pt-40">
+		<p class="font-mono text-xs uppercase tracking-[0.13em] text-ember dark:text-ember-hot mb-3">{t('demos.eyebrow')}</p>
+		<h1 class="text-3xl md:text-4xl font-bold tracking-tight">{t('demos.title')}</h1>
+		<p class="mt-4 af-muted max-w-2xl">{t('demos.intro')}</p>
+		<p class="mt-2 text-sm af-muted max-w-2xl">{t('demos.inspect')}</p>
+		<p class="mt-2 text-sm af-muted max-w-2xl">{t('demos.note')}</p>
+
+		<div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+			{
+				demos.map((demo: Demo) => {
+					const isLive = demo.status === 'live';
+					return (
+						<article class={`af-card p-6 flex flex-col gap-4 ${demo.featured ? 'border-ember/40' : ''}`}>
+							<header class="flex items-center gap-3 flex-wrap">
+								<h2 class="text-lg font-semibold">{demo.name}</h2>
+								{demo.tables && (
+									<span class="font-mono text-xs af-muted">{demo.tables} {t('demos.tables')}</span>
+								)}
+								<span
+									class={`ml-auto inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${
+										isLive
+											? 'border-[#2f8f5b]/30 bg-[#2f8f5b]/10 text-[#2f8f5b]'
+											: 'border-[#c98a1e]/30 bg-[#c98a1e]/10 text-[#c98a1e]'
+									}`}
+								>
+									<span class={`inline-block w-1.5 h-1.5 rounded-full ${isLive ? 'bg-[#2f8f5b]' : 'bg-[#c98a1e]'}`} />
+									{isLive ? t('demos.live') : t('demos.soon')}
+								</span>
+							</header>
+
+							<p class="text-sm af-muted">{demo.desc[lang]}</p>
+
+							<div class="flex flex-wrap gap-2 mt-auto">
+								{linkTypes.map((lt) => {
+									const url = demo[lt.key] as string | undefined;
+									return url ? (
+										<a
+											class={`${chipBase} ${lt.primary ? chipPrimary : chipEnabled}`}
+											href={url}
+											target="_blank"
+											rel="noopener"
+										>
+											{lt.label}
+										</a>
+									) : (
+										<span class={`${chipBase} ${chipDisabled}`} aria-disabled="true" title={t('demos.soon')}>
+											{lt.label}
+										</span>
+									);
+								})}
+							</div>
+						</article>
+					);
+				})
+			}
+		</div>
+
+		<p class="mt-8 text-sm af-muted border-l-2 border-ember pl-4 max-w-2xl">{t('demos.private')}</p>
+
+		<a
+			href={localePath(lang, '/')}
+			class="inline-block mt-10 text-sm font-semibold text-ember dark:text-ember-hot hover:underline"
+		>
+			{t('demos.backHome')}
+		</a>
+	</main>
+</Layout>

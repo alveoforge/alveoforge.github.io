@@ -1,0 +1,11 @@
+---
+// Demos en vivo en los idiomas con prefijo: '/es/demos/'.
+import DemosPage from '@/components/pages/DemosPage.astro';
+import { prefixedLocales } from '@/i18n/utils';
+
+export function getStaticPaths() {
+	return prefixedLocales.map((lang) => ({ params: { lang } }));
+}
+---
+
+<DemosPage />

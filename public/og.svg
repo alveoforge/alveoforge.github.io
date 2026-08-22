@@ -9,23 +9,23 @@
   <rect width="1200" height="630" fill="url(#glow)"/>
 
   <!-- logo -->
-  <g transform="translate(96,232) scale(2.4)">
+  <g transform="translate(168,160) scale(2.4)">
     <path d="M30 3 L57 18.5 L57 50.5 L30 66 L3 50.5 L3 18.5 Z" fill="none" stroke="#f0803e" stroke-width="5" stroke-linejoin="round"/>
     <path d="M15 22 L45 22 L47 26 L47 30 L36 30 L36 40 L39 40 L39 42.5 L44 42.5 L44 48 L16 48 L16 42.5 L21 42.5 L21 40 L24 40 L24 30 L13 30 L13 26 Z" fill="#7fa3c4"/>
   </g>
 
   <!-- wordmark -->
-  <text x="290" y="250" font-family="Helvetica, Arial, sans-serif" font-size="66" font-weight="800" letter-spacing="-1">
+  <text x="362" y="178" font-family="Helvetica, Arial, sans-serif" font-size="66" font-weight="800" letter-spacing="-1">
     <tspan fill="#e9edf3">Alveo</tspan><tspan fill="#f0803e">Forge</tspan>
   </text>
 
   <!-- tagline -->
-  <text x="292" y="322" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="600" fill="#c8d0da">Production-ready Java backends</text>
-  <text x="292" y="372" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="600" fill="#c8d0da">from your SQL schema.</text>
+  <text x="364" y="250" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="600" fill="#c8d0da">Production-ready Java backends</text>
+  <text x="364" y="300" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="600" fill="#c8d0da">from your SQL schema.</text>
 
   <!-- subline -->
-  <text x="294" y="438" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f0803e" letter-spacing="0.5">Hexagonal · 95–100% tested · Hours, not months.</text>
+  <text x="366" y="366" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f0803e" letter-spacing="0.5">Hexagonal · 95–100% tested · Hours, not months.</text>
 
   <!-- bottom stack strip -->
-  <text x="96" y="566" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="500" fill="#69737f" letter-spacing="1">Java 25  ·  Spring Boot 4.1  ·  Vertical slicing  ·  PostgreSQL · MongoDB · Redis</text>
+  <text x="168" y="494" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="500" fill="#69737f" letter-spacing="1">Java 25  ·  Spring Boot 4.1  ·  Vertical slicing  ·  PostgreSQL · MongoDB · Redis</text>
 </svg>

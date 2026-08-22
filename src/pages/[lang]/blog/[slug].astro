@@ -1,0 +1,19 @@
+---
+// Entrada del blog en los idiomas con prefijo: '/es/blog/<slug>/'.
+// Cada post se emite en su propio idioma (frontmatter lang).
+import BlogPost from '@/components/pages/BlogPost.astro';
+import { allPublishedPosts } from '@/lib/content';
+import { defaultLang } from '@/i18n/ui';
+
+export async function getStaticPaths() {
+	const posts = await allPublishedPosts();
+	// Solo idiomas con prefijo (todos menos el por defecto); cada post en su idioma.
+	return posts
+		.filter((p) => p.data.lang !== defaultLang)
+		.map((p) => ({ params: { lang: p.data.lang, slug: p.data.urlSlug }, props: { entry: p } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<BlogPost entry={entry} />

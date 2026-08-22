@@ -16,6 +16,10 @@ interface Props {
 	ogTitle?: string;
 	ogDescription?: string;
 	faqJsonLd?: Record<string, unknown>;
+	/** og:type — 'website' (por defecto) o 'article' para entradas del blog. */
+	ogType?: string;
+	/** JSON-LD extra (p. ej. BlogPosting de una entrada del blog). */
+	articleJsonLd?: Record<string, unknown>;
 	/** Páginas que no deben indexarse (404): sin canonical ni hreflang. */
 	noIndex?: boolean;
 }
@@ -28,6 +32,8 @@ const {
 	ogTitle,
 	ogDescription,
 	faqJsonLd,
+	ogType = 'website',
+	articleJsonLd,
 	noIndex = false,
 } = Astro.props;
 const ogT = ogTitle ?? title;
@@ -81,8 +87,16 @@ const jsonLd = {
 			</>
 		)}
 
-		<!-- Open Graph / social cards -->
-		<meta property="og:type" content="website" />
+		<!-- Feed RSS del blog (descubrimiento) -->
+			<link
+				rel="alternate"
+				type="application/rss+xml"
+				title="AlveoForge — Blog"
+				href={abs(lang === 'en' ? '/rss.xml' : `/${lang}/rss.xml`)}
+			/>
+
+			<!-- Open Graph / social cards -->
+		<meta property="og:type" content={ogType} />
 		<meta property="og:site_name" content="AlveoForge" />
 		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
 		<meta property="og:url" content={canonical} />
@@ -94,8 +108,9 @@ const jsonLd = {
 		<meta name="twitter:description" content={ogD} />
 		<meta name="twitter:image" content={ogImage} />
 
-		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-		{faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+		{faqJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)} />}
+		{articleJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(articleJsonLd)} />}
 
 		<Analytics />
 		<ClientRouter />

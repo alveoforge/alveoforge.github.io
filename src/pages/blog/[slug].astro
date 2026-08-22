@@ -1,0 +1,16 @@
+---
+// Entrada del blog en el idioma por defecto (en): '/blog/<slug>/'.
+import BlogPost from '@/components/pages/BlogPost.astro';
+import { allPublishedPosts } from '@/lib/content';
+
+export async function getStaticPaths() {
+	const posts = await allPublishedPosts();
+	return posts
+		.filter((p) => p.data.lang === 'en')
+		.map((p) => ({ params: { slug: p.data.urlSlug }, props: { entry: p } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<BlogPost entry={entry} />

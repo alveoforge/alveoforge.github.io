@@ -1,19 +1,45 @@
 ---
 import { getLangFromUrl, useTranslations } from '@/i18n/utils';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
+
 const t = useTranslations(getLangFromUrl(Astro.url));
-const roadmap = t('roadmap.items');
+const groups = t('roadmap.groups');
+
+// Estilo por estado: entregado (verde ✓), en marcha (ember ▸), próximo (steel ○).
+const tones = {
+	done: { label: 'text-[#2f8f5b]', dot: 'bg-[#2f8f5b]', mark: '✓' },
+	now: { label: 'text-ember dark:text-ember-hot', dot: 'bg-ember dark:bg-ember-hot', mark: '▸' },
+	next: { label: 'text-ink-faint', dot: 'bg-ink-faint', mark: '○' },
+} as const;
 ---
 
-<section id="roadmap" class="max-w-4xl mx-auto px-4 py-20 md:py-28">
+<section id="roadmap" class="max-w-5xl mx-auto px-4 py-20 md:py-28">
 	<SectionHeading eyebrow={t('roadmap.eyebrow')} title={t('roadmap.title')} />
-	<div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
-		{roadmap.map((r) => (
-			<div class="af-card p-5">
-				<h3 class="font-semibold">{r.t}</h3>
-				<p class="mt-2 text-sm af-muted">{r.d}</p>
-			</div>
-		))}
+	<div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+		{
+			groups.map((g) => {
+				const s = tones[g.tone as keyof typeof tones] ?? tones.next;
+				return (
+					<div class="af-card p-5">
+						<div class="flex items-center gap-2 mb-4">
+							<span class={`inline-block w-2 h-2 rounded-full ${s.dot}`} aria-hidden="true" />
+							<h3 class={`font-mono text-[11px] uppercase tracking-[0.13em] ${s.label}`}>{g.label}</h3>
+						</div>
+						<ul class="space-y-2.5">
+							{g.items.map((it) => (
+								<li class="flex gap-2.5 text-sm">
+									<span class={`${s.label} font-bold select-none leading-5`} aria-hidden="true">{s.mark}</span>
+									<span>
+										<span class="font-medium">{it.t}</span>
+										{it.d && <span class="af-muted"> — {it.d}</span>}
+									</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				);
+			})
+		}
 	</div>
 	<p class="mt-6 text-sm font-mono af-muted">{t('roadmap.note')}</p>
 </section>

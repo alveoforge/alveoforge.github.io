@@ -208,7 +208,7 @@
     /* Solo cajas pequeñas — no bloques enteros (eso empujaba el footer a pág. 2) */
     .col, .tri .box { break-inside: avoid; page-break-inside: avoid; }
 
-    .tagline { font-size: 23px; margin-top: 11px; }
+    .tagline { font-size: 23px; margin-top: 8px; }
     .sub { font-size: 12.5px; line-height: 1.45; max-width: none; }
     .stack { margin-top: 10px; }
     hr.rule { margin: 12px 0 11px; }
@@ -219,9 +219,9 @@
     .tri ul { gap: 5px; }
     .tri .box p { font-size: 10px; line-height: 1.42; }
     .tri .box p + p { margin-top: 7px; }
-    .band { margin-top: 13px; }
-    .depth { margin-top: 11px; }
-    .depth + .depth { margin-top: 13px; }
+    .band { margin-top: 10px; }
+    .depth { margin-top: 10px; }
+    .depth + .depth { margin-top: 10px; }
     .depth > h4 { margin-bottom: 9px; }
     .tri li { font-size: 10px; }
     .tri .box { padding: 9px 10px; }
@@ -256,7 +256,7 @@
       <div class="stamp">
         <div class="l1">Provisional</div>
         <div class="l2">until official launch</div>
-        <div class="l3">Jul – Aug 2026</div>
+        <div class="l3">Aug – Sep 2026</div>
       </div>
     </div>
 
@@ -345,17 +345,17 @@
             <li>Table <b>inheritance</b> (INHERITS / JOINED)</li>
             <li>Relations <b>1-n · n-n · 1-1</b> · join tables</li>
             <li>Multi-schema tables · identical names across schemas resolved</li>
-            <li>Paginated lists · nested reads · bulk operations</li>
+            <li>Paginated lists · relation expansion (?expand) · single &amp; bulk</li>
           </ul>
         </div>
         <div class="box">
           <h5>Architecture &amp; stores</h5>
           <ul>
             <li><b>Hexagonal</b> — domain isolated from database &amp; HTTP</li>
-            <li><b>Vertical slicing</b> — one slice per entity; without it, hexagonal packages bleed together</li>
-            <li>Each slice: domain · application · infrastructure — self-contained</li>
+            <li><b>Vertical slicing</b> — one self-contained slice per entity (domain · application · infrastructure)</li>
             <li>Vertical-sliced <b>monolith</b> or <b>microservices</b> — same schema</li>
             <li>SQL + optional Mongo · Redis <b>cache</b> · transactional outbox</li>
+            <li><b>Flyway or Liquibase</b> (parity) · adopts your existing DB · DDL = source of truth</li>
           </ul>
         </div>
         <div class="box">
@@ -363,7 +363,7 @@
           <ul>
             <li>Unit &amp; component tests per entity</li>
             <li>Database integration tests (SQL &amp; Mongo)</li>
-            <li>Full HTTP contract test suite</li>
+            <li>Full HTTP contract — success &amp; failure (400 · 401 · 404 · 415)</li>
             <li>End-to-end tests with Docker (PostgreSQL + Mongo)</li>
             <li>Email flows verified in tests · HTML reports included</li>
           </ul>
@@ -388,6 +388,7 @@
           <ul>
             <li><b>95–100% coverage report</b> + HTML test reports with the delivery</li>
             <li>Runnable <b>hexagonal, vertical-sliced monolith or microservices</b> — same schema, your choice</li>
+            <li><b>JWT auth</b> · refresh tokens · email verification</li>
             <li>Setup &amp; security <b>documentation</b> included</li>
             <li>Validated at <b>300+ tables</b> scale · up to <b>1,000 → microservices</b></li>
           </ul>

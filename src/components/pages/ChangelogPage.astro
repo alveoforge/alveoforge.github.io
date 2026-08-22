@@ -1,0 +1,53 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { render } from 'astro:content';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
+import { changelogEntries, formatDate } from '@/lib/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const entries = await changelogEntries(lang);
+
+// Renderiza el cuerpo Markdown de cada versión (la lista de cambios).
+const rendered = await Promise.all(
+	entries.map(async (e) => ({ data: e.data, Content: (await render(e)).Content }))
+);
+---
+
+<Layout title={`${t('changelog.title')} — AlveoForge`} description={t('changelog.intro')} lang={lang}>
+	<main class="max-w-2xl mx-auto px-4 pt-32 pb-28 md:pt-40">
+		<p class="font-mono text-xs uppercase tracking-[0.13em] text-ember dark:text-ember-hot mb-3">{t('changelog.eyebrow')}</p>
+		<h1 class="text-3xl md:text-4xl font-bold tracking-tight">{t('changelog.title')}</h1>
+		<p class="mt-4 af-muted max-w-2xl">{t('changelog.intro')}</p>
+
+		{
+			rendered.length === 0 ? (
+				<p class="mt-12 af-muted">{t('changelog.empty')}</p>
+			) : (
+				<div class="mt-10 space-y-6">
+					{rendered.map(({ data, Content }) => (
+						<section class="af-card p-6">
+							<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+								<span class="font-mono text-sm font-bold text-ember dark:text-ember-hot">v{data.version}</span>
+								<time class="text-xs af-muted font-mono" datetime={data.date.toISOString()}>
+									{formatDate(data.date, lang)}
+								</time>
+								{data.title && <span class="font-semibold">— {data.title}</span>}
+							</div>
+							<div class="af-prose mt-4">
+								<Content />
+							</div>
+						</section>
+					))}
+				</div>
+			)
+		}
+
+		<a
+			href={localePath(lang, '/')}
+			class="inline-block mt-10 text-sm font-semibold text-ember dark:text-ember-hot hover:underline"
+		>
+			{t('changelog.back')}
+		</a>
+	</main>
+</Layout>

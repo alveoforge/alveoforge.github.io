@@ -1,0 +1,89 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const items = t('hood.items');
+const isEs = lang === 'es';
+
+// Iconos (line-icons, inner SVG) por tarjeta.
+const icons: Record<string, string> = {
+	migrations:
+		'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+	bulk: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+	expand:
+		'<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+	contract: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>',
+	auth: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+	rulings:
+		'<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+};
+
+// Chips de texto (tokens técnicos) por tarjeta — solo los que llevan palabras localizables.
+const tags: Record<string, string[]> = {
+	migrations: ['Flyway', 'Liquibase', isEs ? 'paridad' : 'parity', 'brownfield'],
+	auth: ['JWT', 'refresh', 'local · HTTP'],
+	rulings: [isEs ? 'FK escalar' : 'scalar FK', 'join-table', 'soft-delete', isEs ? 'PKs' : 'PKs'],
+};
+
+const chip =
+	'inline-flex items-center rounded-md border border-black/5 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.05] px-2 py-1 font-mono text-[11px] leading-none text-ink-soft dark:text-[#9aa5b4]';
+const pillOk =
+	'inline-flex items-center rounded-md border border-[#2f8f5b]/30 bg-[#2f8f5b]/10 px-2 py-1 font-mono text-[11px] font-semibold leading-none text-[#2f8f5b]';
+const pillErr =
+	'inline-flex items-center rounded-md border border-[#c98a1e]/35 bg-[#c98a1e]/10 px-2 py-1 font-mono text-[11px] font-semibold leading-none text-[#c98a1e]';
+---
+
+<section id="hood" class="max-w-5xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('hood.eyebrow')} title={t('hood.title')} />
+	<p class="mt-4 max-w-2xl text-sm md:text-base af-muted">{t('hood.intro')}</p>
+
+	<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+		{
+			items.map((it) => (
+				<div class="af-card p-5 flex flex-col gap-3">
+					<div class="flex items-center gap-2.5">
+						<span class="grid place-items-center size-9 rounded-lg bg-ember/10 text-ember shrink-0">
+							<svg
+								viewBox="0 0 24 24"
+								class="size-5"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+								set:html={icons[it.id]}
+							/>
+						</span>
+						<h3 class="font-semibold text-[15px] leading-tight">{it.t}</h3>
+					</div>
+
+					<p class="text-sm af-muted">{it.d}</p>
+
+					<div class="mt-auto flex flex-wrap gap-1.5 pt-1">
+						{it.id === 'contract' && (
+							<>
+								<span class={pillOk}>200</span>
+								<span class={pillErr}>400</span>
+								<span class={pillErr}>401</span>
+								<span class={pillErr}>404</span>
+								<span class={pillErr}>415</span>
+							</>
+						)}
+						{it.id === 'bulk' && (
+							<>
+								<span class={chip}>POST /orders</span>
+								<span class={chip}>POST /orders/bulk</span>
+								<span class={chip}>GET /orders?ids=…</span>
+							</>
+						)}
+						{it.id === 'expand' && <span class={chip}>GET /orders?expand=customer,items</span>}
+						{tags[it.id]?.map((tag) => <span class={chip}>{tag}</span>)}
+					</div>
+				</div>
+			))
+		}
+	</div>
+</section>

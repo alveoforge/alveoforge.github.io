@@ -1,0 +1,11 @@
+---
+// Changelog en los idiomas con prefijo: '/es/changelog/'.
+import ChangelogPage from '@/components/pages/ChangelogPage.astro';
+import { prefixedLocales } from '@/i18n/utils';
+
+export function getStaticPaths() {
+	return prefixedLocales.map((lang) => ({ params: { lang } }));
+}
+---
+
+<ChangelogPage />

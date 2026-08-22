@@ -1,0 +1,47 @@
+# AlveoForge — demo stack (transparency artifact)
+#
+# This is the exact shape of what runs behind each live demo: the generated
+# backend plus its indexed persistence stack (PostgreSQL, MongoDB, Redis).
+# We publish it so you can see there is nothing hidden — a real, running stack.
+#
+# The backend ships as a pre-built native image (GraalVM native binary): fast to
+# start, small memory footprint, and not decompilable to the original source.
+# The generator itself is never part of this — you get the running output, not
+# the factory.
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: demo-postgres
+    environment:
+      POSTGRES_USER: alveo_user
+      POSTGRES_PASSWORD: alveo_password
+      POSTGRES_DB: alveo_demo_db
+    # No published ports: the database is reachable only on Docker's internal
+    # network — never exposed to the internet.
+
+  mongo:
+    image: mongo:6.0
+    container_name: demo-mongo
+    command: mongod --wiredTigerCacheSizeGB 0.25 # cap Mongo's memory footprint
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: demo-redis
+
+  backend:
+    image: alveoforge-demo-backend:latest # native image of the generated backend
+    container_name: demo-backend
+    ports:
+      - "80:8080" # the only port published to the host
+    depends_on: [postgres, mongo, redis]
+    environment:
+      # Illustrative connection config. The deployed stack pins the exact
+      # datasource/profile settings the generated backend expects (schemas &
+      # search_path, migration tool, connection params) — see the backend's
+      # own _README_docs/DATABASE_INTEGRATION.md.
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/alveo_demo_db
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/alveo_demo_nosql
+      - SPRING_DATA_REDIS_HOST=redis
+    restart: always
