@@ -31,6 +31,13 @@ const pageLinks = [
 	{ title: t('nav.blog'), label: 'blog', url: localePath(lang, '/blog/') },
 ];
 
+// Marcado de "página actual" para los enlaces que son PÁGINAS aparte (Demos,
+// Blog): el scroll-spy se basa en las <section> de la home y no puede detectarlos.
+// Activo si la ruta actual está dentro del enlace (incluye subrutas como
+// /blog/<slug>/). Normalizamos la barra final para comparar de forma estable.
+const withSlash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
+const isPageActive = (url: string) => withSlash(Astro.url.pathname).startsWith(withSlash(url));
+
 const linkClass =
 	'relative hidden lg:block px-3 py-1.5 rounded-full transition hover:text-ember dark:hover:text-ember-hot';
 
@@ -98,7 +105,11 @@ const menuPanel =
 
 		<!-- Páginas: Blog · Demos -->
 		{pageLinks.map((link) => (
-			<a class={linkClass} aria-label={link.label} href={link.url}>
+			<a
+				class={`${linkClass}${isPageActive(link.url) ? ' text-ember' : ''}`}
+				aria-label={link.label}
+				href={link.url}
+			>
 				{link.title}
 			</a>
 		))}
@@ -150,7 +161,10 @@ const menuPanel =
 		))}
 		<div class="my-1 border-t border-black/5 dark:border-white/10" aria-hidden="true" />
 		{pageLinks.map((link) => (
-			<a class="block px-3 py-2.5 rounded-lg hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot transition" href={link.url}>
+			<a
+				class={`block px-3 py-2.5 rounded-lg hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot transition${isPageActive(link.url) ? ' text-ember' : ''}`}
+				href={link.url}
+			>
 				{link.title}
 			</a>
 		))}
@@ -168,35 +182,64 @@ const menuPanel =
 <script>
 	const PRODUCT_SECTIONS = ['video', 'problem', 'why', 'how', 'numbers', 'hood', 'get'];
 
+	// --- Scroll-spy determinista por POSICIÓN de scroll (no IntersectionObserver).
+	// El observer marcaba «la última entry del batch», que depende de la dirección
+	// del scroll: bajando desde arriba dejaba marcada la sección siguiente (p. ej.
+	// «why» estando en «problem»/«The wrong assumption»). La sección actual es, sin
+	// ambigüedad, la última cuyo borde superior ya cruzó la línea de lectura (bajo el
+	// header fijo). Mismo criterio que el LanguagePicker, para que ambos coincidan.
+	//
+	// Vive a nivel de módulo y consulta el DOM en cada pasada: el <script> se ejecuta
+	// UNA vez por sesión (Astro no lo re-ejecuta en las view transitions), así que los
+	// listeners de window se registran una sola vez y nunca se acumulan; runSpy() se
+	// vuelve a llamar en cada astro:page-load (dentro de initHeader) para el DOM nuevo.
+	const runSpy = () => {
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+		const probe = window.scrollY + 140; // línea de lectura, bajo el header fijo
+		let id = '';
+		for (const s of sections) if (s.offsetTop <= probe) id = s.id;
+		// Al tocar fondo, la última sección aunque su borde no llegue a la línea.
+		if (sections.length && window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
+			id = sections[sections.length - 1].id;
+		}
+		document.documentElement.dataset.section = id;
+		// Marca la sección actual en la barra (desktop) Y en el desplegable móvil, por
+		// el ANCLA del href (#sección) — así el móvil, que no lleva aria-label, se marca
+		// igual que el desktop. Los enlaces a páginas aparte (Demos, Blog) y el CTA no
+		// llevan ancla → no se tocan y conservan su marcado por ruta del servidor.
+		document.querySelectorAll('#header-nav a, #mobile-menu a').forEach((item) => {
+			const href = item.getAttribute('href') ?? '';
+			const hash = href.indexOf('#');
+			if (hash === -1) return;
+			item.classList.toggle('text-ember', href.slice(hash + 1) === id);
+		});
+		document.getElementById('product-btn')?.classList.toggle('text-ember', PRODUCT_SECTIONS.includes(id));
+	};
+
+	// rAF-throttle: como mucho una pasada por frame (evita layout thrashing al leer
+	// offsetTop en cada evento de scroll).
+	let spyScheduled = false;
+	const requestSpy = () => {
+		if (spyScheduled) return;
+		spyScheduled = true;
+		requestAnimationFrame(() => {
+			spyScheduled = false;
+			runSpy();
+		});
+	};
+	window.addEventListener('scroll', requestSpy, { passive: true });
+	window.addEventListener('resize', requestSpy, { passive: true });
+
 	const initHeader = () => {
 		const menuBtn = document.getElementById('menu-btn');
 		if (!menuBtn || menuBtn.dataset.bound === '1') return; // guard: no re-inicializar el mismo DOM
 		menuBtn.dataset.bound = '1';
 
-		// --- Scroll-spy: resalta la sección visible (y el botón Product si es suya) ---
-		const sections = document.querySelectorAll('section');
-		const navLinks = document.querySelectorAll('#header-nav a');
+		// --- Scroll-spy: recalcula la sección actual para el DOM de esta página
+		// (la lógica vive a nivel de módulo, ver runSpy arriba). productBtn se declara
+		// aquí porque además lo usa el desplegable Product de más abajo.
 		const productBtn = document.getElementById('product-btn');
-
-		const callback = (entries: IntersectionObserverEntry[]) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					document.documentElement.dataset.section = entry.target.id;
-					navLinks.forEach((item) => {
-						item.classList.toggle('text-ember', item.getAttribute('aria-label') === entry.target.id);
-					});
-					productBtn?.classList.toggle('text-ember', PRODUCT_SECTIONS.includes(entry.target.id));
-				}
-			});
-		};
-
-		const observer = new IntersectionObserver(callback, { root: null, rootMargin: '0px', threshold: 0.3 });
-		sections.forEach((section) => observer.observe(section));
-
-		document.onvisibilitychange = () => {
-			if (document.visibilityState === 'hidden') observer.disconnect();
-			else sections.forEach((section) => observer.observe(section));
-		};
+		runSpy();
 
 		// --- Menú móvil ---
 		const menu = document.getElementById('mobile-menu');

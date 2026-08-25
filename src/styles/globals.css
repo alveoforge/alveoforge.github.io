@@ -37,6 +37,17 @@
 	--af-zebra: rgb(255 255 255 / 0.02);
 }
 
+@layer base {
+	/* Tailwind v4 quitó de Preflight el `cursor: pointer` de los botones (ahora
+	   respeta el default del navegador → flecha). Lo restauramos como en v3 para
+	   que todo lo interactivo —toggle de tema, desplegable Product, hamburguesa—
+	   muestre el cursor de mano. Los deshabilitados quedan con el default. */
+	button:not(:disabled),
+	[role='button'] {
+		cursor: pointer;
+	}
+}
+
 @layer components {
 	/* fondo de página: color base + glow ember superior, ambos por token */
 	.af-page-bg {
