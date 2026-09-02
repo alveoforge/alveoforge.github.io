@@ -13,6 +13,11 @@ export const LINKEDIN_URL = 'https://linkedin.com/in/alvaroguillengonzalez';
 /** PDF en public/ — ruta absoluta desde la raíz del sitio. */
 export const ONEPAGER_URL = '/alveoforge-onepager.pdf';
 
+/** URL del walkthrough técnico (deep dive) de VideoDemo. Vacío = aún no grabado:
+ *  la tarjeta se muestra en estado "próximamente", no como enlace muerto. Al
+ *  publicar el vídeo, pon aquí su URL y la tarjeta pasa a ser un enlace real. */
+export const WALKTHROUGH_URL = '';
+
 /** Sello "Provisional until official launch" del hero (igual que la marca de
  *  agua del one-pager). Poner a false en el lanzamiento oficial: desaparece
  *  del build, no queda markup muerto. Los textos y la fecha viven en

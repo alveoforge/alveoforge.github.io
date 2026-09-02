@@ -12,7 +12,17 @@ import { allPublishedPosts } from '@/lib/content';
 //   (una entrada solo-ES no genera una URL EN fantasma), con hreflang entre los suyos.
 // - STATIC: ficheros en public/ (PDF, etc.) → una sola URL, sin hreflang.
 // Las redirecciones heredadas (/en/…) NO entran aquí a propósito.
-const PAGES = ['/', '/blog/', '/changelog/', '/demos/', '/privacy/'];
+const PAGES = [
+	'/',
+	'/hexagonal-vs-layered/',
+	'/deterministic-vs-ai/',
+	'/testing/',
+	'/sql-to-spring-boot/',
+	'/blog/',
+	'/changelog/',
+	'/demos/',
+	'/privacy/',
+];
 const STATIC = [ONEPAGER_URL];
 
 export const GET: APIRoute = async ({ site }) => {

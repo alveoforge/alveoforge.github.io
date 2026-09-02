@@ -1,7 +1,8 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
-const t = useTranslations(getLangFromUrl(Astro.url));
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const steps = t('how.steps');
 ---
 
@@ -18,4 +19,7 @@ const steps = t('how.steps');
 			</li>
 		))}
 	</ol>
+	<p class="mt-8">
+		<a href={localePath(lang, '/sql-to-spring-boot/')} class="text-sm font-semibold text-ember dark:text-ember-hot hover:underline">{lang === 'es' ? 'De SQL a Spring Boot, a fondo →' : 'From SQL to Spring Boot, in depth →'}</a>
+	</p>
 </section>

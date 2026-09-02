@@ -12,6 +12,14 @@ export default defineConfig({
   integrations: [robotsTxt({ sitemap: `${SITE}sitemap.xml` })],
   site: SITE,
   base: "/",
+  // Redirect del slug antiguo del post (retitulado en sep 2026). GitHub Pages es
+  // estático: Astro genera páginas con meta-refresh + canonical (soft redirect),
+  // suficiente para un post sin enlaces entrantes.
+  redirects: {
+    "/blog/introducing-alveoforge/": "/blog/what-a-backend-generator-cant-do/",
+    "/es/blog/introducing-alveoforge/":
+      "/es/blog/what-a-backend-generator-cant-do/",
+  },
   vite: {
     plugins: [tailwindcss()], // Tailwind v4 vía plugin de Vite (build Astro 7)
     server: {

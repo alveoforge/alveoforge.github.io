@@ -41,8 +41,8 @@ export const demos: Demo[] = [
 		status: 'soon',
 		featured: true,
 		desc: {
-			en: "AlveoForge's canonical demo schema — the green baseline behind the walkthrough.",
-			es: 'El schema de demo canónico de AlveoForge — la línea base verde del walkthrough.',
+			en: "AlveoForge's canonical demo schema: the green baseline behind the walkthrough.",
+			es: 'El schema de demo canónico de AlveoForge: la línea base verde del walkthrough.',
 		},
 	},
 	{
@@ -52,18 +52,18 @@ export const demos: Demo[] = [
 		status: 'soon',
 		featured: true,
 		desc: {
-			en: "GitLab's public schema — extreme scale: 1,000+ tables in one modular monolith you explore from a single Swagger.",
-			es: 'El schema público de GitLab — escala extrema: 1.000+ tablas en un monolito modular que exploras desde un solo Swagger.',
+			en: "GitLab's public schema at extreme scale: 1,000+ tables in one modular monolith you explore from a single Swagger.",
+			es: 'El schema público de GitLab a escala extrema: 1.000+ tablas en un monolito modular que exploras desde un solo Swagger.',
 		},
 	},
 	{
-		id: 'sakila',
-		name: 'Sakila',
-		tables: '15',
+		id: 'sonarqube',
+		name: 'SonarQube',
+		tables: '65+',
 		status: 'soon',
 		desc: {
-			en: 'The classic sample DVD-rental schema — a compact, familiar model.',
-			es: 'El clásico schema de alquiler de DVD — un modelo compacto y conocido.',
+			en: 'The open-source code-quality platform: a real, mid-size backend schema.',
+			es: 'La plataforma open-source de calidad de código: un schema de backend real y de tamaño medio.',
 		},
 	},
 	{
@@ -72,8 +72,8 @@ export const demos: Demo[] = [
 		tables: '150+',
 		status: 'soon',
 		desc: {
-			en: 'Open-source ERP — a large, real-world, deliberately messy schema.',
-			es: 'ERP open-source — un schema grande, real y a propósito enrevesado.',
+			en: 'Open-source ERP: a large, real-world, deliberately messy schema.',
+			es: 'ERP open-source: un schema grande, real y a propósito enrevesado.',
 		},
 	},
 	{
@@ -82,8 +82,8 @@ export const demos: Demo[] = [
 		tables: '200+',
 		status: 'soon',
 		desc: {
-			en: 'A large, real-world issue-tracking schema — 200+ tables of a mature SaaS domain.',
-			es: 'Un schema real de gestión de incidencias, grande — 200+ tablas de un dominio SaaS maduro.',
+			en: 'A large, real-world issue-tracking schema: 200+ tables of a mature SaaS domain.',
+			es: 'Un schema real de gestión de incidencias, grande: 200+ tablas de un dominio SaaS maduro.',
 		},
 	},
 ];

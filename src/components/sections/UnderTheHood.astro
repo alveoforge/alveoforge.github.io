@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
 
 const lang = getLangFromUrl(Astro.url);
@@ -70,6 +70,11 @@ const pillErr =
 								<span class={pillErr}>401</span>
 								<span class={pillErr}>404</span>
 								<span class={pillErr}>415</span>
+								<span class="basis-full h-0" aria-hidden="true" />
+								<span class={chip}>unit</span>
+								<span class={chip}>integration</span>
+								<span class={chip}>component</span>
+								<span class={chip}>e2e</span>
 							</>
 						)}
 						{it.id === 'bulk' && (
@@ -86,4 +91,7 @@ const pillErr =
 			))
 		}
 	</div>
+	<p class="mt-8">
+		<a href={localePath(lang, '/testing/')} class="text-sm font-semibold text-ember dark:text-ember-hot hover:underline">{lang === 'es' ? 'La estrategia de tests, a fondo →' : 'The testing approach, in depth →'}</a>
+	</p>
 </section>

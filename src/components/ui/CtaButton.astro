@@ -2,22 +2,27 @@
 import { CAL_URL } from '@/consts';
 interface Props {
 	label: string;
+	/** Destino. Por defecto la llamada de Cal.com; admite rutas internas (p. ej. /demos/). */
+	href?: string;
 	big?: boolean;
+	/** 'primary' = relleno ámbar (por defecto); 'secondary' = contorno. */
+	variant?: 'primary' | 'secondary';
 	class?: string;
 }
-const { label, big = false, class: cls = '' } = Astro.props;
+const { label, href = CAL_URL, big = false, variant = 'primary', class: cls = '' } = Astro.props;
 const pad = big ? 'px-8 py-3.5' : 'px-6 py-3';
+// Enlaces externos (http…) abren en pestaña nueva; los internos (/…) no.
+const external = /^https?:\/\//.test(href);
+const styles =
+	variant === 'secondary'
+		? 'inline-block rounded-lg font-semibold text-ember dark:text-ember-hot border border-ember/40 hover:bg-ember/10 transition'
+		: 'inline-block rounded-lg font-semibold text-white bg-ember hover:brightness-110 transition';
 ---
 
 <a
-	href={CAL_URL}
-	target="_blank"
-	rel="noopener"
-	class:list={[
-		'inline-block rounded-lg font-semibold text-white bg-ember hover:brightness-110 transition',
-		pad,
-		cls,
-	]}
+	href={href}
+	{...(external ? { target: '_blank', rel: 'noopener' } : {})}
+	class:list={[styles, pad, cls]}
 >
 	{label} →
 </a>

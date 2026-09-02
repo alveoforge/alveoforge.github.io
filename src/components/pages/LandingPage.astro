@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { SITE_URL } from '@/consts';
 import Hero from '@/components/sections/Hero.astro';
 import VideoDemo from '@/components/sections/VideoDemo.astro';
 import Problem from '@/components/sections/Problem.astro';
@@ -9,6 +10,7 @@ import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Numbers from '@/components/sections/Numbers.astro';
 import UnderTheHood from '@/components/sections/UnderTheHood.astro';
 import WhatYouGet from '@/components/sections/WhatYouGet.astro';
+import Process from '@/components/sections/Process.astro';
 import Roadmap from '@/components/sections/Roadmap.astro';
 import Founder from '@/components/sections/Founder.astro';
 // import Reviews from '@/components/sections/Reviews.astro'; // mock — reactivar con testimonios reales
@@ -34,6 +36,25 @@ const faqJsonLd = {
 		}))
 	),
 };
+
+const appJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'AlveoForge',
+	applicationCategory: 'DeveloperApplication',
+	operatingSystem: 'Any',
+	url: SITE_URL,
+	description: t('layout.description'),
+	softwareRequirements: 'Java 25, Spring Boot 4.1',
+	featureList: [
+		'Hexagonal architecture with vertical slicing',
+		'95–100% test coverage across unit, integration, component and e2e',
+		'Deterministic output: same schema, same code',
+		'PostgreSQL, MongoDB, Redis with transactional outbox',
+		'Flyway or Liquibase migrations',
+		'No vendor lock-in: standard Maven, standard Spring Boot',
+	],
+};
 ---
 
 <Layout
@@ -44,6 +65,7 @@ const faqJsonLd = {
 	ogTitle={t('og.title')}
 	ogDescription={t('og.description')}
 	faqJsonLd={faqJsonLd}
+	appJsonLd={appJsonLd}
 >
 	<main>
 		<Hero />
@@ -54,6 +76,7 @@ const faqJsonLd = {
 		<Numbers />
 		<UnderTheHood />
 		<WhatYouGet />
+			<Process />
 		<Roadmap />
 		<Founder />
 		{/* <Reviews /> — mock; reactivar con testimonios reales */}

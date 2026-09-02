@@ -37,6 +37,16 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 		],
 	},
 	{
+		// Radios de concepto (páginas profundas). Etiquetas cortas para el footer.
+		heading: lang === 'es' ? 'Conceptos' : 'Learn',
+		links: [
+			{ title: lang === 'es' ? 'Hexagonal vs en capas' : 'Hexagonal vs layered', href: localePath(lang, '/hexagonal-vs-layered/') },
+			{ title: lang === 'es' ? 'Determinista vs IA' : 'Deterministic vs AI', href: localePath(lang, '/deterministic-vs-ai/') },
+			{ title: 'Testing', href: localePath(lang, '/testing/') },
+			{ title: 'SQL → Spring Boot', href: localePath(lang, '/sql-to-spring-boot/') },
+		],
+	},
+	{
 		heading: t('footer.colResources'),
 		links: [
 			{ title: t('footer.demos'), href: localePath(lang, '/demos/') },
@@ -67,7 +77,7 @@ const linkClass =
 <footer class="w-full max-w-5xl mx-auto px-4 py-12 mt-4">
 	<!-- Móvil: marca full-width + columnas en rejilla de 2 (no un churro).
 	     md: marca arriba + 4 columnas en fila.  lg: marca + 4 columnas en una sola fila. -->
-	<div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr]">
+	<div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr_1fr]">
 		<div class="col-span-2 md:col-span-3 lg:col-span-1">
 			<div class="flex items-center gap-2.5">
 				<svg viewBox="0 0 60 69" class="w-5 h-6" aria-hidden="true">

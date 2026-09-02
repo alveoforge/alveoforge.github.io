@@ -1,0 +1,115 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CtaButton from '@/components/ui/CtaButton.astro';
+import { CAL_URL } from '@/consts';
+import { getLangFromUrl, localePath, type SupportedLang } from '@/i18n/utils';
+import { getConcept, concepts } from '@/data/concepts';
+
+interface Props {
+	slug: string;
+}
+const { slug } = Astro.props;
+const lang = getLangFromUrl(Astro.url) as SupportedLang;
+const c = getConcept(slug)!;
+const idx = concepts.findIndex((x) => x.slug === slug);
+const prev = concepts[idx - 1];
+const next = concepts[idx + 1];
+
+const L = {
+	en: {
+		kicker: 'Concepts',
+		demos: 'See a backend running',
+		call: 'Prefer to talk? Book a call',
+		back: 'Back to the overview',
+		prevnext: 'Previous and next concept',
+	},
+	es: {
+		kicker: 'Conceptos',
+		demos: 'Ver un backend en marcha',
+		call: '¿Prefieres hablar? Agenda una llamada',
+		back: 'Volver al inicio',
+		prevnext: 'Concepto anterior y siguiente',
+	},
+}[lang];
+---
+
+<Layout title={`${c.title[lang]} — AlveoForge`} description={c.description[lang]} keywords={c.keywords[lang]} lang={lang}>
+	<main class="max-w-3xl mx-auto px-4 pt-32 pb-24 md:pt-40">
+		{/* Índice de conceptos = barra de pestañas (tabs), no pills. El set completo,
+		    la pestaña activa subrayada (dónde estás) y las visitadas en verde (:visited, sin JS).
+		    En móvil hace scroll horizontal para no romperse. */}
+		<nav class="mb-10" aria-label={L.kicker}>
+			<p class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint mb-2">
+				{L.kicker} · {idx + 1}/{concepts.length}
+			</p>
+			<div class="flex flex-wrap gap-1 border-b border-black/10 dark:border-white/10">
+				{concepts.map((x, i) =>
+					x.slug === slug ? (
+						<span
+							aria-current="page"
+							class="-mb-px whitespace-nowrap border-b-2 border-ember px-3 py-2 text-sm font-semibold text-ember dark:text-ember-hot"
+						>
+							{i + 1}. {x.short[lang]}
+						</span>
+					) : (
+						<a
+							href={localePath(lang, `/${x.slug}/`)}
+							class="-mb-px whitespace-nowrap border-b-2 border-transparent px-3 py-2 text-sm font-medium text-ink-soft transition hover:border-ember/40 hover:text-ember dark:text-[#9aa5b4] dark:hover:text-ember-hot"
+						>
+							{i + 1}. {x.short[lang]}
+						</a>
+					)
+				)}
+			</div>
+		</nav>
+
+		<p class="font-mono text-xs uppercase tracking-[0.13em] text-ember dark:text-ember-hot mb-3">{c.eyebrow[lang]}</p>
+		<h1 class="text-3xl md:text-5xl font-bold tracking-tight text-balance leading-[1.1]">{c.title[lang]}</h1>
+		<p class="mt-6 text-lg af-muted">{c.intro[lang]}</p>
+
+		<div class="mt-12 space-y-10">
+			{c.blocks.map((b) => (
+				<section>
+					<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{b.h[lang]}</h2>
+					<p class="mt-3 af-muted">{b.p[lang]}</p>
+				</section>
+			))}
+		</div>
+
+		{/* CTA ligero: una acción primaria (verlo) + "book a call" como texto discreto — el botón grande
+		    ya vive en la nav y en la home, no hace falta repetirlo en cada radio. */}
+		<div class="mt-14 flex flex-col sm:flex-row sm:items-center gap-4">
+			<CtaButton label={L.demos} href={localePath(lang, '/demos/')} />
+			<a
+				href={CAL_URL}
+				target="_blank"
+				rel="noopener"
+				class="text-sm font-medium text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot hover:underline"
+			>
+				{L.call} →
+			</a>
+		</div>
+
+		{/* Orden secuencial: anterior / siguiente concepto. */}
+		<nav class="mt-14 border-t border-black/10 dark:border-white/10 pt-6 flex flex-wrap justify-between gap-4 text-sm" aria-label={L.prevnext}>
+			<span>
+				{prev && (
+					<a class="font-medium text-ember dark:text-ember-hot hover:underline" href={localePath(lang, `/${prev.slug}/`)}>
+						← {prev.short[lang]}
+					</a>
+				)}
+			</span>
+			<span>
+				{next && (
+					<a class="font-medium text-ember dark:text-ember-hot hover:underline" href={localePath(lang, `/${next.slug}/`)}>
+						{next.short[lang]} →
+					</a>
+				)}
+			</span>
+		</nav>
+
+		<a class="inline-block mt-8 text-sm font-semibold text-ember dark:text-ember-hot hover:underline" href={localePath(lang, '/')}>
+			← {L.back}
+		</a>
+	</main>
+</Layout>

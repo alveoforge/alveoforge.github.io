@@ -20,6 +20,8 @@ interface Props {
 	ogType?: string;
 	/** JSON-LD extra (p. ej. BlogPosting de una entrada del blog). */
 	articleJsonLd?: Record<string, unknown>;
+	/** JSON-LD de SoftwareApplication (home): declara el producto para buscadores e IA. */
+	appJsonLd?: Record<string, unknown>;
 	/** Páginas que no deben indexarse (404): sin canonical ni hreflang. */
 	noIndex?: boolean;
 }
@@ -34,6 +36,7 @@ const {
 	faqJsonLd,
 	ogType = 'website',
 	articleJsonLd,
+	appJsonLd,
 	noIndex = false,
 } = Astro.props;
 const ogT = ogTitle ?? title;
@@ -117,6 +120,7 @@ const jsonLd = {
 		<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 		{faqJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)} />}
 		{articleJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(articleJsonLd)} />}
+		{appJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(appJsonLd)} />}
 
 		<Analytics />
 		<ClientRouter />

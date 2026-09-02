@@ -3,6 +3,7 @@ import ThemeToggle from '@/components/items/ThemeToggle.astro';
 import { getLangFromUrl, localePath, useTranslations } from '../../i18n/utils';
 import LanguagePicker from '@/components/items/LanguagePicker.astro';
 import { CAL_URL } from '@/consts';
+import { concepts } from '@/data/concepts';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
@@ -31,12 +32,21 @@ const pageLinks = [
 	{ title: t('nav.blog'), label: 'blog', url: localePath(lang, '/blog/') },
 ];
 
+// Desplegable "Concepts": las páginas de concepto (radios). Etiquetas cortas
+// desde src/data/concepts.ts para no duplicar.
+const conceptLinks = concepts.map((c) => ({
+	title: c.short[lang],
+	url: localePath(lang, `/${c.slug}/`),
+}));
+const conceptLabel = lang === 'es' ? 'Conceptos' : 'Concepts';
+
 // Marcado de "página actual" para los enlaces que son PÁGINAS aparte (Demos,
 // Blog): el scroll-spy se basa en las <section> de la home y no puede detectarlos.
 // Activo si la ruta actual está dentro del enlace (incluye subrutas como
 // /blog/<slug>/). Normalizamos la barra final para comparar de forma estable.
 const withSlash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const isPageActive = (url: string) => withSlash(Astro.url.pathname).startsWith(withSlash(url));
+const conceptActive = conceptLinks.some((l) => isPageActive(l.url));
 
 const linkClass =
 	'relative hidden lg:block px-3 py-1.5 rounded-full transition hover:text-ember dark:hover:text-ember-hot';
@@ -103,6 +113,32 @@ const menuPanel =
 
 		<span class="hidden lg:block w-px h-4 mx-1 bg-black/10 dark:bg-white/15" aria-hidden="true" />
 
+		<!-- Desplegable Concepts (desktop) -->
+		<div class="relative hidden lg:block">
+			<button
+				id="concept-btn"
+				type="button"
+				aria-haspopup="true"
+				aria-expanded="false"
+				class={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full transition hover:text-ember dark:hover:text-ember-hot${conceptActive ? ' text-ember' : ''}`}
+			>
+				{conceptLabel}
+				<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<polyline points="6 9 12 15 18 9" />
+				</svg>
+			</button>
+			<div id="concept-menu" class={`hidden flex-col absolute right-0 top-full mt-2 w-56 p-2 ${menuPanel}`}>
+				{conceptLinks.map((link) => (
+					<a
+						class={`block px-3 py-2 rounded-lg transition hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot${isPageActive(link.url) ? ' text-ember' : ''}`}
+						href={link.url}
+					>
+						{link.title}
+					</a>
+				))}
+			</div>
+		</div>
+
 		<!-- Páginas: Blog · Demos -->
 		{pageLinks.map((link) => (
 			<a
@@ -156,6 +192,13 @@ const menuPanel =
 		<div class="my-1 border-t border-black/5 dark:border-white/10" aria-hidden="true" />
 		{topLinks.map((link) => (
 			<a class="block px-3 py-2.5 rounded-lg hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot transition" href={link.url}>
+				{link.title}
+			</a>
+		))}
+		<div class="my-1 border-t border-black/5 dark:border-white/10" aria-hidden="true" />
+		<p class="px-3 pt-1 pb-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faint">{conceptLabel}</p>
+		{conceptLinks.map((link) => (
+			<a class={`block px-3 py-2 rounded-lg hover:bg-ember/10 hover:text-ember dark:hover:text-ember-hot transition${isPageActive(link.url) ? ' text-ember' : ''}`} href={link.url}>
 				{link.title}
 			</a>
 		))}
@@ -239,6 +282,7 @@ const menuPanel =
 		// (la lógica vive a nivel de módulo, ver runSpy arriba). productBtn se declara
 		// aquí porque además lo usa el desplegable Product de más abajo.
 		const productBtn = document.getElementById('product-btn');
+		const conceptBtn = document.getElementById('concept-btn');
 		runSpy();
 
 		// --- Menú móvil ---
@@ -257,32 +301,52 @@ const menuPanel =
 			productBtn?.setAttribute('aria-expanded', String(open));
 		};
 
+		// --- Desplegable Concepts (desktop) ---
+		const conceptMenu = document.getElementById('concept-menu');
+		const setConcept = (open: boolean) => {
+			conceptMenu?.classList.toggle('hidden', !open);
+			conceptMenu?.classList.toggle('flex', open);
+			conceptBtn?.setAttribute('aria-expanded', String(open));
+		};
+
 		menuBtn.addEventListener('click', (e) => {
 			e.stopPropagation();
 			document.getElementById('themes-menu')?.classList.remove('open'); // mutuamente excluyentes
 			setProduct(false);
+			setConcept(false);
 			setMobile(menu?.classList.contains('hidden') ?? false);
 		});
 		productBtn?.addEventListener('click', (e) => {
 			e.stopPropagation();
 			document.getElementById('themes-menu')?.classList.remove('open');
 			setMobile(false);
+			setConcept(false);
 			setProduct(productMenu?.classList.contains('hidden') ?? false);
+		});
+		conceptBtn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			document.getElementById('themes-menu')?.classList.remove('open');
+			setMobile(false);
+			setProduct(false);
+			setConcept(conceptMenu?.classList.contains('hidden') ?? false);
 		});
 
 		// Cerrar al hacer clic en un enlace de cualquiera de los dos menús.
 		menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMobile(false)));
 		productMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setProduct(false)));
+		conceptMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setConcept(false)));
 
-		// Clic fuera / Escape cierran ambos.
+		// Clic fuera / Escape cierran todos.
 		document.addEventListener('click', () => {
 			setMobile(false);
 			setProduct(false);
+			setConcept(false);
 		});
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') {
 				setMobile(false);
 				setProduct(false);
+				setConcept(false);
 			}
 		});
 	};
