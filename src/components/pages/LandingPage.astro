@@ -44,8 +44,9 @@ const appJsonLd = {
 	applicationCategory: 'DeveloperApplication',
 	operatingSystem: 'Any',
 	url: SITE_URL,
-	description: t('layout.description'),
+	description: t('layout.appDescription'),
 	softwareRequirements: 'Java 25, Spring Boot 4.1',
+	author: { '@id': `${SITE_URL}#organization` },
 	featureList: [
 		'Hexagonal architecture with vertical slicing',
 		'95–100% test coverage across unit, integration, component and e2e',
@@ -54,6 +55,17 @@ const appJsonLd = {
 		'Flyway or Liquibase migrations',
 		'No vendor lock-in: standard Maven, standard Spring Boot',
 	],
+	// Señal de precio SIN cifra: precio por proyecto que escala con tamaño y
+	// complejidad del schema. Reutiliza la copy bilingüe ya aprobada (cta.pricing).
+	// Google marcará "price recommended" (aviso, no error); lo aceptamos a cambio
+	// de que buscadores y motores de respuesta entiendan el modelo de precio.
+	offers: {
+		'@type': 'Offer',
+		priceCurrency: 'EUR',
+		url: SITE_URL,
+		availability: 'https://schema.org/InStock',
+		description: t('cta.pricing'),
+	},
 };
 ---
 

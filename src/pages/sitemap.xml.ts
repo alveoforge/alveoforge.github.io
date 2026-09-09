@@ -21,6 +21,7 @@ const PAGES = [
 	'/blog/',
 	'/changelog/',
 	'/demos/',
+	'/for-agencies/',
 	'/privacy/',
 ];
 const STATIC = [ONEPAGER_URL];

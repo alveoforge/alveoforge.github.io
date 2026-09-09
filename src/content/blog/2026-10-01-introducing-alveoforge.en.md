@@ -1,9 +1,9 @@
 ---
 title: "What a backend generator can't do for you"
-description: "Why I spent 11 months turning real hexagonal architecture into a deterministic factory, and exactly what it does and doesn't do."
+description: "Why I spent 14 months turning real hexagonal architecture into a deterministic factory, and exactly what it does and doesn't do."
 lang: en
 urlSlug: what-a-backend-generator-cant-do
-date: 2026-09-01
+date: 2026-10-01
 tags: [hexagonal, java, spring-boot, architecture]
 draft: false
 ---
@@ -14,7 +14,7 @@ Not because they were slow. Because they were doing the right thing.
 
 The backend worked, but it had no real architecture. Rewriting it properly meant stopping feature work for the better part of a year, while clients wanted new things _now_. No business can afford to stop that long. So most don't: they keep stacking features on a foundation that quietly rots into coupling nobody can untangle three years later.
 
-I couldn't stop thinking about that tradeoff. So for the last 11 months I've been building the thing that removes it. Today it leaves the workshop.
+I couldn't stop thinking about that tradeoff. So for the last 14 months I’ve been building the thing that removes it. Today it leaves the workshop.
 
 ## The most expensive part of a backend isn't the business logic
 
@@ -32,7 +32,7 @@ For **every entity**, it generates and verifies real behaviour:
 - **Full CRUD plus batch**: create, read (single, paged, by-ids), update, delete, create-many and bulk updates, each one validated and tested.
 - **Relationship expansion on read** (`?expand=…`) across slices, without N+1 queries or leaking a JPA object graph across layers.
 - **Both migration engines**: Flyway or Liquibase, with parity, or point it at your existing production database and it adapts (brownfield). Your DDL is the single source of truth; no schema drift.
-- **The full HTTP contract, tested**: success _and_ failure, 200s plus 400 validation, 401 auth, 404 and 415. Across all three layers + end-to-end.
+- **The full HTTP contract, tested**: success _and_ failure, 200s plus 400 validation, 401 auth, 404 and 415. Across the four-layer test pyramid, from unit to end-to-end.
 - **Identity**: a real login entity, password hashing at the persistence edge, JWT (in-process or service-to-service HTTP), refresh-token storage.
 - **Multi-store persistence**: PostgreSQL, optional MongoDB, Redis cache, transactional outbox.
 
@@ -55,7 +55,7 @@ Ask an AI for hexagonal architecture and, unsupervised, it drifts back to the la
 
 The hard thing about hexagonal isn't the diagram; every senior can draw the hexagon. The hard thing is applying it **consistently**, across every entity and every layer, for months, without a single drift. Architectures don't die in the design; they die at the 200th entity, at 6pm, under a deadline.
 
-That's a determinism problem, not an intelligence problem. A deterministic factory produces the same structure every time: audit it once, trust every build; a bug found once is fixed for every future generation. The conventions aren't enforced by hoping code review catches the drift. They're structural.
+That's a determinism problem, not an intelligence problem. A deterministic factory produces the same structure every time: audit it once, verify every build; a bug found once is fixed for every future generation. The conventions aren't enforced by hoping code review catches the drift. They're structural.
 
 ## See it before you pay
 

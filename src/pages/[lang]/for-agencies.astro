@@ -1,0 +1,11 @@
+---
+// Página para agencias / consultoras en los idiomas con prefijo: '/es/for-agencies/'.
+import ForAgenciesPage from '@/components/pages/ForAgenciesPage.astro';
+import { prefixedLocales } from '@/i18n/utils';
+
+export function getStaticPaths() {
+	return prefixedLocales.map((lang) => ({ params: { lang } }));
+}
+---
+
+<ForAgenciesPage />

@@ -1,9 +1,9 @@
 ---
 title: 'Lo que un generador de backends no puede hacer por ti'
-description: 'Por qué dediqué 11 meses a convertir arquitectura hexagonal real en una fábrica determinista, y qué hace exactamente y qué no.'
+description: 'Por qué dediqué 14 meses a convertir arquitectura hexagonal real en una fábrica determinista, y qué hace exactamente y qué no.'
 lang: es
 urlSlug: what-a-backend-generator-cant-do
-date: 2026-09-01
+date: 2026-10-01
 tags: [hexagonal, java, spring-boot, arquitectura]
 draft: false
 ---
@@ -14,7 +14,7 @@ No porque fueran lentos. Porque estaban haciendo lo correcto.
 
 El backend funcionaba, pero no tenía arquitectura real. Reescribirlo bien significaba parar el desarrollo de features casi un año, mientras los clientes querían cosas nuevas _ya_. Ningún negocio puede permitirse parar tanto. Así que casi ninguno lo hace: siguen apilando features sobre una base que se pudre en silencio, hasta el acoplamiento que años después nadie es capaz de desenredar.
 
-No podía dejar de pensar en ese dilema. Así que los últimos 11 meses los he dedicado a construir lo que lo elimina. Hoy sale del taller.
+No podía dejar de pensar en ese dilema. Así que los últimos 14 meses los he dedicado a construir lo que lo elimina. Hoy sale del taller.
 
 ## La parte más cara de un backend no es la lógica de negocio
 
@@ -32,7 +32,7 @@ Para **cada entidad** genera y verifica comportamiento real:
 - **CRUD completo más lote**: create, read (individual, paginado, by-ids), update, delete, create-many y updates masivos, cada uno validado y tested.
 - **Expand de relaciones al leer** (`?expand=…`) entre slices, sin consultas N+1 ni exponer un grafo JPA entre capas.
 - **Dos motores de migración**: Flyway o Liquibase, con paridad, o lo apuntas a tu base de datos de producción existente y se adapta (brownfield). Tu DDL es la fuente única de verdad; sin deriva de esquema.
-- **El contrato HTTP completo, testeado**: éxito _y_ fallo, 200 y también 400 validación, 401 auth, 404 y 415. En las tres capas + end-to-end.
+- **El contrato HTTP completo, testeado**: éxito _y_ fallo, 200 y también 400 validación, 401 auth, 404 y 415. En la pirámide de tests de cuatro capas, de unit a end-to-end.
 - **Identidad**: entidad de login real, hash de contraseña en el borde de persistencia, JWT (en proceso o HTTP entre servicios), almacenamiento de refresh-tokens.
 - **Persistencia multi-store**: PostgreSQL, MongoDB opcional, caché Redis, outbox transaccional.
 
@@ -55,7 +55,7 @@ Pídele a una IA arquitectura hexagonal y, sin supervisión, deriva al MVC en ca
 
 Lo difícil de hexagonal no es el diagrama; cualquier senior sabe dibujar el hexágono. Lo difícil es aplicarlo **de forma consistente**, en cada entidad y cada capa, durante meses, sin una sola desviación. Las arquitecturas no mueren en el diseño; mueren en la entidad número 200, a las 6 de la tarde, con una deadline encima.
 
-Eso es un problema de determinismo, no de inteligencia. Una fábrica determinista produce la misma estructura siempre: la auditas una vez y confías en cada build; un bug encontrado una vez queda arreglado para toda generación futura. Las convenciones no se fuerzan esperando que la code review pille la desviación. Son estructurales.
+Eso es un problema de determinismo, no de inteligencia. Una fábrica determinista produce la misma estructura siempre: la auditas una vez y verificas cada build; un bug encontrado una vez queda arreglado para toda generación futura. Las convenciones no se fuerzan esperando que la code review pille la desviación. Son estructurales.
 
 ## Míralo antes de pagar
 

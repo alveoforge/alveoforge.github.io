@@ -132,7 +132,7 @@
   .stat { padding: 12px 14px; border-left: 1px solid var(--hairline); }
   .stat:first-child { border-left: 0; }
   .stat .k { font: 600 9px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
-  .stat .v { margin-top: 5px; font-size: 14px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .stat .v { margin-top: 5px; font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
   .stat .v .was { color: var(--steel); font-weight: 600; }
   .stat .v .arrow { color: var(--ink-faint); margin: 0 4px; font-family: var(--mono); }
   .stat .v .now { color: var(--ember); }
@@ -278,7 +278,7 @@
     </header>
 
     <h1 class="tagline">Production-ready Java backends, <em>generated</em> from a SQL schema.</h1>
-    <p class="sub"><b>Hexagonal architecture</b> for global structure. <b>Vertical slicing</b> so every entity is a self-contained unit, not chaos across packages. A <b>production-ready, 95–100% tested backend</b> delivered in days, not months. Deploy as a <b>vertical-sliced monolith</b> or <b>vertical-sliced microservices</b> from the same schema. No lock-in.</p>
+    <p class="sub"><b>Hexagonal architecture</b> for global structure. <b>Vertical slicing</b> so every entity is a self-contained unit, not chaos across packages. A <b>production-ready, 95–100% tested backend</b> delivered in days, not months. Deploy as a <b>modular monolith</b> or <b>microservices</b> from the same schema. No lock-in.</p>
 
     <ul class="stack">
       <li>Java 25</li>
@@ -353,8 +353,8 @@
           <ul>
             <li><b>Hexagonal</b>: domain isolated from database &amp; HTTP</li>
             <li><b>Vertical slicing</b>: one self-contained slice per entity (domain · application · infrastructure)</li>
-            <li>Vertical-sliced <b>monolith</b> or <b>microservices</b>, same schema</li>
-            <li>SQL + optional Mongo · Redis <b>cache</b> · transactional outbox</li>
+            <li><b>Modular monolith</b> or <b>microservices</b>, same schema</li>
+            <li>SQL + optional Mongo · Redis <b>cache</b> · outbox · <b>read/write split</b> (opt-in)</li>
             <li><b>Flyway or Liquibase</b> (parity) · adopts your existing DB · DDL = source of truth</li>
           </ul>
         </div>
@@ -364,8 +364,8 @@
             <li>Unit &amp; component tests per entity</li>
             <li>Database integration tests (SQL &amp; Mongo)</li>
             <li>Full HTTP contract: success &amp; failure (400 · 401 · 404 · 415)</li>
-            <li>End-to-end tests with Docker (PostgreSQL + Mongo)</li>
-            <li>Email flows verified in tests · HTML reports included</li>
+            <li>End-to-end with Docker (Postgres + Mongo) · email flows</li>
+            <li><b>Architecture verified in CI</b> (ArchUnit) · <b>mutation-tested</b> (PIT) · HTML reports</li>
           </ul>
         </div>
       </div>
@@ -387,7 +387,7 @@
           <h5>Technical delivery</h5>
           <ul>
             <li><b>95–100% coverage report</b> + HTML test reports with the delivery</li>
-            <li>Runnable <b>hexagonal, vertical-sliced monolith or microservices</b>: same schema, your choice</li>
+            <li>Runnable <b>hexagonal, modular monolith or microservices</b>: same schema, your choice</li>
             <li><b>JWT auth</b> · refresh tokens · email verification</li>
             <li>Setup &amp; security <b>documentation</b> included</li>
             <li>Validated at <b>300+ tables</b> scale · up to <b>1,000 → microservices</b></li>

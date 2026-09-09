@@ -57,6 +57,7 @@ const xDefault = abs(localePath(defaultLang, rest));
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Organization',
+	'@id': site ? new URL('#organization', site).href : '#organization',
 	name: 'AlveoForge',
 	url: site ? site.href : undefined,
 	logo: site ? new URL('/favicon.svg', site).href : '/favicon.svg',

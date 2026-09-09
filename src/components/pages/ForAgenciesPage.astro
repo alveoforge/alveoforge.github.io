@@ -1,0 +1,137 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CtaButton from '@/components/ui/CtaButton.astro';
+import { getLangFromUrl, localePath, type SupportedLang } from '@/i18n/utils';
+import { agenciesCopy } from '@/data/agencies';
+
+// Página de canal para agencias / consultoras. La copy bilingüe vive en
+// src/data/agencies.ts (patrón demos.ts / concepts.ts). SIN nombres de
+// competidores y SIN código literal (diagrama de barras para la aritmética).
+const lang = getLangFromUrl(Astro.url) as SupportedLang;
+const copy = agenciesCopy[lang];
+---
+
+<Layout title={copy.metaTitle} description={copy.metaDesc} lang={lang}>
+	<main class="max-w-3xl mx-auto px-4 pt-32 pb-24 md:pt-40">
+		<p class="font-mono text-xs uppercase tracking-[0.13em] text-ember dark:text-ember-hot mb-3">{copy.eyebrow}</p>
+		<h1 class="text-3xl md:text-5xl font-bold tracking-tight text-balance leading-[1.1]">{copy.h1}</h1>
+		<p class="mt-6 text-lg af-muted">{copy.intro1}</p>
+		<p class="mt-4 af-muted">{copy.intro2}</p>
+
+		{/* Envoltorio: evita que las <section> sean hijas directas de <main> y reciban la
+		    banda "cebra" (main > section:nth-of-type(even) en globals.css), pensada solo para
+		    la home. Cada sección conserva su propio margen; no cambia la maquetación. */}
+		<div>
+		{/* La aritmética: diagrama de barras (no código), + los dos efectos. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.arithTitle}</h2>
+			<p class="mt-3 af-muted">{copy.arithLead}</p>
+
+			<div class="af-card p-6 mt-6">
+				<div class="space-y-4">
+					<div>
+						<div class="flex justify-between text-sm mb-1.5">
+							<span class="font-medium">{copy.barHandLabel}</span>
+							<span class="font-mono text-xs af-muted">{copy.barHandUnit}</span>
+						</div>
+						<div class="h-3 rounded-full bg-black/[0.06] dark:bg-white/10">
+							<div class="h-3 rounded-full bg-ink-faint" style="width:100%"></div>
+						</div>
+					</div>
+					<div>
+						<div class="flex justify-between text-sm mb-1.5">
+							<span class="font-medium">{copy.barGenLabel}</span>
+							<span class="font-mono text-xs text-ember dark:text-ember-hot">{copy.barGenUnit}</span>
+						</div>
+						<div class="h-3 rounded-full bg-black/[0.06] dark:bg-white/10">
+							<div class="h-3 rounded-full bg-ember dark:bg-ember-hot" style="width:28%"></div>
+						</div>
+					</div>
+				</div>
+				<p class="mt-4 text-xs af-muted">{copy.barCaption}</p>
+			</div>
+
+			<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+				{copy.arith.map((a) => (
+					<div class="af-card p-5">
+						<h3 class="font-semibold">{a.t}</h3>
+						<p class="mt-2 text-sm af-muted">{a.d}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		{/* El reparto del trabajo. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.splitTitle}</h2>
+			<p class="mt-3 af-muted">{copy.splitLead}</p>
+
+			<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+				<div class="af-card p-6 border-ember/40">
+					<h3 class="font-semibold text-ember dark:text-ember-hot">{copy.youGetTitle}</h3>
+					<ul class="mt-3 space-y-2">
+						{copy.youGet.map((it) => (
+							<li class="flex gap-2.5 text-sm af-muted">
+								<span class="text-ember dark:text-ember-hot font-bold select-none leading-5" aria-hidden="true">+</span>
+								<span>{it}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div class="af-card p-6">
+					<h3 class="font-semibold">{copy.yoursTitle}</h3>
+					<ul class="mt-3 space-y-2">
+						{copy.yours.map((it) => (
+							<li class="flex gap-2.5 text-sm af-muted">
+								<span class="text-ink-faint font-bold select-none leading-5" aria-hidden="true">◆</span>
+								<span>{it}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		{/* Por qué puede firmarlo con su nombre. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.signTitle}</h2>
+			<p class="mt-3 af-muted">{copy.sign1}</p>
+			<p class="mt-4 af-muted">{copy.sign2}</p>
+		</section>
+
+		{/* Precio previsible. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.priceTitle}</h2>
+			<p class="mt-3 af-muted">{copy.price}</p>
+		</section>
+
+		{/* Verlo funcionando → demos. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.seeTitle}</h2>
+			<p class="mt-3 af-muted">{copy.see}</p>
+			<div class="mt-5">
+				<CtaButton label={copy.seeCta} href={localePath(lang, '/demos/')} variant="secondary" />
+			</div>
+		</section>
+
+		{/* Cualificación honesta. */}
+		<section class="mt-14">
+			<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{copy.fitTitle}</h2>
+			<p class="mt-3 af-muted">{copy.fit}</p>
+		</section>
+
+		{/* CTA final. */}
+		<section class="mt-16 af-card p-8 text-center">
+			<h2 class="text-2xl font-bold tracking-tight text-balance">{copy.ctaTitle}</h2>
+			<p class="mt-3 af-muted max-w-xl mx-auto">{copy.ctaText}</p>
+			<div class="mt-6 flex justify-center">
+				<CtaButton label={copy.ctaBtn} big />
+			</div>
+		</section>
+		</div>
+
+		<a class="inline-block mt-10 text-sm font-semibold text-ember dark:text-ember-hot hover:underline" href={localePath(lang, '/')}>
+			{copy.back}
+		</a>
+	</main>
+</Layout>

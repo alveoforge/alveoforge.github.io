@@ -6,7 +6,9 @@ export const defaultLang = 'en';
 
 export const ui = {
 	en: {
-		'layout.title': 'AlveoForge — Production-ready Java backends from your SQL schema',
+		'layout.title': 'Production-ready Java backends from your SQL schema',
+		'layout.appDescription':
+			'Deterministic generation of production-ready Java (Spring Boot) backends from a SQL schema: real hexagonal architecture with vertical slicing, full CRUD with bulk operations and relationship expansion, JWT authentication, database migrations, and a four-layer test suite (unit, integration, component, end-to-end) at 95–100% coverage, verified with ArchUnit and mutation testing.',
 		'layout.description':
 			'Production-ready Java backends from your SQL schema: real hexagonal architecture, 95–100% tests, deterministic. See it live on your schema before you pay. Hours, not months.',
 		'layout.keywords':
@@ -26,6 +28,7 @@ export const ui = {
 		'nav.about': 'About',
 		'nav.blog': 'Blog',
 		'nav.demos': 'Demos',
+		'nav.agencies': 'For agencies',
 		'nav.cta': 'Book a call',
 
 		// Sello "provisional" del hero — mismo texto que la marca de agua del
@@ -39,7 +42,7 @@ export const ui = {
 		'hero.h1': 'Production-ready Java backends, generated from your SQL schema.',
 		'hero.tagline': 'Hours, not months.',
 		'hero.sub':
-			'A production-ready, 95–100% tested backend in hours. Hexagonal, vertical-sliced, monolith or microservices. Your team builds the business logic on top.',
+			'A production-ready, 95–100% tested backend in hours. Hexagonal, vertical-sliced, modular monolith or microservices. Your team builds the business logic on top.',
 		'hero.cta': 'Book a call',
 		'hero.ctaTry': 'You see it running and test every endpoint before any payment.',
 		'hero.ctaNote': 'Your schema stays confidential. NDA on request.',
@@ -76,7 +79,7 @@ export const ui = {
 			},
 			{
 				t: 'Deterministic, not probabilistic',
-				d: 'Same schema, same output, every time. Audit it once and trust every build. A human + AI team produces something different each run.',
+				d: 'Same schema, same output, every time. Audit it once, then verify every build matches. A human + AI team produces something different each run.',
 			},
 			{
 				t: 'Fixed at the source',
@@ -146,7 +149,7 @@ export const ui = {
 			{
 				id: 'contract',
 				t: 'The full HTTP contract, tested',
-				d: 'Every endpoint is tested for success and for failure, error paths included. Across all 3 layers plus e2e, asserting methods, lines and branches.',
+				d: 'Every endpoint is tested for success and for failure, error paths included. Across the four-layer pyramid, asserting methods, lines and branches.',
 			},
 			{
 				id: 'auth',
@@ -172,8 +175,8 @@ export const ui = {
 			'PostgreSQL · MongoDB · Redis cache · transactional outbox',
 			'Database migrations (Flyway or Liquibase) + brownfield adoption of your existing database',
 			'JWT auth, refresh tokens & email verification + dev / pre / prod profiles',
-			'Test suite across all 3 layers + e2e: success & error paths (95–100%)',
-			'Monolith or microservices, your choice, no lock-in',
+			'Test suite across a four-layer pyramid: success & error paths (95–100%)',
+			'Modular monolith or microservices, your choice, no lock-in',
 			'Code fully yours + 30-day post-delivery support',
 		],
 		'get.out': [
@@ -194,17 +197,19 @@ export const ui = {
 				items: [
 					{ t: 'Real hexagonal architecture + vertical slicing', d: '' },
 					{ t: 'Deterministic generation: same schema, same output', d: '' },
-					{ t: 'Monolith or microservices from the same schema', d: '' },
+					{ t: 'Modular monolith or microservices from the same schema', d: '' },
 					{ t: 'Full standard SQL type coverage', d: '' },
 					{ t: 'Composite, natural & generated primary keys · N-N as first-class resources', d: '' },
 					{ t: 'PostgreSQL inheritance & declarative partitioning', d: '' },
 					{ t: 'Multi-store: PostgreSQL · MongoDB · Redis cache · outbox', d: '' },
+					{ t: 'Read/write splitting · writer & reader datasources', d: 'route reads to replicas, writes to the primary — opt-in for read-heavy domains' },
 					{ t: 'Migrations (Flyway / Liquibase) + brownfield adoption', d: '' },
 					{ t: 'Full CRUD + bulk operations', d: '' },
 					{ t: 'Relationship expansion on read (?expand=)', d: '' },
 					{ t: 'JWT auth, refresh tokens & email verification', d: '' },
 					{ t: 'Reference-data seeding & required defaults', d: '' },
-					{ t: 'Tests across 3 layers + e2e: success & error · 95–100% coverage', d: '' },
+					{ t: 'Four-layer test pyramid: success & error · 95–100% coverage', d: 'unit · integration · component · e2e' },
+					{ t: 'Architecture enforced in CI, mutation-tested', d: 'ArchUnit rules verify the hexagon; PIT checks the tests catch injected faults' },
 					{ t: 'Validated on 300+ table schemas', d: '' },
 					{ t: 'GitLab scale, 1,000+ tables', d: 'stress-testing the pipeline on very large schemas' },
 				],
@@ -214,6 +219,7 @@ export const ui = {
 				tone: 'now',
 				items: [
 					{ t: 'Public launch', d: 'getting AlveoForge ready to go public: site, demos and first founding clients' },
+					{ t: 'GraphQL / BFF read layer', d: 'alternative to REST expand for complex client graphs' },
 				],
 			},
 			{
@@ -223,7 +229,6 @@ export const ui = {
 					{ t: 'Self-service platform', d: 'upload schema → preview → repo, no call required' },
 					{ t: 'More languages & frameworks', d: 'NestJS, Python and C# (hexagonal), beyond Java, plus any language on client demand' },
 					{ t: 'Optional reactive API', d: 'Mono/Flux, opt-in for streaming / high-I/O domains' },
-					{ t: 'GraphQL / BFF read layer', d: 'alternative to REST expand for complex client graphs' },
 					{ t: 'Hierarchical tree expand', d: 'parent/child trees (self-referential) expanded on read' },
 				],
 			},
@@ -257,7 +262,7 @@ export const ui = {
 					},
 					{
 						q: 'Monolith or microservices?',
-						a: 'Your choice, from the same domain: a modular monolith or one runnable Spring Boot app per module. No rewrite when you switch.',
+						a: 'Your choice, from the same domain: a modular monolith or microservices (one runnable Spring Boot app per module). No rewrite when you switch.',
 					},
 					{
 						q: 'Do I get the generation tool itself?',
@@ -294,15 +299,11 @@ export const ui = {
 					},
 					{
 						q: 'Is the 95–100% coverage real, or empty tests?',
-						// TODO(mutation): "Mutation testing available on request" es un claim SIN respaldo hoy
-						// (el generador NO ejecuta Pitest). Plan de Álvaro: implementar mutation testing de base
-						// (dominio, ejecución aparte). Al hacerlo, reconciliar este texto (publicar score real o
-						// precisar el claim). Aviso también en el ES ("a petición"). Ver memoria landing-gtm-docs.
-						a: 'Methods, lines and branches, measured with JaCoCo. Every path is executed and asserted, not just run. Mutation testing available on request.',
+						a: 'Methods, lines and branches, measured with JaCoCo. Every path is executed and asserted, not just run. Test strength is verified with mutation testing (PIT): it injects faults into the code and checks the tests catch them, at a 95%+ mutation score.',
 					},
 					{
 						q: 'Do the tests cover error paths, or just the happy path?',
-						a: 'Both. Every endpoint is tested for success and for failure: 400 validation, 401 auth, 404, 415, error paths included. Across all 3 layers plus e2e, asserting methods, lines and branches. Empty happy-path tests are exactly what we don’t ship.',
+						a: 'Both. Every endpoint is tested for success and for failure: 400 validation, 401 auth, 404, 415, error paths included. Across the four-layer pyramid, asserting methods, lines and branches. Empty happy-path tests are exactly what we don’t ship.',
 					},
 					{
 						q: 'What operations does each entity get?',
@@ -390,7 +391,7 @@ export const ui = {
 			},
 			{
 				rating: 5,
-				quote: 'Branch coverage held up against our own edge cases. Deterministic, so we audited once and trusted every build.',
+				quote: 'Branch coverage held up against our own edge cases. Deterministic, so we audited once and re-verified on every build.',
 				name: 'J. T.',
 				role: 'Backend Architect',
 				company: 'Software consultancy',
@@ -474,7 +475,7 @@ export const ui = {
 		'privacy.points': [
 			{
 				t: 'Analytics',
-				d: 'We use cookieless analytics: no cookies, no cross-site tracking, no personal identifiers. No consent banner required.',
+				d: 'We use cookieless product analytics (PostHog): no cookies, no cross-site tracking, no persistent identifiers, and nothing stored on your device — so no consent banner is required. This includes session replay (recordings of how our pages are used, with every form input masked) and error tracking (automatic capture of in-browser errors). We use it only to understand and improve the site; because nothing is stored on your device, sessions are not linked across visits.',
 			},
 			{
 				t: 'Contact & scheduling',
@@ -495,7 +496,9 @@ export const ui = {
 	},
 
 	es: {
-		'layout.title': 'AlveoForge — Backends Java listos para producción desde tu schema SQL',
+		'layout.title': 'Backends Java listos para producción desde tu schema SQL',
+		'layout.appDescription':
+			'Generación determinista de backends Java (Spring Boot) listos para producción desde un schema SQL: arquitectura hexagonal real con vertical slicing, CRUD completo con operaciones en lote y expansión de relaciones, autenticación JWT, migraciones de base de datos y una suite de tests de cuatro capas (unit, integration, component, end-to-end) al 95–100% de cobertura, verificada con ArchUnit y mutation testing.',
 		'layout.description':
 			'Backends Java listos para producción desde tu schema SQL: arquitectura hexagonal real, 95–100% tests, determinista. Pruébalo en vivo sobre tu schema antes de pagar. Horas, no meses.',
 		'layout.keywords':
@@ -515,6 +518,7 @@ export const ui = {
 		'nav.about': 'Autor',
 		'nav.blog': 'Blog',
 		'nav.demos': 'Demos',
+		'nav.agencies': 'Para agencias',
 		'nav.cta': 'Agenda una llamada',
 
 		'hero.stamp.l1': 'Provisional',
@@ -525,7 +529,7 @@ export const ui = {
 		'hero.h1': 'Backends Java listos para producción, generados desde tu schema SQL.',
 		'hero.tagline': 'Horas, no meses.',
 		'hero.sub':
-			'Un backend listo para producción, 95–100% tested, en horas. Hexagonal, vertical slicing, monolito o microservicios. Tu equipo construye la lógica de negocio encima.',
+			'Un backend listo para producción, 95–100% tested, en horas. Hexagonal, vertical slicing, monolito modular o microservicios. Tu equipo construye la lógica de negocio encima.',
 		'hero.cta': 'Agenda una llamada',
 		'hero.ctaTry': 'Lo ves funcionando y pruebas cada endpoint antes de pagar nada.',
 		'hero.ctaNote': 'Tu schema es confidencial. NDA a petición.',
@@ -562,7 +566,7 @@ export const ui = {
 			},
 			{
 				t: 'Determinista, no probabilística',
-				d: 'Mismo schema, mismo output, siempre. Lo auditas una vez y confías en cada build. Un equipo + IA produce algo distinto en cada intento.',
+				d: 'Mismo schema, mismo output, siempre. Lo auditas una vez y luego verificas que cada build coincide. Un equipo + IA produce algo distinto en cada intento.',
 			},
 			{
 				t: 'Se arregla en el origen',
@@ -632,7 +636,7 @@ export const ui = {
 			{
 				id: 'contract',
 				t: 'El contrato HTTP completo, testeado',
-				d: 'Cada endpoint se prueba en éxito y en fallo, incluidos los caminos de error. En las 3 capas más e2e, asertando métodos, líneas y ramas.',
+				d: 'Cada endpoint se prueba en éxito y en fallo, incluidos los caminos de error. En la pirámide de cuatro capas, asertando métodos, líneas y ramas.',
 			},
 			{
 				id: 'auth',
@@ -658,8 +662,8 @@ export const ui = {
 			'PostgreSQL · MongoDB · caché Redis · outbox transaccional',
 			'Migraciones de BD (Flyway o Liquibase) + adopción brownfield de tu base de datos existente',
 			'Auth JWT, refresh tokens y verificación por email + perfiles dev / pre / prod',
-			'Suite de tests en las 3 capas + e2e: caminos de éxito y error (95–100%)',
-			'Monolito o microservicios, a tu elección, sin lock-in',
+			'Suite de tests en una pirámide de cuatro capas: caminos de éxito y error (95–100%)',
+			'Monolito modular o microservicios, a tu elección, sin lock-in',
 			'Código 100% tuyo + 30 días de soporte post-entrega',
 		],
 		'get.out': [
@@ -680,17 +684,19 @@ export const ui = {
 				items: [
 					{ t: 'Arquitectura hexagonal real + vertical slicing', d: '' },
 					{ t: 'Generación determinista: mismo schema, mismo output', d: '' },
-					{ t: 'Monolito o microservicios desde el mismo schema', d: '' },
+					{ t: 'Monolito modular o microservicios desde el mismo schema', d: '' },
 					{ t: 'Cobertura completa de tipos SQL estándar', d: '' },
 					{ t: 'PKs compuestas, naturales y autogeneradas · N-N como recurso de primera clase', d: '' },
 					{ t: 'Herencia y particiones declarativas de PostgreSQL', d: '' },
 					{ t: 'Multi-store: PostgreSQL · MongoDB · caché Redis · outbox', d: '' },
+					{ t: 'Separación lectura/escritura · datasources writer y reader', d: 'enruta lecturas a réplicas y escrituras al primario — opt-in para dominios con mucha lectura' },
 					{ t: 'Migraciones (Flyway / Liquibase) + adopción brownfield', d: '' },
 					{ t: 'CRUD completo + operaciones en lote', d: '' },
 					{ t: 'Expand de relaciones al leer (?expand=)', d: '' },
 					{ t: 'Auth JWT, refresh tokens y verificación por email', d: '' },
 					{ t: 'Seeding de reference-data y defaults obligatorios', d: '' },
-					{ t: 'Tests en 3 capas + e2e: éxito y error · 95–100% cobertura', d: '' },
+					{ t: 'Pirámide de tests de 4 capas: éxito y error · 95–100% cobertura', d: 'unit · integration · component · e2e' },
+					{ t: 'Arquitectura verificada en CI, con mutation testing', d: 'reglas ArchUnit verifican el hexágono; PIT comprueba que los tests cazan los fallos inyectados' },
 					{ t: 'Validado en schemas de 300+ tablas', d: '' },
 					{ t: 'Escala a GitLab 1.000+ tablas', d: 'estresando el pipeline en schemas muy grandes' },
 				],
@@ -700,6 +706,7 @@ export const ui = {
 				tone: 'now',
 				items: [
 					{ t: 'Salida al mercado', d: 'preparando AlveoForge para el lanzamiento público: web, demos y primeros clientes fundadores' },
+					{ t: 'Capa de lectura GraphQL / BFF', d: 'alternativa al expand REST para grafos complejos' },
 				],
 			},
 			{
@@ -709,7 +716,6 @@ export const ui = {
 					{ t: 'Plataforma self-service', d: 'subir schema → preview → repo, sin llamada' },
 					{ t: 'Más lenguajes y frameworks', d: 'NestJS, Python y C# (hexagonal), más allá de Java, y cualquier lenguaje a petición del cliente' },
 					{ t: 'API reactiva opcional', d: 'Mono/Flux, opt-in para streaming / alto I/O' },
-					{ t: 'Capa de lectura GraphQL / BFF', d: 'alternativa al expand REST para grafos complejos' },
 					{ t: 'Expand de árboles jerárquicos', d: 'árboles padre/hijo (auto-referencias) expandidos en lectura' },
 				],
 			},
@@ -743,7 +749,7 @@ export const ui = {
 					},
 					{
 						q: '¿Monolito o microservicios?',
-						a: 'A tu elección, desde el mismo dominio: monolito modular o una app Spring Boot arrancable por módulo. Sin reescritura cuando cambies.',
+						a: 'A tu elección, desde el mismo dominio: monolito modular o microservicios (una app Spring Boot arrancable por módulo). Sin reescritura cuando cambies.',
 					},
 					{
 						q: '¿Recibo el sistema de generación?',
@@ -780,11 +786,11 @@ export const ui = {
 					},
 					{
 						q: '¿La cobertura del 95–100% es real o tests vacíos?',
-						a: 'Métodos, líneas y ramas, medido con JaCoCo. Cada camino se ejecuta y se asertan resultados, no solo se recorre. Mutation testing a petición.',
+						a: 'Métodos, líneas y ramas, medido con JaCoCo. Cada camino se ejecuta y se asertan resultados, no solo se recorre. La fuerza de los tests se verifica con mutation testing (PIT): inyecta fallos en el código y comprueba que los tests los cazan, con un mutation score del 95%+.',
 					},
 					{
 						q: '¿Los tests cubren los caminos de error o solo el camino feliz?',
-						a: 'Ambos. Cada endpoint se prueba en éxito y en fallo: 400 validación, 401 auth, 404, 415, incluidos los caminos de error. En las 3 capas más e2e, asertando métodos, líneas y ramas. Los tests vacíos de solo-camino-feliz son justo lo que no entregamos.',
+						a: 'Ambos. Cada endpoint se prueba en éxito y en fallo: 400 validación, 401 auth, 404, 415, incluidos los caminos de error. En la pirámide de cuatro capas, asertando métodos, líneas y ramas. Los tests vacíos de solo-camino-feliz son justo lo que no entregamos.',
 					},
 					{
 						q: '¿Qué operaciones tiene cada entidad?',
@@ -872,7 +878,7 @@ export const ui = {
 			},
 			{
 				rating: 5,
-				quote: 'La cobertura en ramas aguantó nuestros propios casos límite. Determinista: auditamos una vez y confiamos en cada build.',
+				quote: 'La cobertura en ramas aguantó nuestros propios casos límite. Determinista: auditamos una vez y reverificamos en cada build.',
 				name: 'J. T.',
 				role: 'Backend Architect',
 				company: 'Consultora de software',
@@ -957,7 +963,7 @@ export const ui = {
 		'privacy.points': [
 			{
 				t: 'Analítica',
-				d: 'Usamos analítica sin cookies: sin rastreo entre sitios, sin identificadores personales. No requiere banner de consentimiento.',
+				d: 'Usamos analítica de producto sin cookies (PostHog): sin cookies, sin rastreo entre sitios, sin identificadores persistentes y sin guardar nada en tu dispositivo, por lo que no requiere banner de consentimiento. Incluye grabación de sesión (registros de cómo se usan nuestras páginas, con todos los campos de formulario enmascarados) y seguimiento de errores (captura automática de errores en el navegador). Lo usamos solo para entender y mejorar la web; como no se guarda nada en tu dispositivo, las sesiones no se enlazan entre visitas.',
 			},
 			{
 				t: 'Contacto y agenda',

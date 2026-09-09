@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import CtaButton from '@/components/ui/CtaButton.astro';
-import { CAL_URL } from '@/consts';
+import { CAL_URL, SITE_URL } from '@/consts';
 import { getLangFromUrl, localePath, type SupportedLang } from '@/i18n/utils';
 import { getConcept, concepts } from '@/data/concepts';
 
@@ -14,6 +14,27 @@ const c = getConcept(slug)!;
 const idx = concepts.findIndex((x) => x.slug === slug);
 const prev = concepts[idx - 1];
 const next = concepts[idx + 1];
+
+// TechArticle: marca la página como referencia técnica (no una landing más) para
+// buscadores y motores de respuesta. Enlaza autor/editor con la Organization del
+// Layout vía @id (mismo grafo). Sin datePublished: no inventamos fecha por concepto.
+const techArticleJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'TechArticle',
+	headline: c.title[lang],
+	description: c.description[lang],
+	inLanguage: lang,
+	url: new URL(Astro.url.pathname, SITE_URL).href,
+	proficiencyLevel: 'Beginner',
+	author: { '@id': `${SITE_URL}#organization` },
+	publisher: { '@id': `${SITE_URL}#organization` },
+};
+
+// Título: marca como sufijo solo si el total cabe en ~60 car. (límite del SERP de
+// Google). Si no, keyword-first sin marca — el dominio ya la muestra. Hoy solo
+// desborda /sql-to-spring-boot/.
+const brandedTitle = `${c.title[lang]} — AlveoForge`;
+const pageTitle = brandedTitle.length <= 60 ? brandedTitle : c.title[lang];
 
 const L = {
 	en: {
@@ -33,7 +54,7 @@ const L = {
 }[lang];
 ---
 
-<Layout title={`${c.title[lang]} — AlveoForge`} description={c.description[lang]} keywords={c.keywords[lang]} lang={lang}>
+<Layout title={pageTitle} description={c.description[lang]} keywords={c.keywords[lang]} lang={lang} ogType="article" articleJsonLd={techArticleJsonLd}>
 	<main class="max-w-3xl mx-auto px-4 pt-32 pb-24 md:pt-40">
 		{/* Índice de conceptos = barra de pestañas (tabs), no pills. El set completo,
 		    la pestaña activa subrayada (dónde estás) y las visitadas en verde (:visited, sin JS).
@@ -72,6 +93,16 @@ const L = {
 				<section>
 					<h2 class="text-xl md:text-2xl font-bold tracking-tight text-balance">{b.h[lang]}</h2>
 					<p class="mt-3 af-muted">{b.p[lang]}</p>
+					{b.list && (
+						<ul class="mt-4 space-y-2">
+							{b.list[lang].map((li) => (
+								<li class="flex gap-2.5 af-muted">
+									<span class="text-ember dark:text-ember-hot font-bold select-none leading-7" aria-hidden="true">·</span>
+									<span>{li}</span>
+								</li>
+							))}
+						</ul>
+					)}
 				</section>
 			))}
 		</div>

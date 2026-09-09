@@ -7,6 +7,12 @@
  *   PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com   (o https://us.i.posthog.com)
  *
  * Sin key válida no renderiza nada (no carga PostHog, no envía nada).
+ *
+ * Activados: session replay (grabación de sesión) + error tracking (captura de
+ * excepciones). Siguen sin cookies: con `persistence:'memory'` la sesión vive en
+ * memoria (se reinicia al recargar la página). Los inputs se enmascaran por
+ * privacidad (`session_recording.maskAllInputs`). El recorder y el capturador de
+ * excepciones los carga el propio snippet bajo demanda desde el host de assets.
  */
 const key = import.meta.env.PUBLIC_POSTHOG_KEY ?? '';
 const host = import.meta.env.PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com';
@@ -23,7 +29,10 @@ const enabled = Boolean(key) && !key.includes('REPLACE');
 				persistence: 'memory',        // cookieless: no guarda nada en el dispositivo
 				autocapture: true,            // clicks y elementos automáticamente
 				capture_pageview: false,      // lo capturamos a mano (view transitions)
-				disable_session_recording: true,
+				capture_exceptions: true,     // error tracking: captura excepciones no controladas
+				session_recording: {
+					maskAllInputs: true,      // session replay: enmascara TODO input (privacidad)
+				},
 			});
 
 			document.addEventListener('astro:page-load', function () {
