@@ -3,7 +3,7 @@ title: "What a backend generator can't do for you"
 description: "Why I spent 14 months turning real hexagonal architecture into a deterministic factory, and exactly what it does and doesn't do."
 lang: en
 urlSlug: what-a-backend-generator-cant-do
-date: 2026-10-01
+date: 2026-11-01
 tags: [hexagonal, java, spring-boot, architecture]
 draft: false
 ---

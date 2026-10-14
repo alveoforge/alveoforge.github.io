@@ -1,0 +1,54 @@
+# AlveoForge
+
+> AlveoForge deterministically generates production-ready Java (Spring Boot) backends from a SQL schema: real hexagonal architecture with vertical slicing, full CRUD, JWT authentication, database migrations and a four-layer test suite at 95–100% coverage. Hours, not months. You see it running on your own schema, with Swagger and test reports, before you pay.
+
+## What AlveoForge is
+
+- A deterministic backend generator: the same SQL schema always produces the same code. No LLM, no output that drifts between runs.
+- Output: Java 25, Spring Boot 4.1, real hexagonal architecture with vertical slicing (one self-contained slice per entity), deployable as a modular monolith or as microservices from the same schema.
+- Included per entity: full CRUD with bulk operations and relationship expansion (`?expand`, up to two levels by default), JWT authentication with password hashing and refresh tokens, Flyway or Liquibase migrations (adopts an existing database — brownfield supported), tested HTTP contracts (success and 400 / 401 / 404 / 415), and full standard PostgreSQL type coverage (arrays, enums, JSONB, UUID, timestamptz, numeric precision, bytea, composite and foreign keys, table inheritance and partitions).
+- Tests: a four-layer pyramid (unit, integration, component, end-to-end), each layer its own Maven profile, at 95–100% coverage, verified with ArchUnit and mutation testing (PIT). JaCoCo coverage and HTML test reports (Allure) ship with the delivery.
+- The customer's team builds the business logic on top; new features are added as independent vertical slices.
+- Validated on a real 300+ table schema.
+
+## What AlveoForge is not
+
+- Not an AI code assistant: generation is deterministic, not probabilistic LLM output that changes on every run.
+- Does not write business logic, row-level authorization or third-party integrations. Those stay with the customer's team.
+- Not a starter kit or Spring Initializr: the delivered backend is runnable and deployable, with a vertical slice per entity.
+- Unrelated to AMD (Xilinx) Alveo accelerator cards, Laravel Forge, Atlassian Forge and Minecraft Forge.
+
+## Who it is for
+
+- Tech leads and CTOs with a legacy or stalled backend who need new features without freezing the team for a rewrite.
+- Agencies that deliver backends to clients and want the same structure on every project.
+
+## How buying works
+
+- Priced per project on your schema (size and complexity), not per table. No public price list.
+- You see your backend running on your own schema, with its Swagger and test reports, before you pay anything.
+- The first payment is a down-payment, not the whole project. Fifteen days to decide on a quote.
+- Delivered in a private repository. The code is fully yours, with no lock-in; the generation factory itself stays proprietary.
+- 30-day post-delivery support included. Your schema is treated as confidential, and an NDA is available on request.
+- Book a call: https://cal.com/alveoforge
+
+## Key pages
+
+- [Home](https://alveoforge.com/): product overview, how it works, FAQ
+- [Live demos](https://alveoforge.com/demos/): real generated backends with Swagger, test reports, JaCoCo coverage and Allure dashboards
+- [SQL to Spring Boot](https://alveoforge.com/sql-to-spring-boot/): what the generator turns a schema into
+- [Hexagonal vs layered architecture](https://alveoforge.com/hexagonal-vs-layered/)
+- [Deterministic generation vs AI](https://alveoforge.com/deterministic-vs-ai/)
+- [Testing approach](https://alveoforge.com/testing/): the four-layer test pyramid
+- [For agencies](https://alveoforge.com/for-agencies/)
+- [Blog](https://alveoforge.com/blog/)
+- [Changelog](https://alveoforge.com/changelog/)
+- [Privacy](https://alveoforge.com/privacy/)
+- [One-pager (PDF)](https://alveoforge.com/alveoforge-onepager.pdf)
+- Spanish version: https://alveoforge.com/es/
+
+## Company
+
+- Founded by Álvaro Guillén González, solo founder and first user of the product.
+- Contact: hello@alveoforge.com
+- LinkedIn: https://linkedin.com/in/alvaroguillengonzalez

@@ -1,0 +1,89 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Pip from '@/components/ui/Pip.astro';
+const t = useTranslations(getLangFromUrl(Astro.url));
+const cols = t('comparison.cols');
+const rows = t('comparison.rows');
+
+// Nivel visual por celda (presentación, NO traducible) — alineado por ÍNDICE con
+// `comparison.rows` de src/i18n/ui.ts (mismo orden de dimensiones). full ● / part ◐
+// / none ○. Honesto a propósito: JHipster se lleva FULL donde lo merece (consistencia
+// y propiedad) y la fila Ownership queda igualada para todos; la credibilidad viene
+// de conceder, no de pintarlo todo verde.
+//        [AlveoForge, JHipster, Scaffold, Senior+AI]
+const LEVELS: ('full' | 'part' | 'none')[][] = [
+	['full', 'part', 'none', 'part'], // Architecture
+	['full', 'full', 'part', 'none'], // Consistency at scale
+	['full', 'part', 'none', 'none'], // Persistence model
+	['full', 'part', 'none', 'none'], // Tests
+	['full', 'none', 'none', 'none'], // Quality gates
+	['full', 'part', 'none', 'none'], // Migrations & existing DB
+	['full', 'part', 'none', 'none'], // Scale
+	['full', 'full', 'full', 'full'], // Ownership (igualada: todos poseen su código)
+];
+// Red de seguridad: si alguien toca el nº de filas de comparison.rows y se desalinea,
+// no pintamos pips (mejor sin pip que un pip equivocado).
+const levels = LEVELS.length === rows.length ? LEVELS : null;
+---
+
+{/* Comparison table. Claims describe DEFAULT output; kept fair and verifiable.
+    Mirror of the Reviews pattern: comment out <Comparison /> in the page to hide. */}
+<section id="comparison" class="max-w-5xl mx-auto px-4 py-20 md:py-28">
+	<SectionHeading eyebrow={t('comparison.eyebrow')} title={t('comparison.title')} />
+	<p class="mt-5 max-w-2xl af-muted">{t('comparison.intro')}</p>
+
+	<div class="mt-10 overflow-x-auto">
+		<table class="w-full min-w-[720px] border-collapse text-sm">
+			<thead>
+				<tr>
+					<th class="w-40 p-3 text-left align-bottom"></th>
+					{cols.map((c, i) => (
+						<th
+							scope="col"
+							class:list={[
+								'p-3 text-left align-bottom font-semibold border-b border-black/10 dark:border-white/15',
+								i === 0
+									? 'text-ember dark:text-ember-hot bg-ember/10 dark:bg-ember-hot/10'
+									: 'af-muted',
+							]}
+						>
+							{c}
+						</th>
+					))}
+				</tr>
+			</thead>
+			<tbody>
+				{rows.map((r, ri) => (
+					<tr class="align-top">
+						<th
+							scope="row"
+							class="p-3 text-left font-mono text-[11px] uppercase tracking-[0.1em] text-ink-faint border-b border-black/5 dark:border-white/10"
+						>
+							{r.dim}
+						</th>
+						{r.cells.map((cell, i) => (
+							<td
+								class:list={[
+									'p-3 leading-snug border-b border-black/5 dark:border-white/10',
+									i === 0 ? 'bg-ember/10 dark:bg-ember-hot/10 font-medium' : 'af-muted',
+								]}
+							>
+								<div class="flex items-start gap-2">
+									{levels && (
+										<span class:list={['mt-px', i === 0 ? 'text-ember dark:text-ember-hot' : 'text-ink-faint']}>
+											<Pip level={levels[ri][i]} />
+										</span>
+									)}
+									<span>{cell}</span>
+								</div>
+							</td>
+						))}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+
+	<p class="mt-5 text-xs af-muted">{t('comparison.note')}</p>
+</section>

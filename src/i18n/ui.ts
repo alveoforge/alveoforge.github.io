@@ -36,7 +36,7 @@ export const ui = {
 		// SHOW_PROVISIONAL_STAMP en src/consts.ts al lanzar.
 		'hero.stamp.l1': 'Provisional',
 		'hero.stamp.l2': 'until official launch',
-		'hero.stamp.l3': 'Aug – Sep 2026',
+		'hero.stamp.l3': 'Q4 2026',
 
 		'hero.badge': 'Validated on a real 300+ table schema',
 		'hero.h1': 'Production-ready Java backends, generated from your SQL schema.',
@@ -51,7 +51,7 @@ export const ui = {
 			'Spring Boot 4.1',
 			'Hexagonal',
 			'Vertical slicing',
-			'95–100% tests',
+			'ArchUnit + mutation-tested',
 		],
 
 		'video.eyebrow': 'See it in action',
@@ -144,7 +144,7 @@ export const ui = {
 			{
 				id: 'expand',
 				t: 'Relationship expansion on read',
-				d: 'GET endpoints hydrate related entities on demand, across vertical slices, with no N+1 queries and no JPA object graph leaking across your layers.',
+				d: 'GET endpoints hydrate related entities on demand across vertical slices, up to two levels by default (adjustable), with no N+1 queries and no JPA object graph leaking across your layers.',
 			},
 			{
 				id: 'contract',
@@ -158,8 +158,8 @@ export const ui = {
 			},
 			{
 				id: 'rulings',
-				t: 'Architectural rulings, applied consistently',
-				d: 'Scalar foreign keys (no ORM graph bleeding across layers), N-N as first-class join-table entities, soft-delete from audit columns, composite, natural and identity keys. The rulings that separate “it compiles” from “it’s correct”.',
+				t: 'Architectural decisions, applied consistently',
+				d: 'Scalar foreign keys (no ORM graph bleeding across layers), N-N as first-class join-table entities, soft-delete from audit columns, composite, natural and identity keys. The decisions that separate “it compiles” from “it’s correct”.',
 			},
 		],
 
@@ -199,37 +199,70 @@ export const ui = {
 					{ t: 'Deterministic generation: same schema, same output', d: '' },
 					{ t: 'Modular monolith or microservices from the same schema', d: '' },
 					{ t: 'Full standard SQL type coverage', d: '' },
-					{ t: 'Composite, natural & generated primary keys · N-N as first-class resources', d: '' },
+					{
+						t: 'Composite, natural & generated primary keys · N-N as first-class resources',
+						d: '',
+					},
 					{ t: 'PostgreSQL inheritance & declarative partitioning', d: '' },
 					{ t: 'Multi-store: PostgreSQL · MongoDB · Redis cache · outbox', d: '' },
-					{ t: 'Read/write splitting · writer & reader datasources', d: 'route reads to replicas, writes to the primary — opt-in for read-heavy domains' },
+					{
+						t: 'Read/write splitting · writer & reader datasources',
+						d: 'reads to replicas, writes to the primary, with an application-owned transaction boundary (Unit of Work) — opt-in for read-heavy domains',
+					},
 					{ t: 'Migrations (Flyway / Liquibase) + brownfield adoption', d: '' },
 					{ t: 'Full CRUD + bulk operations', d: '' },
 					{ t: 'Relationship expansion on read (?expand=)', d: '' },
 					{ t: 'JWT auth, refresh tokens & email verification', d: '' },
 					{ t: 'Reference-data seeding & required defaults', d: '' },
-					{ t: 'Four-layer test pyramid: success & error · 95–100% coverage', d: 'unit · integration · component · e2e' },
-					{ t: 'Architecture enforced in CI, mutation-tested', d: 'ArchUnit rules verify the hexagon; PIT checks the tests catch injected faults' },
+					{
+						t: 'Four-layer test pyramid: success & error · 95–100% coverage',
+						d: 'unit · integration · component · e2e',
+					},
+					{
+						t: 'Architecture enforced in CI, mutation-tested',
+						d: 'ArchUnit rules verify the hexagon; PIT checks the tests catch injected faults',
+					},
 					{ t: 'Validated on 300+ table schemas', d: '' },
-					{ t: 'GitLab scale, 1,000+ tables', d: 'stress-testing the pipeline on very large schemas' },
+					{
+						t: 'GitLab scale, 1,000+ tables',
+						d: 'stress-testing the pipeline on very large schemas',
+					},
+					{
+						t: 'GraphQL',
+						d: 'alternative to REST expand for complex client graphs',
+					},
 				],
 			},
 			{
 				label: 'In progress',
 				tone: 'now',
 				items: [
-					{ t: 'Public launch', d: 'getting AlveoForge ready to go public: site, demos and first founding clients' },
-					{ t: 'GraphQL / BFF read layer', d: 'alternative to REST expand for complex client graphs' },
+					{
+						t: 'Public launch',
+						d: 'getting AlveoForge ready to go public: site, demos and first founding clients',
+					},
 				],
 			},
 			{
 				label: 'Long term',
 				tone: 'next',
 				items: [
-					{ t: 'Self-service platform', d: 'upload schema → preview → repo, no call required' },
-					{ t: 'More languages & frameworks', d: 'NestJS, Python and C# (hexagonal), beyond Java, plus any language on client demand' },
-					{ t: 'Optional reactive API', d: 'Mono/Flux, opt-in for streaming / high-I/O domains' },
-					{ t: 'Hierarchical tree expand', d: 'parent/child trees (self-referential) expanded on read' },
+					{
+						t: 'Self-service platform',
+						d: 'upload schema → preview → repo, no call required',
+					},
+					{
+						t: 'More languages & frameworks',
+						d: 'NestJS, Python and C# (hexagonal), beyond Java, plus any language on client demand',
+					},
+					{
+						t: 'Optional reactive API',
+						d: 'Mono/Flux, opt-in for streaming / high-I/O domains',
+					},
+					{
+						t: 'Hierarchical tree expand',
+						d: 'parent/child trees (self-referential) expanded on read',
+					},
 				],
 			},
 		],
@@ -239,7 +272,7 @@ export const ui = {
 		'founder.eyebrow': 'About the founder',
 		'founder.title': 'Built by someone who lived the problem',
 		'founder.body':
-			'I’m Álvaro. AlveoForge started from a deadlock I watched up close: a backend that worked but had no real architecture. Rewriting it properly was the right engineering call, but it meant freezing the team for the better part of a year while clients wanted new features now. No business can afford to stop that long, and that tradeoff is exactly what AlveoForge removes. I spent 11+ months turning real hexagonal architecture at scale into a deterministic factory that delivers a production-ready backend in hours, not months. I’m its first user, validated at scale on a real system. If it convinces you, let’s talk.',
+			'I’m Álvaro. AlveoForge started from a deadlock I watched up close: a backend that worked but had no real architecture. Rewriting it properly was the right engineering call, but it meant freezing the team for the better part of a year while clients wanted new features now. The business logic wasn’t the hard part; we already had it. What consumed the year was rebuilding the hexagonal structure and its full test suite, entity by entity. No business can afford to stop that long, and that tradeoff is exactly what AlveoForge removes. I spent 14 months turning real hexagonal architecture at scale into a deterministic factory that delivers a production-ready backend in hours, not months. I’m its first user, validated at scale on a real system. If it convinces you, let’s talk.',
 		'founder.linkedin': 'LinkedIn',
 
 		'faq.eyebrow': 'FAQ',
@@ -270,7 +303,7 @@ export const ui = {
 					},
 					{
 						q: 'How is pricing set?',
-						a: 'Per-project, priced on your schema (size and complexity), not per table. The first payment is a down-payment: you see your backend running on your schema, with its Swagger and test reports, before you pay anything. As a yardstick, the same structural layer built in-house is four to eight months of a team.',
+						a: 'Per-project, priced on your schema (size and complexity), not per table. The first payment is a down-payment: you see your backend running on your schema, with its Swagger and test reports, before you pay anything. As a yardstick, the same structural layer built in-house is six to ten months of a team.',
 					},
 					{
 						q: 'Who owns the generated code?',
@@ -288,6 +321,7 @@ export const ui = {
 			},
 			{
 				label: 'For tech leads',
+				// TODO(AF-18 · landing audit 16-Sep): add a Q on the aggregate / cross-table consistency boundary here once aggregates land (post-GraphQL). Declare the entity-per-slice vs multi-table-aggregate limit explicitly — a declared limitation is cheaper than a discovered one.
 				items: [
 					{
 						q: 'Real hexagonal, or MVC with hexagonal folder names?',
@@ -316,6 +350,10 @@ export const ui = {
 					{
 						q: 'Can my team maintain code it didn’t write?',
 						a: 'Yes. One pattern repeated consistently, standard readable code any Java dev extends from day one, plus a 30-day support window. And you own it: no dependency on AlveoForge.',
+					},
+					{
+						q: 'What happens to my code when I regenerate?',
+						a: 'Regeneration reproduces the factory version of an entity, so manual edits to that same slice are overwritten. In practice you regenerate to add new entities: because each one is an independent vertical slice, new slices drop in alongside the code your team already wrote and edited, without touching it. Your business logic lives in its own slices and stays intact.',
 					},
 					{
 						q: 'Do I need a specific IDE or build tool?',
@@ -366,7 +404,10 @@ export const ui = {
 				t: 'First tranche',
 				d: 'A first set of tables. You pick which, and we suggest your hardest. You read the real code before committing to the rest.',
 			},
-			{ t: 'The repo is yours', d: 'Second payment, and the full repository is yours to keep.' },
+			{
+				t: 'The repo is yours',
+				d: 'Second payment, and the full repository is yours to keep.',
+			},
 		],
 		'process.asymTitle': 'Why we can do this and a consultancy can’t',
 		'process.asym':
@@ -400,6 +441,93 @@ export const ui = {
 		'reviews.refTitle': 'Prefer to hear it first-hand?',
 		'reviews.refText': 'We’ll arrange a reference call with a team that built with AlveoForge.',
 
+		'comparison.eyebrow': 'Where it stands',
+		'comparison.title': 'Any of these gives you a clean first entity',
+		'comparison.intro':
+			'Architectures don’t die in the design; they die at the 200th entity, at 6pm, under a deadline. This is what holds that line and what doesn’t, comparing the default output rather than the best case each tool reaches with extra work.',
+		'comparison.cols': [
+			'AlveoForge',
+			'JHipster',
+			'Scaffold / boilerplate',
+			'Senior dev + AI copilot',
+		],
+		'comparison.rows': [
+			{
+				dim: 'Architecture',
+				cells: [
+					'Real hexagonal, ports & adapters, one vertical slice per entity',
+					'Layered: controller / service / repository',
+					'Whatever you wire up yourself',
+					'Drifts toward layered MVC',
+				],
+			},
+			{
+				dim: 'Consistency at scale',
+				cells: [
+					'Deterministic: the 200th entity matches the first',
+					'Consistent, but layered',
+					'As consistent as the team stays',
+					'Drifts entity by entity, silently',
+				],
+			},
+			{
+				dim: 'Persistence model',
+				cells: [
+					'Scalar foreign keys, no JPA graph across layers; ?expand without N+1',
+					'Bidirectional JPA entity graph',
+					'Your call',
+					'Usually a JPA graph, N+1 by default',
+				],
+			},
+			{
+				dim: 'Tests',
+				cells: [
+					'Four-layer pyramid, 95–100% coverage (JaCoCo)',
+					'Basic generated tests',
+					'You write them',
+					'Partial tests, rarely measured',
+				],
+			},
+			{
+				dim: 'Quality gates',
+				cells: [
+					'ArchUnit + mutation testing (PIT) in CI',
+					'None by default',
+					'None',
+					'None',
+				],
+			},
+			{
+				dim: 'Migrations & existing DB',
+				cells: [
+					'Flyway or Liquibase at parity, plus brownfield adoption; your DDL is the source of truth',
+					'Liquibase',
+					'Do it yourself',
+					'Ad hoc',
+				],
+			},
+			{
+				dim: 'Scale',
+				cells: [
+					'Validated to 1,000+ tables → microservices',
+					'Entity by entity, no scale contract',
+					'—',
+					'Degrades as the schema grows',
+				],
+			},
+			{
+				dim: 'Ownership',
+				cells: [
+					'Standard Maven & Spring, yours, no runtime dependency on us',
+					'Yours, within framework conventions',
+					'Yours',
+					'Yours',
+				],
+			},
+		],
+		'comparison.note':
+			'Every tool here is capable in the right hands. The axis is what you get by default, and what still holds at the 200th entity.',
+
 		'cta.title': 'Ready to see it on your schema?',
 		'cta.button': 'Book a call',
 		'cta.note': 'Your schema stays confidential. NDA on request.',
@@ -421,7 +549,7 @@ export const ui = {
 		'changelog.eyebrow': 'Changelog',
 		'changelog.title': 'Product changelog',
 		'changelog.intro':
-			'What’s new in AlveoForge: capabilities, rulings and fixes, newest first.',
+			'What’s new in AlveoForge: capabilities, decisions and fixes, newest first.',
 		'changelog.back': '← Back to home',
 		'changelog.empty': 'Nothing logged yet.',
 
@@ -523,7 +651,7 @@ export const ui = {
 
 		'hero.stamp.l1': 'Provisional',
 		'hero.stamp.l2': 'hasta el lanzamiento oficial',
-		'hero.stamp.l3': 'Ago – Sep 2026',
+		'hero.stamp.l3': 'Q4 2026',
 
 		'hero.badge': 'Validado en un schema real de 300+ tablas',
 		'hero.h1': 'Backends Java listos para producción, generados desde tu schema SQL.',
@@ -538,7 +666,7 @@ export const ui = {
 			'Spring Boot 4.1',
 			'Hexagonal',
 			'Vertical slicing',
-			'95–100% tests',
+			'ArchUnit + mutation testing',
 		],
 
 		'video.eyebrow': 'Míralo en acción',
@@ -631,7 +759,7 @@ export const ui = {
 			{
 				id: 'expand',
 				t: 'Expand de relaciones al leer',
-				d: 'Los GET hidratan entidades relacionadas a demanda, entre vertical slices, sin N+1 ni grafo JPA expuesto entre tus capas.',
+				d: 'Los GET hidratan entidades relacionadas a demanda entre vertical slices, hasta dos niveles por defecto (ajustable), sin N+1 ni grafo JPA expuesto entre tus capas.',
 			},
 			{
 				id: 'contract',
@@ -646,7 +774,7 @@ export const ui = {
 			{
 				id: 'rulings',
 				t: 'Las decisiones de arquitectura, aplicadas',
-				d: 'FK escalares (sin grafo ORM filtrándose entre capas), N-N como entidades join-table de primera clase, soft-delete desde columnas de auditoría, claves compuestas, naturales e identity. Los rulings que separan «compila» de «es correcto».',
+				d: 'FK escalares (sin grafo ORM filtrándose entre capas), N-N como entidades join-table de primera clase, soft-delete desde columnas de auditoría, claves compuestas, naturales e identity. Las decisiones que separan «compila» de «es correcto».',
 			},
 		],
 
@@ -686,37 +814,70 @@ export const ui = {
 					{ t: 'Generación determinista: mismo schema, mismo output', d: '' },
 					{ t: 'Monolito modular o microservicios desde el mismo schema', d: '' },
 					{ t: 'Cobertura completa de tipos SQL estándar', d: '' },
-					{ t: 'PKs compuestas, naturales y autogeneradas · N-N como recurso de primera clase', d: '' },
+					{
+						t: 'PKs compuestas, naturales y autogeneradas · N-N como recurso de primera clase',
+						d: '',
+					},
 					{ t: 'Herencia y particiones declarativas de PostgreSQL', d: '' },
 					{ t: 'Multi-store: PostgreSQL · MongoDB · caché Redis · outbox', d: '' },
-					{ t: 'Separación lectura/escritura · datasources writer y reader', d: 'enruta lecturas a réplicas y escrituras al primario — opt-in para dominios con mucha lectura' },
+					{
+						t: 'Separación lectura/escritura · datasources writer y reader',
+						d: 'lecturas a réplicas y escrituras al primario, con una frontera transaccional en la aplicación (Unit of Work) — opt-in para dominios con mucha lectura',
+					},
 					{ t: 'Migraciones (Flyway / Liquibase) + adopción brownfield', d: '' },
 					{ t: 'CRUD completo + operaciones en lote', d: '' },
 					{ t: 'Expand de relaciones al leer (?expand=)', d: '' },
 					{ t: 'Auth JWT, refresh tokens y verificación por email', d: '' },
 					{ t: 'Seeding de reference-data y defaults obligatorios', d: '' },
-					{ t: 'Pirámide de tests de 4 capas: éxito y error · 95–100% cobertura', d: 'unit · integration · component · e2e' },
-					{ t: 'Arquitectura verificada en CI, con mutation testing', d: 'reglas ArchUnit verifican el hexágono; PIT comprueba que los tests cazan los fallos inyectados' },
+					{
+						t: 'Pirámide de tests de 4 capas: éxito y error · 95–100% cobertura',
+						d: 'unit · integration · component · e2e',
+					},
+					{
+						t: 'Arquitectura verificada en CI, con mutation testing',
+						d: 'reglas ArchUnit verifican el hexágono; PIT comprueba que los tests cazan los fallos inyectados',
+					},
 					{ t: 'Validado en schemas de 300+ tablas', d: '' },
-					{ t: 'Escala a GitLab 1.000+ tablas', d: 'estresando el pipeline en schemas muy grandes' },
+					{
+						t: 'Escala a GitLab 1.000+ tablas',
+						d: 'estresando el pipeline en schemas muy grandes',
+					},
+					{
+						t: 'Capa de lectura GraphQL',
+						d: 'alternativa al expand REST para grafos complejos',
+					},
 				],
 			},
 			{
 				label: 'En marcha',
 				tone: 'now',
 				items: [
-					{ t: 'Salida al mercado', d: 'preparando AlveoForge para el lanzamiento público: web, demos y primeros clientes fundadores' },
-					{ t: 'Capa de lectura GraphQL / BFF', d: 'alternativa al expand REST para grafos complejos' },
+					{
+						t: 'Salida al mercado',
+						d: 'preparando AlveoForge para el lanzamiento público: web, demos y primeros clientes fundadores',
+					},
 				],
 			},
 			{
 				label: 'Largo plazo',
 				tone: 'next',
 				items: [
-					{ t: 'Plataforma self-service', d: 'subir schema → preview → repo, sin llamada' },
-					{ t: 'Más lenguajes y frameworks', d: 'NestJS, Python y C# (hexagonal), más allá de Java, y cualquier lenguaje a petición del cliente' },
-					{ t: 'API reactiva opcional', d: 'Mono/Flux, opt-in para streaming / alto I/O' },
-					{ t: 'Expand de árboles jerárquicos', d: 'árboles padre/hijo (auto-referencias) expandidos en lectura' },
+					{
+						t: 'Plataforma self-service',
+						d: 'subir schema → preview → repo, sin llamada',
+					},
+					{
+						t: 'Más lenguajes y frameworks',
+						d: 'NestJS, Python y C# (hexagonal), más allá de Java, y cualquier lenguaje a petición del cliente',
+					},
+					{
+						t: 'API reactiva opcional',
+						d: 'Mono/Flux, opt-in para streaming / alto I/O',
+					},
+					{
+						t: 'Expand de árboles jerárquicos',
+						d: 'árboles padre/hijo (auto-referencias) expandidos en lectura',
+					},
 				],
 			},
 		],
@@ -726,7 +887,7 @@ export const ui = {
 		'founder.eyebrow': 'Sobre el autor',
 		'founder.title': 'Hecho por alguien que vivió el problema',
 		'founder.body':
-			'Soy Álvaro. AlveoForge nació de un bloqueo que viví de cerca: un backend que funcionaba pero no tenía arquitectura real. Reescribirlo bien era la decisión de ingeniería correcta, pero implicaba congelar al equipo casi un año mientras los clientes pedían features nuevas ya. Ninguna empresa puede permitirse parar tanto, y ese es justo el dilema que AlveoForge elimina. Pasé 11+ meses convirtiendo arquitectura hexagonal real a escala en una fábrica determinista que entrega un backend listo para producción en horas, no meses. Soy su primer usuario, ya validado a escala en un sistema real. Si te convence, hablamos.',
+			'Soy Álvaro. AlveoForge nació de un bloqueo que viví de cerca: un backend que funcionaba pero no tenía arquitectura real. Reescribirlo bien era la decisión de ingeniería correcta, pero implicaba congelar al equipo casi un año mientras los clientes pedían features nuevas ya. La lógica de negocio no era lo difícil; esa ya la teníamos. Lo que se comió el año fue reconstruir la estructura hexagonal y toda su suite de tests, entidad a entidad. Ninguna empresa puede permitirse parar tanto, y ese es justo el dilema que AlveoForge elimina. Pasé 14 meses convirtiendo arquitectura hexagonal real a escala en una fábrica determinista que entrega un backend listo para producción en horas, no meses. Soy su primer usuario, ya validado a escala en un sistema real. Si te convence, hablamos.',
 		'founder.linkedin': 'LinkedIn',
 
 		'faq.eyebrow': 'FAQ',
@@ -757,7 +918,7 @@ export const ui = {
 					},
 					{
 						q: '¿Cómo se fija el precio?',
-						a: 'Por proyecto, calculado sobre tu schema (tamaño y complejidad), no por tabla. El primer pago es una señal: ves tu backend funcionando sobre tu schema, con su Swagger y sus informes de tests, antes de pagar nada. Como referencia, la misma capa estructural construida en interno son cuatro a ocho meses de un equipo.',
+						a: 'Por proyecto, calculado sobre tu schema (tamaño y complejidad), no por tabla. El primer pago es una señal: ves tu backend funcionando sobre tu schema, con su Swagger y sus informes de tests, antes de pagar nada. Como referencia, la misma capa estructural construida en interno son seis a diez meses de un equipo.',
 					},
 					{
 						q: '¿De quién es el código generado?',
@@ -775,6 +936,7 @@ export const ui = {
 			},
 			{
 				label: 'Para tech leads',
+				// TODO(AF-18 · auditoría landing 16-Sep): añadir aquí una Q sobre la frontera de consistencia agregado / multi-tabla cuando existan los agregados (post-GraphQL). Declarar el límite entity-por-slice vs agregado multi-tabla — una limitación declarada cuesta menos que una descubierta.
 				items: [
 					{
 						q: '¿Hexagonal de verdad o MVC con carpetas hexagonales?',
@@ -803,6 +965,10 @@ export const ui = {
 					{
 						q: '¿Puede mi equipo mantener código que no escribió?',
 						a: 'Sí. Un patrón repetido de forma consistente, código estándar y legible que cualquier dev Java extiende desde el día uno, más 30 días de soporte. Y es tuyo: sin dependencia de AlveoForge.',
+					},
+					{
+						q: '¿Qué pasa con mi código cuando regenero?',
+						a: 'La regeneración reproduce la versión de fábrica de una entidad, así que las ediciones manuales de ese mismo slice se sobrescriben. En la práctica regeneras para añadir entidades nuevas: como cada una es un vertical slice independiente, los slices nuevos entran junto al código que tu equipo ya escribió y editó, sin tocarlo. Tu lógica de negocio vive en sus propios slices y queda intacta.',
 					},
 					{
 						q: '¿Necesito un IDE o herramienta de build concreta?',
@@ -844,7 +1010,10 @@ export const ui = {
 		'process.steps': [
 			{ t: 'Una llamada', d: 'Nos cuentas tu sistema y nos pasas tu schema SQL.' },
 			{ t: 'Recibes el presupuesto', d: 'Quince días para decidir. Sin prisa ni presión.' },
-			{ t: 'Generamos tu backend', d: 'A partir de tu schema: hexagonal, tested, ejecutable.' },
+			{
+				t: 'Generamos tu backend',
+				d: 'A partir de tu schema: hexagonal, tested, ejecutable.',
+			},
 			{
 				t: 'Lo ves funcionando, gratis',
 				d: 'Un enlace privado: tu API en vivo, su Swagger, su informe de tests y su cobertura JaCoCo. Todavía no has pagado nada.',
@@ -888,6 +1057,93 @@ export const ui = {
 		'reviews.refText':
 			'Organizamos una reference call con un equipo que construyó con AlveoForge.',
 
+		'comparison.eyebrow': 'Dónde encaja',
+		'comparison.title': 'Cualquiera te da una primera entidad limpia',
+		'comparison.intro':
+			'Las arquitecturas no mueren en el diseño; mueren en la entidad 200, a las 6 de la tarde, bajo un deadline. Esto es lo que aguanta esa línea y lo que no, comparando la salida por defecto y no el mejor caso al que llega cada herramienta con trabajo extra.',
+		'comparison.cols': [
+			'AlveoForge',
+			'JHipster',
+			'Scaffold / plantilla',
+			'Senior + copiloto IA',
+		],
+		'comparison.rows': [
+			{
+				dim: 'Arquitectura',
+				cells: [
+					'Hexagonal real, puertos y adaptadores, un vertical slice por entidad',
+					'En capas: controller / service / repository',
+					'Lo que montes tú',
+					'Deriva hacia MVC en capas',
+				],
+			},
+			{
+				dim: 'Consistencia a escala',
+				cells: [
+					'Determinista: la entidad 200 es igual que la primera',
+					'Consistente, pero en capas',
+					'Tan consistente como se mantenga el equipo',
+					'Deriva entidad a entidad, en silencio',
+				],
+			},
+			{
+				dim: 'Modelo de persistencia',
+				cells: [
+					'FK escalares, sin grafo JPA entre capas; ?expand sin N+1',
+					'Grafo JPA bidireccional',
+					'A tu criterio',
+					'Normalmente un grafo JPA, N+1 por defecto',
+				],
+			},
+			{
+				dim: 'Tests',
+				cells: [
+					'Pirámide de 4 capas, 95–100% de cobertura (JaCoCo)',
+					'Tests generados básicos',
+					'Los escribes tú',
+					'Tests parciales, rara vez medidos',
+				],
+			},
+			{
+				dim: 'Puertas de calidad',
+				cells: [
+					'ArchUnit + mutation testing (PIT) en CI',
+					'Ninguna por defecto',
+					'Ninguna',
+					'Ninguna',
+				],
+			},
+			{
+				dim: 'Migraciones y BD existente',
+				cells: [
+					'Flyway o Liquibase con paridad, más adopción brownfield; tu DDL es la fuente de verdad',
+					'Liquibase',
+					'A mano',
+					'Ad hoc',
+				],
+			},
+			{
+				dim: 'Escala',
+				cells: [
+					'Validado a 1.000+ tablas → microservicios',
+					'Entidad a entidad, sin contrato de escala',
+					'—',
+					'Se degrada según crece el schema',
+				],
+			},
+			{
+				dim: 'Propiedad',
+				cells: [
+					'Maven y Spring estándar, tuyo, sin dependencia de nosotros en runtime',
+					'Tuyo, dentro de las convenciones del framework',
+					'Tuyo',
+					'Tuyo',
+				],
+			},
+		],
+		'comparison.note':
+			'Todas son capaces en las manos adecuadas. El eje es qué obtienes por defecto y qué sigue aguantando en la entidad 200.',
+
 		'cta.title': '¿Listo para verlo sobre tu schema?',
 		'cta.button': 'Agenda una llamada',
 		'cta.note': 'Tu schema es confidencial. NDA a petición.',
@@ -909,7 +1165,7 @@ export const ui = {
 		'changelog.eyebrow': 'Changelog',
 		'changelog.title': 'Changelog del producto',
 		'changelog.intro':
-			'Novedades de AlveoForge: capacidades, rulings y fixes, lo más nuevo primero.',
+			'Novedades de AlveoForge: capacidades, decisiones y fixes, lo más nuevo primero.',
 		'changelog.back': '← Volver al inicio',
 		'changelog.empty': 'Nada registrado todavía.',
 

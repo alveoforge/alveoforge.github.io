@@ -1,6 +1,9 @@
 ---
 import { getLangFromUrl, localePath, useTranslations } from '@/i18n/utils';
 import { CONTACT_EMAIL, ONEPAGER_URL, YOUTUBE_URL, LINKEDIN_URL } from '@/consts';
+import Mail from '@/components/icons/Mail.astro';
+import LinkedIn from '@/components/icons/LinkedIn.astro';
+import YouTube from '@/components/icons/YouTube.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -21,10 +24,12 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 			{ title: t('video.eyebrow'), href: `${base}#video` },
 			{ title: t('problem.eyebrow'), href: `${base}#problem` },
 			{ title: t('nav.why'), href: `${base}#why` },
+			{ title: t('comparison.eyebrow'), href: `${base}#comparison` },
 			{ title: t('nav.how'), href: `${base}#how` },
 			{ title: t('nav.numbers'), href: `${base}#numbers` },
-			{ title: t('nav.hood'), href: `${base}#hood` },
 			{ title: t('nav.get'), href: `${base}#get` },
+			{ title: t('nav.hood'), href: `${base}#hood` },
+			{ title: t('process.eyebrow'), href: `${base}#process` },
 		],
 	},
 	{
@@ -61,14 +66,16 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 		heading: t('footer.colLegal'),
 		links: [{ title: t('footer.privacyLink'), href: localePath(lang, '/privacy/') }],
 	},
-	{
-		heading: t('footer.colContact'),
-		links: [
-			{ title: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
-			{ title: t('footer.linkedin'), href: LINKEDIN_URL, external: true },
-			{ title: t('footer.youtube'), href: YOUTUBE_URL, external: true },
-		],
-	},
+];
+
+// Columna de contacto: iconos (no texto) por consistencia visual y profesionalidad.
+// SVG monocromos (no emojis): heredan la paleta y el modo oscuro vía currentColor.
+// aria-label + title para lector de pantalla y tooltip; el email va ADEMÁS como texto
+// debajo porque en B2B se quiere copiar la dirección, no solo abrir el cliente de correo.
+const contactIcons: { icon: typeof Mail; href: string; label: string; external?: boolean }[] = [
+	{ icon: Mail, href: `mailto:${CONTACT_EMAIL}`, label: 'Email' },
+	{ icon: LinkedIn, href: LINKEDIN_URL, label: 'LinkedIn', external: true },
+	{ icon: YouTube, href: YOUTUBE_URL, label: 'YouTube', external: true },
 ];
 
 const linkClass =
@@ -110,6 +117,29 @@ const linkClass =
 				</nav>
 			))
 		}
+
+		<nav aria-label={t('footer.colContact')}>
+			<h3 class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint mb-3">{t('footer.colContact')}</h3>
+			<ul class="flex items-center gap-0.5 -ml-3">
+				{contactIcons.map((l) => {
+					const Icon = l.icon;
+					return (
+						<li>
+							<a
+								href={l.href}
+								aria-label={l.label}
+								title={l.label}
+								class="inline-flex items-center justify-center w-11 h-11 [&>svg]:w-5 [&>svg]:h-5 text-ink-soft dark:text-[#9aa5b4] hover:text-ember dark:hover:text-ember-hot transition"
+								{...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+							>
+								<Icon aria-hidden="true" />
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+			<a href={`mailto:${CONTACT_EMAIL}`} class={`${linkClass} inline-block mt-1`}>{CONTACT_EMAIL}</a>
+		</nav>
 	</div>
 
 	<div class="mt-10 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

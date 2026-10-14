@@ -1,0 +1,32 @@
+---
+// Marca visual graduada para la tabla comparativa: full ● / part ◐ / none ○.
+// Hereda el color del contenedor (currentColor) para resaltar la columna AlveoForge
+// en ember y dejar el resto en gris. Decorativa (aria-hidden): el texto de la celda
+// ya lleva la información; el pip es solo un resumen escaneable de un vistazo.
+interface Props {
+	level: 'full' | 'part' | 'none';
+}
+const { level } = Astro.props;
+---
+{
+	level === 'full' && (
+		<svg viewBox="0 0 14 14" class="w-3.5 h-3.5 shrink-0" aria-hidden="true">
+			<circle cx="7" cy="7" r="5" fill="currentColor" />
+		</svg>
+	)
+}
+{
+	level === 'part' && (
+		<svg viewBox="0 0 14 14" class="w-3.5 h-3.5 shrink-0" aria-hidden="true">
+			<circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5" />
+			<path d="M7 2 a5 5 0 0 0 0 10 z" fill="currentColor" />
+		</svg>
+	)
+}
+{
+	level === 'none' && (
+		<svg viewBox="0 0 14 14" class="w-3.5 h-3.5 shrink-0 opacity-40" aria-hidden="true">
+			<circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5" />
+		</svg>
+	)
+}

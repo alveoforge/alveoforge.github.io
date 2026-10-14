@@ -9,19 +9,20 @@
     "preview": "astro preview",
     "astro": "astro",
     "og": "node scripts/render-og.mjs",
-    "favicons": "node scripts/render-favicons.mjs"
+    "favicons": "node scripts/render-favicons.mjs",
+    "pdf": "node scripts/render-onepager-pdf.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.9",
+    "@astrojs/check": "0.9.10",
     "@astrojs/ts-plugin": "^1.10.9",
-    "@fontsource-variable/onest": "5.2.11",
-    "astro": "7.0.6",
+    "@fontsource-variable/onest": "5.3.1",
+    "astro": "7.3.8",
     "astro-robots-txt": "1.0.0",
     "typescript": "6.0.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.2"
   }
 }

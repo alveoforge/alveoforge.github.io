@@ -105,6 +105,10 @@ const jsonLd = {
 				href={abs(lang === 'en' ? '/rss.xml' : `/${lang}/rss.xml`)}
 			/>
 
+			<!-- llms.txt: descubrimiento para asistentes de IA (convención llmstxt.org).
+			     Invisible para humanos; el fichero vive en public/llms.txt (ruta /llms.txt). -->
+			<link rel="alternate" type="text/markdown" title="AlveoForge — llms.txt" href={abs('/llms.txt')} />
+
 			<!-- Open Graph / social cards -->
 		<meta property="og:type" content={ogType} />
 		<meta property="og:site_name" content="AlveoForge" />

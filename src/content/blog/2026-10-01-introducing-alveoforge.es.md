@@ -3,7 +3,7 @@ title: 'Lo que un generador de backends no puede hacer por ti'
 description: 'Por qué dediqué 14 meses a convertir arquitectura hexagonal real en una fábrica determinista, y qué hace exactamente y qué no.'
 lang: es
 urlSlug: what-a-backend-generator-cant-do
-date: 2026-10-01
+date: 2026-11-01
 tags: [hexagonal, java, spring-boot, arquitectura]
 draft: false
 ---

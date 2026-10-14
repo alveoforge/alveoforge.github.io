@@ -13,14 +13,19 @@ const base = localePath(lang, '/');
 // Estructura del nav (como las empresas): un desplegable "Product" con las
 // secciones de contenido, luego destinos de primer nivel, luego las páginas.
 //   Home · Product ▾ · Roadmap · Autor · FAQ | Blog · Demos | Book a call · tema · idioma
+// Orden = orden real de las secciones en la home (ver LandingPage.astro): tras
+// AF-16, WhatYouGet (#get) va antes de UnderTheHood (#hood); Process (#process)
+// cierra el grupo del pitch.
 const productLinks = [
 	{ title: t('video.eyebrow'), label: 'video', url: `${base}#video` },
 	{ title: t('problem.eyebrow'), label: 'problem', url: `${base}#problem` },
 	{ title: t('nav.why'), label: 'why', url: `${base}#why` },
+	{ title: t('comparison.eyebrow'), label: 'comparison', url: `${base}#comparison` },
 	{ title: t('nav.how'), label: 'how', url: `${base}#how` },
 	{ title: t('nav.numbers'), label: 'numbers', url: `${base}#numbers` },
-	{ title: t('nav.hood'), label: 'hood', url: `${base}#hood` },
 	{ title: t('nav.get'), label: 'get', url: `${base}#get` },
+	{ title: t('nav.hood'), label: 'hood', url: `${base}#hood` },
+	{ title: t('process.eyebrow'), label: 'process', url: `${base}#process` },
 ];
 const topLinks = [
 	{ title: t('nav.roadmap'), label: 'roadmap', url: `${base}#roadmap` },
@@ -224,7 +229,7 @@ const menuPanel =
 </header>
 
 <script>
-	const PRODUCT_SECTIONS = ['video', 'problem', 'why', 'how', 'numbers', 'hood', 'get'];
+	const PRODUCT_SECTIONS = ['video', 'problem', 'why', 'comparison', 'how', 'numbers', 'get', 'hood', 'process'];
 
 	// --- Scroll-spy determinista por POSICIÓN de scroll (no IntersectionObserver).
 	// El observer marcaba «la última entry del batch», que depende de la dirección
@@ -310,6 +315,11 @@ const menuPanel =
 			conceptBtn?.setAttribute('aria-expanded', String(open));
 		};
 
+		// Un menú abierto con CLIC queda "fijado": salir con el ratón no lo cierra
+		// (lo abrió a propósito). El hover solo cierra lo que el propio hover abrió.
+		let productPinned = false;
+		let conceptPinned = false;
+
 		menuBtn.addEventListener('click', (e) => {
 			e.stopPropagation();
 			document.getElementById('themes-menu')?.classList.remove('open'); // mutuamente excluyentes
@@ -317,39 +327,91 @@ const menuPanel =
 			setConcept(false);
 			setMobile(menu?.classList.contains('hidden') ?? false);
 		});
+		// El clic alterna el "fijado": abrir+fijar si estaba cerrado o solo abierto por
+		// hover, cerrar si ya estaba fijado. Así el clic MANDA sobre el hover (si el
+		// hover ya lo había abierto, el clic lo fija en vez de cerrarlo) y un menú
+		// fijado no se cierra al salir el ratón, como antes del hover.
 		productBtn?.addEventListener('click', (e) => {
 			e.stopPropagation();
 			document.getElementById('themes-menu')?.classList.remove('open');
 			setMobile(false);
 			setConcept(false);
-			setProduct(productMenu?.classList.contains('hidden') ?? false);
+			conceptPinned = false;
+			productPinned = !productPinned;
+			setProduct(productPinned);
 		});
 		conceptBtn?.addEventListener('click', (e) => {
 			e.stopPropagation();
 			document.getElementById('themes-menu')?.classList.remove('open');
 			setMobile(false);
 			setProduct(false);
-			setConcept(conceptMenu?.classList.contains('hidden') ?? false);
+			productPinned = false;
+			conceptPinned = !conceptPinned;
+			setConcept(conceptPinned);
 		});
 
 		// Cerrar al hacer clic en un enlace de cualquiera de los dos menús.
 		menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMobile(false)));
-		productMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setProduct(false)));
-		conceptMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setConcept(false)));
+		productMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { setProduct(false); productPinned = false; }));
+		conceptMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { setConcept(false); conceptPinned = false; }));
 
 		// Clic fuera / Escape cierran todos.
 		document.addEventListener('click', () => {
 			setMobile(false);
 			setProduct(false);
 			setConcept(false);
+			productPinned = false;
+			conceptPinned = false;
 		});
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') {
 				setMobile(false);
 				setProduct(false);
 				setConcept(false);
+				productPinned = false;
+				conceptPinned = false;
 			}
 		});
+
+		// --- Hover para abrir los desplegables de escritorio (ADEMÁS del clic) ---
+		// Solo con ratón real: un iPad/portátil táctil en horizontal mide ≥1024px y ve
+		// el nav de escritorio pero NO tiene hover → ahí sigue mandando el clic. El
+		// retardo de cierre hace de "puente" sobre el hueco mt-2 entre botón y panel:
+		// cruzarlo tarda mucho menos que CLOSE_DELAY, así el menú no se cierra de paso.
+		if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+			const OPEN_DELAY = 100;
+			const CLOSE_DELAY = 220;
+			const wireHover = (
+				wrapper: HTMLElement | null | undefined,
+				setOpen: (open: boolean) => void,
+				isPinned: () => boolean,
+				closeOther: () => void,
+			) => {
+				if (!wrapper) return;
+				let openT: number | undefined;
+				let closeT: number | undefined;
+				wrapper.addEventListener('mouseenter', () => {
+					window.clearTimeout(closeT);
+					openT = window.setTimeout(() => {
+						closeOther(); // pasar de un desplegable al otro cierra el primero
+						setOpen(true);
+					}, OPEN_DELAY);
+				});
+				wrapper.addEventListener('mouseleave', () => {
+					window.clearTimeout(openT);
+					if (isPinned()) return; // abierto con clic: no cerrar al salir el ratón
+					closeT = window.setTimeout(() => setOpen(false), CLOSE_DELAY);
+				});
+			};
+			wireHover(productBtn?.parentElement, setProduct, () => productPinned, () => {
+				setConcept(false);
+				conceptPinned = false;
+			});
+			wireHover(conceptBtn?.parentElement, setConcept, () => conceptPinned, () => {
+				setProduct(false);
+				productPinned = false;
+			});
+		}
 	};
 
 	// Corre con view-transitions (astro:page-load) Y en carga directa (p. ej. 404,

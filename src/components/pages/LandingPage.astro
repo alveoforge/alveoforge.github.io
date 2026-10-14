@@ -6,6 +6,7 @@ import Hero from '@/components/sections/Hero.astro';
 import VideoDemo from '@/components/sections/VideoDemo.astro';
 import Problem from '@/components/sections/Problem.astro';
 import Why from '@/components/sections/Why.astro';
+import Comparison from '@/components/sections/Comparison.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Numbers from '@/components/sections/Numbers.astro';
 import UnderTheHood from '@/components/sections/UnderTheHood.astro';
@@ -84,10 +85,12 @@ const appJsonLd = {
 		<VideoDemo />
 		<Problem />
 		<Why />
+		{/* AF-17 comparison table — VISIBLE for review; comment out like <Reviews /> once validated */}
+		<Comparison />
 		<HowItWorks />
 		<Numbers />
-		<UnderTheHood />
 		<WhatYouGet />
+		<UnderTheHood />
 			<Process />
 		<Roadmap />
 		<Founder />
